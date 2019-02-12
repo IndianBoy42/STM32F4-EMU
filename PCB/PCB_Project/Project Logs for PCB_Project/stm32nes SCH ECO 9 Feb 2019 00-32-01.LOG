@@ -1,0 +1,16 @@
+Change Component Designator: Old Designator=R2 New Designator=R6
+Change Component Designator: Old Designator=R3 New Designator=R9
+Change Component Designator: Old Designator=R4 New Designator=R10
+Change Component Designator: Old Designator=R5 New Designator=R11
+Change Component Designator: Old Designator=R6 New Designator=R12
+Change Component Designator: Old Designator=R7 New Designator=R13
+Change Component Designator: Old Designator=R8 New Designator=R14
+Change Component Designator: Old Designator=R? New Designator=R2
+Change Component Designator: Old Designator=R? New Designator=R3
+Change Component Designator: Old Designator=R? New Designator=R4
+Change Component Designator: Old Designator=R? New Designator=R5
+Change Component Designator: Old Designator=R? New Designator=R7
+Change Component Designator: Old Designator=R? New Designator=R8
+Change Component Designator: Old Designator=UART1 New Designator=UART2
+Change Component Designator: Old Designator=UART1 New Designator=UART3
+Change Component Designator: Old Designator=UART2 New Designator=UART1
