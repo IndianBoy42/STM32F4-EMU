@@ -1,9 +1,11 @@
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    stm32_assert.h
-  * @brief   STM32 assert file.
+  * File Name          : stm32f4xx_hal_msp.c
+  * Description        : This file provides code for the MSP Initialization 
+  *                      and de-Initialization codes.
   ******************************************************************************
-   * This notice applies to any and all portions of this file
+  * This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
   * USER CODE END. Other portions of this file, whether 
   * inserted by the user or by software development tools
@@ -45,39 +47,68 @@
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32_ASSERT_H
-#define __STM32_ASSERT_H
-
-#ifdef __cplusplus
- extern "C" {
-#endif
-
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
 /* Includes ------------------------------------------------------------------*/
-/* Exported macro ------------------------------------------------------------*/
-#ifdef  USE_FULL_ASSERT
+#include "main.h"
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN TD */
+
+/* USER CODE END TD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN Define */
+ 
+/* USER CODE END Define */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN Macro */
+
+/* USER CODE END Macro */
+
+/* Private variables ---------------------------------------------------------*/
+/* USER CODE BEGIN PV */
+
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* External functions --------------------------------------------------------*/
+/* USER CODE BEGIN ExternalFunctions */
+
+/* USER CODE END ExternalFunctions */
+
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
 /**
-  * @brief  The assert_param macro is used for function's parameters check.
-  * @param  expr: If expr is false, it calls assert_failed function
-  *         which reports the name of the source file and the source
-  *         line number of the call that failed.
-  *         If expr is true, it returns no value.
-  * @retval None
+  * Initializes the Global MSP.
   */
- #define assert_param(expr) ((expr) ? (void)0U : assert_failed((uint8_t *)__FILE__, __LINE__))
-/* Exported functions ------------------------------------------------------- */
-  void assert_failed(uint8_t* file, uint32_t line);
-#else
-  #define assert_param(expr) ((void)0U)
-#endif /* USE_FULL_ASSERT */
+void HAL_MspInit(void)
+{
+  /* USER CODE BEGIN MspInit 0 */
 
-#ifdef __cplusplus
+  /* USER CODE END MspInit 0 */
+
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+  __HAL_RCC_PWR_CLK_ENABLE();
+
+  /* System interrupt init*/
+
+  /* USER CODE BEGIN MspInit 1 */
+
+  /* USER CODE END MspInit 1 */
 }
-#endif
 
-#endif /* __STM32_ASSERT_H */
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

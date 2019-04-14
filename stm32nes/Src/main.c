@@ -40,6 +40,14 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
+#include "dac.h"
+#include "dma.h"
+#include "sdio.h"
+#include "spi.h"
+#include "tim.h"
+#include "usart.h"
+#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -92,14 +100,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
-
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-
-  /* System interrupt init*/
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -114,6 +115,23 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_SDIO_SD_Init();
+  MX_SPI1_Init();
+  MX_USART1_UART_Init();
+  MX_ADC1_Init();
+  MX_SPI2_Init();
+  MX_USART2_UART_Init();
+  MX_TIM13_Init();
+  MX_DAC_Init();
+  MX_USB_DEVICE_Init();
+  MX_TIM14_Init();
+  MX_TIM12_Init();
+  MX_TIM11_Init();
+  MX_TIM10_Init();
+  MX_TIM9_Init();
+  MX_TIM6_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -151,6 +169,7 @@ void SystemClock_Config(void)
     
   }
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
+  LL_RCC_PLL_ConfigDomain_48M(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLQ_DIV_7);
   LL_RCC_PLL_Enable();
 
    /* Wait till PLL is ready */

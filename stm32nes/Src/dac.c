@@ -1,9 +1,10 @@
 /**
   ******************************************************************************
-  * @file    stm32_assert.h
-  * @brief   STM32 assert file.
+  * File Name          : DAC.c
+  * Description        : This file provides code for the configuration
+  *                      of the DAC instances.
   ******************************************************************************
-   * This notice applies to any and all portions of this file
+  * This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
   * USER CODE END. Other portions of this file, whether 
   * inserted by the user or by software development tools
@@ -46,38 +47,67 @@
   ******************************************************************************
   */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32_ASSERT_H
-#define __STM32_ASSERT_H
-
-#ifdef __cplusplus
- extern "C" {
-#endif
-
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
 /* Includes ------------------------------------------------------------------*/
-/* Exported macro ------------------------------------------------------------*/
-#ifdef  USE_FULL_ASSERT
-/**
-  * @brief  The assert_param macro is used for function's parameters check.
-  * @param  expr: If expr is false, it calls assert_failed function
-  *         which reports the name of the source file and the source
-  *         line number of the call that failed.
-  *         If expr is true, it returns no value.
-  * @retval None
+#include "dac.h"
+
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/* DAC init function */
+void MX_DAC_Init(void)
+{
+  LL_DAC_InitTypeDef DAC_InitStruct = {0};
+
+  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* Peripheral clock enable */
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_DAC1);
+  
+  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
+  /**DAC GPIO Configuration  
+  PA4   ------> DAC_OUT1 
   */
- #define assert_param(expr) ((expr) ? (void)0U : assert_failed((uint8_t *)__FILE__, __LINE__))
-/* Exported functions ------------------------------------------------------- */
-  void assert_failed(uint8_t* file, uint32_t line);
-#else
-  #define assert_param(expr) ((void)0U)
-#endif /* USE_FULL_ASSERT */
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_4;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-#ifdef __cplusplus
+  /* DAC DMA Init */
+  
+  /* DAC1 Init */
+  LL_DMA_SetChannelSelection(DMA1, LL_DMA_STREAM_5, LL_DMA_CHANNEL_7);
+
+  LL_DMA_SetDataTransferDirection(DMA1, LL_DMA_STREAM_5, LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+
+  LL_DMA_SetStreamPriorityLevel(DMA1, LL_DMA_STREAM_5, LL_DMA_PRIORITY_LOW);
+
+  LL_DMA_SetMode(DMA1, LL_DMA_STREAM_5, LL_DMA_MODE_NORMAL);
+
+  LL_DMA_SetPeriphIncMode(DMA1, LL_DMA_STREAM_5, LL_DMA_PERIPH_NOINCREMENT);
+
+  LL_DMA_SetMemoryIncMode(DMA1, LL_DMA_STREAM_5, LL_DMA_MEMORY_INCREMENT);
+
+  LL_DMA_SetPeriphSize(DMA1, LL_DMA_STREAM_5, LL_DMA_PDATAALIGN_HALFWORD);
+
+  LL_DMA_SetMemorySize(DMA1, LL_DMA_STREAM_5, LL_DMA_MDATAALIGN_HALFWORD);
+
+  LL_DMA_DisableFifoMode(DMA1, LL_DMA_STREAM_5);
+
+  /* DAC interrupt Init */
+  NVIC_SetPriority(TIM6_DAC_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_EnableIRQ(TIM6_DAC_IRQn);
+
+  /**DAC channel OUT1 config 
+  */
+  DAC_InitStruct.TriggerSource = LL_DAC_TRIG_SOFTWARE;
+  DAC_InitStruct.WaveAutoGeneration = LL_DAC_WAVE_AUTO_GENERATION_NONE;
+  DAC_InitStruct.OutputBuffer = LL_DAC_OUTPUT_BUFFER_ENABLE;
+  LL_DAC_Init(DAC, LL_DAC_CHANNEL_1, &DAC_InitStruct);
+
 }
-#endif
 
-#endif /* __STM32_ASSERT_H */
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

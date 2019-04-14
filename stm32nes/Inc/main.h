@@ -48,6 +48,10 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_ll_adc.h"
+#include "stm32f4xx_ll_dac.h"
+#include "stm32f4xx_ll_dma.h"
 #include "stm32f4xx_ll_rcc.h"
 #include "stm32f4xx_ll_bus.h"
 #include "stm32f4xx_ll_system.h"
@@ -55,13 +59,12 @@ extern "C" {
 #include "stm32f4xx_ll_cortex.h"
 #include "stm32f4xx_ll_utils.h"
 #include "stm32f4xx_ll_pwr.h"
-#include "stm32f4xx_ll_dma.h"
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_ll_spi.h"
+#include "stm32f4xx_ll_tim.h"
+#include "stm32f4xx_ll_usart.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_ll_gpio.h"
-
-#if defined(USE_FULL_ASSERT)
-#include "stm32_assert.h"
-#endif /* USE_FULL_ASSERT */
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -91,18 +94,72 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#ifndef NVIC_PRIORITYGROUP_0
-#define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
-                                                                 4 bits for subpriority */
-#define NVIC_PRIORITYGROUP_1         ((uint32_t)0x00000006) /*!< 1 bit  for pre-emption priority,
-                                                                 3 bits for subpriority */
-#define NVIC_PRIORITYGROUP_2         ((uint32_t)0x00000005) /*!< 2 bits for pre-emption priority,
-                                                                 2 bits for subpriority */
-#define NVIC_PRIORITYGROUP_3         ((uint32_t)0x00000004) /*!< 3 bits for pre-emption priority,
-                                                                 1 bit  for subpriority */
-#define NVIC_PRIORITYGROUP_4         ((uint32_t)0x00000003) /*!< 4 bits for pre-emption priority,
-                                                                 0 bit  for subpriority */
-#endif
+#define BTN_R1_Pin LL_GPIO_PIN_2
+#define BTN_R1_GPIO_Port GPIOE
+#define BTN_D1_Pin LL_GPIO_PIN_3
+#define BTN_D1_GPIO_Port GPIOE
+#define BTN_L1_Pin LL_GPIO_PIN_4
+#define BTN_L1_GPIO_Port GPIOE
+#define BTN_M1_Pin LL_GPIO_PIN_5
+#define BTN_M1_GPIO_Port GPIOE
+#define BTN_X1_Pin LL_GPIO_PIN_6
+#define BTN_X1_GPIO_Port GPIOE
+#define Joy1Y_Pin LL_GPIO_PIN_0
+#define Joy1Y_GPIO_Port GPIOA
+#define Joy1X_Pin LL_GPIO_PIN_1
+#define Joy1X_GPIO_Port GPIOA
+#define Joy2X_Pin LL_GPIO_PIN_2
+#define Joy2X_GPIO_Port GPIOA
+#define Joy2Y_Pin LL_GPIO_PIN_3
+#define Joy2Y_GPIO_Port GPIOA
+#define TFT_SCK_Pin LL_GPIO_PIN_5
+#define TFT_SCK_GPIO_Port GPIOA
+#define TFT_LED_Pin LL_GPIO_PIN_6
+#define TFT_LED_GPIO_Port GPIOA
+#define TFT_SDA_Pin LL_GPIO_PIN_7
+#define TFT_SDA_GPIO_Port GPIOA
+#define TFT_RST_Pin LL_GPIO_PIN_4
+#define TFT_RST_GPIO_Port GPIOC
+#define TFT_DC_Pin LL_GPIO_PIN_5
+#define TFT_DC_GPIO_Port GPIOC
+#define BTN_X2_Pin LL_GPIO_PIN_7
+#define BTN_X2_GPIO_Port GPIOE
+#define BTN_X3_Pin LL_GPIO_PIN_8
+#define BTN_X3_GPIO_Port GPIOE
+#define BTN_X4_Pin LL_GPIO_PIN_9
+#define BTN_X4_GPIO_Port GPIOE
+#define BTN_JS2_Pin LL_GPIO_PIN_10
+#define BTN_JS2_GPIO_Port GPIOE
+#define BTN_D2_Pin LL_GPIO_PIN_11
+#define BTN_D2_GPIO_Port GPIOE
+#define BTN_R2_Pin LL_GPIO_PIN_12
+#define BTN_R2_GPIO_Port GPIOE
+#define BTN_M2_Pin LL_GPIO_PIN_13
+#define BTN_M2_GPIO_Port GPIOE
+#define BTN_U2_Pin LL_GPIO_PIN_14
+#define BTN_U2_GPIO_Port GPIOE
+#define BTN_L2_Pin LL_GPIO_PIN_15
+#define BTN_L2_GPIO_Port GPIOE
+#define APU_NSS_Pin LL_GPIO_PIN_8
+#define APU_NSS_GPIO_Port GPIOD
+#define APU_IRQ_Pin LL_GPIO_PIN_9
+#define APU_IRQ_GPIO_Port GPIOD
+#define APU_RST_Pin LL_GPIO_PIN_10
+#define APU_RST_GPIO_Port GPIOD
+#define APU_IO1_Pin LL_GPIO_PIN_11
+#define APU_IO1_GPIO_Port GPIOD
+#define APU_IO2_Pin LL_GPIO_PIN_12
+#define APU_IO2_GPIO_Port GPIOD
+#define LED1_Pin LL_GPIO_PIN_13
+#define LED1_GPIO_Port GPIOD
+#define LED2_Pin LL_GPIO_PIN_14
+#define LED2_GPIO_Port GPIOD
+#define LED3_Pin LL_GPIO_PIN_15
+#define LED3_GPIO_Port GPIOD
+#define BTN_JS1_Pin LL_GPIO_PIN_0
+#define BTN_JS1_GPIO_Port GPIOE
+#define BTN_U1_Pin LL_GPIO_PIN_1
+#define BTN_U1_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
