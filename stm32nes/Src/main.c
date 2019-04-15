@@ -43,16 +43,14 @@
 #include "adc.h"
 #include "dac.h"
 #include "dma.h"
-#include "sdio.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "lcd_main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -73,7 +71,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t buf[256*240] = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,7 +97,14 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+  
+
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+
+  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+  /* System interrupt init*/
 
   /* USER CODE BEGIN Init */
 
@@ -116,7 +120,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_SDIO_SD_Init();
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   MX_ADC1_Init();
@@ -124,7 +127,6 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM13_Init();
   MX_DAC_Init();
-  MX_USB_DEVICE_Init();
   MX_TIM14_Init();
   MX_TIM12_Init();
   MX_TIM11_Init();
@@ -133,17 +135,29 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-
+	ticks_init();
+  tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		if (tick_tock()) {
+			static uint32_t last_ticks = 0;
+			if (get_ticks() - last_ticks > 100) {
+				gpio_toggle(LED1);
+				last_ticks = get_ticks();
+
+        tft_clear();
+        tft_prints(0, 0, "Hello Aaron");
+        tft_printi(0, 1, get_ticks());
+        tft_update_dma();
+			}
+		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		buf[0] = 'a';
   }
   /* USER CODE END 3 */
 }
@@ -169,7 +183,6 @@ void SystemClock_Config(void)
     
   }
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
-  LL_RCC_PLL_ConfigDomain_48M(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLQ_DIV_7);
   LL_RCC_PLL_Enable();
 
    /* Wait till PLL is ready */
@@ -193,7 +206,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+volatile uint32_t __ticks = 0;
+volatile uint32_t __delay = 0;
+volatile uint8_t  __tickf = 1;
+void SysTick_Handler(void) {
+	__ticks++;
+	__tickf = 0;
+	if (__delay) __delay--;
+}
 /* USER CODE END 4 */
 
 /**

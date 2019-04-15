@@ -48,7 +48,6 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
 #include "stm32f4xx_ll_adc.h"
 #include "stm32f4xx_ll_dac.h"
 #include "stm32f4xx_ll_dma.h"
@@ -59,12 +58,15 @@ extern "C" {
 #include "stm32f4xx_ll_cortex.h"
 #include "stm32f4xx_ll_utils.h"
 #include "stm32f4xx_ll_pwr.h"
-#include "stm32f4xx_hal.h"
 #include "stm32f4xx_ll_spi.h"
 #include "stm32f4xx_ll_tim.h"
 #include "stm32f4xx_ll_usart.h"
 #include "stm32f4xx.h"
 #include "stm32f4xx_ll_gpio.h"
+
+#if defined(USE_FULL_ASSERT)
+#include "stm32_assert.h"
+#endif /* USE_FULL_ASSERT */
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -160,8 +162,55 @@ void Error_Handler(void);
 #define BTN_JS1_GPIO_Port GPIOE
 #define BTN_U1_Pin LL_GPIO_PIN_1
 #define BTN_U1_GPIO_Port GPIOE
+#ifndef NVIC_PRIORITYGROUP_0
+#define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
+                                                                 4 bits for subpriority */
+#define NVIC_PRIORITYGROUP_1         ((uint32_t)0x00000006) /*!< 1 bit  for pre-emption priority,
+                                                                 3 bits for subpriority */
+#define NVIC_PRIORITYGROUP_2         ((uint32_t)0x00000005) /*!< 2 bits for pre-emption priority,
+                                                                 2 bits for subpriority */
+#define NVIC_PRIORITYGROUP_3         ((uint32_t)0x00000004) /*!< 3 bits for pre-emption priority,
+                                                                 1 bit  for subpriority */
+#define NVIC_PRIORITYGROUP_4         ((uint32_t)0x00000003) /*!< 4 bits for pre-emption priority,
+                                                                 0 bit  for subpriority */
+#endif
 /* USER CODE BEGIN Private defines */
+#define gpio_port(X) X ## _GPIO_Port, X ## _Pin
+#define gpio_set(X) LL_GPIO_SetOutputPin(X ## _GPIO_Port, X ## _Pin)
+#define gpio_reset(X) LL_GPIO_ResetOutputPin(X ## _GPIO_Port, X ## _Pin)
+#define gpio_write(X, W) MODIFY_REG((X ## _GPIO_Port), X ## _Pin, (X ## _Pin) & (-(W)))
+#define gpio_toggle(X) LL_GPIO_TogglePin(X ## _GPIO_Port, X ## _Pin)
+#define gpio_read(X) (READ_BIT((X ## _GPIO_Port)->IDR, (X ## _Pin)) == (X ## _Pin))
+#define gpio_readn(X) (READ_BIT((X ## _GPIO_Port)->IDR, (X ## _Pin)) == 0)
 
+extern volatile uint32_t __ticks, __delay;
+extern volatile uint8_t __tickf;
+
+#ifndef always_inlined
+#define always_inlined __attribute__( ( always_inline ) ) __STATIC_INLINE
+#endif
+
+always_inlined uint32_t get_ticks(void) {
+  return __ticks;
+}
+always_inlined void wait_tick_tock(void) {
+  while (__tickf);
+  __tickf = 1;
+}
+always_inlined uint8_t tick_tock(void) {
+  if (__tickf) return 0;
+  else {
+    __tickf = 1;
+    return 1;
+  }
+}
+always_inlined void delay(uint32_t t) {
+	__delay = t;
+	while (__delay);
+}
+always_inlined void ticks_init(void) {
+	SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
+}
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

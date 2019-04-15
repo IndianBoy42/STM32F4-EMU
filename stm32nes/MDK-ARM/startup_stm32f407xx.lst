@@ -868,11 +868,12 @@ ARM Macro Assembler    Page 14
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=stm32nes\startup_stm32f407xx.d -ostm32nes\startup_stm32f407xx.o
- -I.\RTE\_stm32nes -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include -IC
-:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\
-Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 526
-" --predefine="_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --list=startup_st
-m32f407xx.lst startup_stm32f407xx.s
+ -I.\RTE\_stm32nes -IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5
+.1\CMSIS\Core\Include -IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32
+F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include --predefine="__EVAL S
+ETA 1" --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 527"
+ --predefine="_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --list=startup_stm
+32f407xx.lst startup_stm32f407xx.s
 
 
 
@@ -1957,4 +1958,4 @@ Symbol: __main
       At line 190 in file startup_stm32f407xx.s
 Comment: __main used once
 2 symbols
-445 symbols in table
+446 symbols in table
