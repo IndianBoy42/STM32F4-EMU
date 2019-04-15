@@ -51,7 +51,18 @@
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-
+typedef struct JoystickStruct {
+  uint16_t x;
+  uint16_t y; 
+} Joystick;
+extern Joystick joys[2];
+void joystick_init(void);
+#define JOYSTICK_DEADZONE 
+__forceinline int16_t joystick_conv(uint16_t j) {
+  int16_t tmp = ((int16_t)j) - 2048;
+  if (tmp < 70 && tmp > -70) return 0;
+  else return tmp;
+}
 /* USER CODE END Private defines */
 
 void MX_ADC1_Init(void);

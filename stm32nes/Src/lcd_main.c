@@ -276,7 +276,8 @@ void tft_init(TFT_ORIENTATION orientation, uint16_t in_bg_color, uint16_t in_tex
 	tft_set_highlight_color(in_highlight_color);
 
 	tft_fill_color(in_bg_color);
-	
+	delay(1);
+
 	char_max_x = (orientation % 2) ? CHAR_MAX_X_HORIZONTAL : CHAR_MAX_X_VERTICAL;
 	char_max_y = (orientation % 2) ? CHAR_MAX_Y_HORIZONTAL : CHAR_MAX_Y_VERTICAL;
 
@@ -496,6 +497,16 @@ void tft_printi(uint8_t x, uint8_t y, int32_t num) {
 	tft_printc(x, y, buf);
 }
 
+void tft_printb(uint8_t x, uint8_t y, uint32_t b, uint8_t bits) {
+	char buf[33]={0};
+
+	for(int i=0; i<bits; i++) {
+		buf[i] = '0' + ((b & (1<<i)) != 0);
+	}
+	
+	tft_printc(x, y, buf);
+}
+
 void tft_printl(uint8_t x, uint8_t y, int64_t num) {
 	char buf[12]={0};
 
@@ -612,6 +623,7 @@ void tft_update_dma(void) {
 						uint16_t fg = text_color_buf[cur_screen][i + char_cnt][j];
 						uint16_t bg = bg_color_buf[cur_screen][i + char_cnt][j];
 						for (uint8_t x = CHAR_WIDTH; x > 0; x--) {
+							// uint16_t color = 0xFFFF;
 							uint16_t color = ((char_ptr >> (x - 1)) & 0x01) ? fg : bg;
 							tft_dma_bufs[buf_ptr][px++] = color >> 8;
 							tft_dma_bufs[buf_ptr][px++] = color;
@@ -622,11 +634,6 @@ void tft_update_dma(void) {
 				}
 
 				tft_push_pxbuf(&tft_dma_bufs[buf_ptr], i * CHAR_WIDTH, j * CHAR_HEIGHT, adj_cnt * CHAR_WIDTH, CHAR_HEIGHT);
-
-				//Start next DMA Transmission
-				// tft_dma_wait();
-				// tft_set_region(i * CHAR_WIDTH, j * CHAR_HEIGHT, adj_cnt * CHAR_WIDTH - 1, CHAR_HEIGHT-1);
-				// dma_transfer(TFT_DMA, &tft_dma_bufs[buf_ptr], CHAR_BYTES * adj_cnt);
 				
 				buf_ptr ^= 0x1;
 				i += adj_cnt - 1;

@@ -1,5 +1,6 @@
 --cpu=Cortex-M4.fp
 "stm32nes\startup_stm32f407xx.o"
+"stm32nes\lcd_main.o"
 "stm32nes\main.o"
 "stm32nes\gpio.o"
 "stm32nes\adc.o"
@@ -9,7 +10,6 @@
 "stm32nes\tim.o"
 "stm32nes\usart.o"
 "stm32nes\stm32f4xx_it.o"
-"stm32nes\lcd_main.o"
 "stm32nes\stm32f4xx_ll_gpio.o"
 "stm32nes\stm32f4xx_ll_adc.o"
 "stm32nes\stm32f4xx_ll_dma.o"

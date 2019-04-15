@@ -1,8 +1,7 @@
 Dependencies for Project 'stm32nes', Target 'stm32nes': (DO NOT MODIFY !)
-F (startup_stm32f407xx.s)(0x5CB48708)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 527" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1"--list startup_stm32f407xx.lst --xref -o stm32nes\startup_stm32f407xx.o --depend stm32nes\startup_stm32f407xx.d)
-F (../Src/main.c)(0x5CB4A182)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\main.o --omf_browse stm32nes\main.crf --depend stm32nes\main.d)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+F (startup_stm32f407xx.s)(0x5CB4AF01)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 527" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1"--list startup_stm32f407xx.lst --xref -o stm32nes\startup_stm32f407xx.o --depend stm32nes\startup_stm32f407xx.d)
+F (..\Src\lcd_main.c)(0x5CB4AE76)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\lcd_main.o --omf_browse stm32nes\lcd_main.crf --depend stm32nes\lcd_main.d)
+I (../Inc/lcd_main.h)(0x5CB4AE23)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
@@ -12,247 +11,7 @@ I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
 I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
 I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-I (../Inc/adc.h)(0x5CB48705)
-I (../Inc/dac.h)(0x5CB48705)
-I (../Inc/dma.h)(0x5CB48706)
-I (../Inc/spi.h)(0x5CB49BD9)
-I (../Inc/tim.h)(0x5CB48706)
-I (../Inc/usart.h)(0x5CB48706)
-I (../Inc/gpio.h)(0x5CB486FF)
-I (../Inc/lcd_main.h)(0x5CB495F5)
-F (../Src/gpio.c)(0x5CB486FF)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\gpio.o --omf_browse stm32nes\gpio.crf --depend stm32nes\gpio.d)
-I (../Inc/gpio.h)(0x5CB486FF)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (../Src/adc.c)(0x5CB48705)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\adc.o --omf_browse stm32nes\adc.crf --depend stm32nes\adc.d)
-I (../Inc/adc.h)(0x5CB48705)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (../Src/dac.c)(0x5CB48705)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\dac.o --omf_browse stm32nes\dac.crf --depend stm32nes\dac.d)
-I (../Inc/dac.h)(0x5CB48705)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (../Src/dma.c)(0x5CB48706)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\dma.o --omf_browse stm32nes\dma.crf --depend stm32nes\dma.d)
-I (../Inc/dma.h)(0x5CB48706)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (../Src/spi.c)(0x5CB48706)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\spi.o --omf_browse stm32nes\spi.crf --depend stm32nes\spi.d)
-I (../Inc/spi.h)(0x5CB49BD9)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (../Src/tim.c)(0x5CB48706)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\tim.o --omf_browse stm32nes\tim.crf --depend stm32nes\tim.d)
-I (../Inc/tim.h)(0x5CB48706)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (../Src/usart.c)(0x5CB48706)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\usart.o --omf_browse stm32nes\usart.crf --depend stm32nes\usart.d)
-I (../Inc/usart.h)(0x5CB48706)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (../Src/stm32f4xx_it.c)(0x5CB48706)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\stm32f4xx_it.o --omf_browse stm32nes\stm32f4xx_it.crf --depend stm32nes\stm32f4xx_it.d)
-I (../Inc/main.h)(0x5CB487A2)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
-I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-I (../Inc/stm32f4xx_it.h)(0x5CB48706)
-F (..\Src\lcd_main.c)(0x5CB4A158)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\lcd_main.o --omf_browse stm32nes\lcd_main.crf --depend stm32nes\lcd_main.d)
-I (../Inc/lcd_main.h)(0x5CB495F5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
-I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
-I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
-I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
-I (../Inc/main.h)(0x5CB487A2)
+I (../Inc/main.h)(0x5CB4AF00)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
@@ -267,12 +26,253 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-I (../Inc/gpio.h)(0x5CB486FF)
-I (../Inc/spi.h)(0x5CB49BD9)
+I (../Inc/gpio.h)(0x5CB4AF2D)
+I (../Inc/spi.h)(0x5CB4AEFF)
 I (../Inc/lcd_font.h)(0x5CB4955E)
 I (../Inc/lcd_init.h)(0x5C713A35)
 I (../Inc/strhelper.h)(0x5C912E94)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x599ECD2A)
+F (../Src/main.c)(0x5CB4AFD5)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\main.o --omf_browse stm32nes\main.crf --depend stm32nes\main.d)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+I (../Inc/adc.h)(0x5CB4B0AC)
+I (../Inc/dac.h)(0x5CB4AEFF)
+I (../Inc/dma.h)(0x5CB4AEFF)
+I (../Inc/spi.h)(0x5CB4AEFF)
+I (../Inc/tim.h)(0x5CB4AEFF)
+I (../Inc/usart.h)(0x5CB4AF00)
+I (../Inc/gpio.h)(0x5CB4AF2D)
+I (../Inc/lcd_main.h)(0x5CB4AE23)
+F (../Src/gpio.c)(0x5CB4AEF8)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\gpio.o --omf_browse stm32nes\gpio.crf --depend stm32nes\gpio.d)
+I (../Inc/gpio.h)(0x5CB4AF2D)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+F (../Src/adc.c)(0x5CB4AFF8)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\adc.o --omf_browse stm32nes\adc.crf --depend stm32nes\adc.d)
+I (../Inc/adc.h)(0x5CB4B0AC)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+F (../Src/dac.c)(0x5CB4AEFE)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\dac.o --omf_browse stm32nes\dac.crf --depend stm32nes\dac.d)
+I (../Inc/dac.h)(0x5CB4AEFF)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+F (../Src/dma.c)(0x5CB4AEFF)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\dma.o --omf_browse stm32nes\dma.crf --depend stm32nes\dma.d)
+I (../Inc/dma.h)(0x5CB4AEFF)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+F (../Src/spi.c)(0x5CB4AEFF)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\spi.o --omf_browse stm32nes\spi.crf --depend stm32nes\spi.d)
+I (../Inc/spi.h)(0x5CB4AEFF)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+F (../Src/tim.c)(0x5CB4AEFF)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\tim.o --omf_browse stm32nes\tim.crf --depend stm32nes\tim.d)
+I (../Inc/tim.h)(0x5CB4AEFF)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+F (../Src/usart.c)(0x5CB4AEFF)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\usart.o --omf_browse stm32nes\usart.crf --depend stm32nes\usart.d)
+I (../Inc/usart.h)(0x5CB4AF00)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+F (../Src/stm32f4xx_it.c)(0x5CB4AF00)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\stm32f4xx_it.o --omf_browse stm32nes\stm32f4xx_it.crf --depend stm32nes\stm32f4xx_it.d)
+I (../Inc/main.h)(0x5CB4AF00)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x5CB33BB3)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x5CB33BA5)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dac.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_rcc.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_bus.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_utils.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_pwr.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
+I (../Inc/stm32f4xx_it.h)(0x5CB4AF00)
 F (../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.c)(0x5CB33BB4)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DHSE_VALUE="8000000" -DHSE_STARTUP_TIMEOUT="100" -DLSE_STARTUP_TIMEOUT="5000" -DLSE_VALUE="32768" -DEXTERNAL_CLOCK_VALUE="12288000" -DHSI_VALUE="16000000" -DLSI_VALUE="32000" -DVDD_VALUE="3300" -DPREFETCH_ENABLE="1" -DINSTRUCTION_CACHE_ENABLE="1" -DDATA_CACHE_ENABLE="1"-o stm32nes\stm32f4xx_ll_gpio.o --omf_browse stm32nes\stm32f4xx_ll_gpio.crf --depend stm32nes\stm32f4xx_ll_gpio.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)

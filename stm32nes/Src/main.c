@@ -137,22 +137,28 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	ticks_init();
   tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
+  joystick_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    tft_clear();
+    tft_printc(0, 0, "Hello WorldHello WorldHello WorldHello WorldHello World");
+    tft_printi(0, 1, get_ticks());
+    tft_printi(0, 2, joystick_conv(joys[0].x));
+    tft_printi(0, 3, joystick_conv(joys[0].y));
+    tft_printi(0, 4, joystick_conv(joys[1].x));
+    tft_printi(0, 5, joystick_conv(joys[1].y));
+    tft_printb(0, 6, BUTTONS, 16);
+    tft_update_dma();
+
 		if (tick_tock()) {
 			static uint32_t last_ticks = 0;
-			if (get_ticks() - last_ticks > 100) {
+			if (get_ticks() - last_ticks >= 100) {
 				gpio_toggle(LED1);
 				last_ticks = get_ticks();
-
-        tft_clear();
-        tft_prints(0, 0, "Hello Aaron");
-        tft_printi(0, 1, get_ticks());
-        tft_update_dma();
 			}
 		}
     /* USER CODE END WHILE */

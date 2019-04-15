@@ -85,7 +85,7 @@ void MX_GPIO_Init(void)
                           |BTN_JS2_Pin|BTN_D2_Pin|BTN_R2_Pin|BTN_M2_Pin 
                           |BTN_U2_Pin|BTN_L2_Pin|BTN_JS1_Pin|BTN_U1_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   LL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /**/

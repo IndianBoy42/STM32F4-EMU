@@ -85,7 +85,13 @@ void MX_SPI1_Init(void)
 
   LL_DMA_SetMemorySize(DMA2, LL_DMA_STREAM_3, LL_DMA_MDATAALIGN_BYTE);
 
-  LL_DMA_DisableFifoMode(DMA2, LL_DMA_STREAM_3);
+  LL_DMA_EnableFifoMode(DMA2, LL_DMA_STREAM_3);
+
+  LL_DMA_SetFIFOThreshold(DMA2, LL_DMA_STREAM_3, LL_DMA_FIFOTHRESHOLD_FULL);
+
+  LL_DMA_SetMemoryBurstxfer(DMA2, LL_DMA_STREAM_3, LL_DMA_MBURST_INC16);
+
+  LL_DMA_SetPeriphBurstxfer(DMA2, LL_DMA_STREAM_3, LL_DMA_PBURST_SINGLE);
 
   /* SPI1 interrupt Init */
   NVIC_SetPriority(SPI1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));

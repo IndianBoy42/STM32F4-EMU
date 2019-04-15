@@ -52,7 +52,23 @@
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-
+#define BUTTONS (~GPIOE->IDR)
+#define BTN_R1    LL_GPIO_PIN_2
+#define BTN_D1    LL_GPIO_PIN_3
+#define BTN_L1    LL_GPIO_PIN_4
+#define BTN_M1    LL_GPIO_PIN_5
+#define BTN_X1    LL_GPIO_PIN_6
+#define BTN_X2    LL_GPIO_PIN_7
+#define BTN_X3    LL_GPIO_PIN_8
+#define BTN_X4    LL_GPIO_PIN_9
+#define BTN_JS2   LL_GPIO_PIN_10
+#define BTN_D2    LL_GPIO_PIN_11
+#define BTN_R2    LL_GPIO_PIN_12
+#define BTN_M2    LL_GPIO_PIN_13
+#define BTN_U2    LL_GPIO_PIN_14
+#define BTN_L2    LL_GPIO_PIN_15
+#define BTN_JS1   LL_GPIO_PIN_0
+#define BTN_U1    LL_GPIO_PIN_1
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);
