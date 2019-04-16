@@ -43,6 +43,7 @@
 #include "adc.h"
 #include "dac.h"
 #include "dma.h"
+#include "sdio.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -51,6 +52,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "lcd_main.h"
+#include "cpu.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,14 +99,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
-
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-
-  /* System interrupt init*/
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -114,7 +109,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+	ticks_init();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -134,8 +129,9 @@ int main(void)
   MX_TIM9_Init();
   MX_TIM6_Init();
   MX_TIM7_Init();
+  MX_SDIO_SD_Init();
   /* USER CODE BEGIN 2 */
-	ticks_init();
+	
   tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
   joystick_init();
   /* USER CODE END 2 */
@@ -219,6 +215,10 @@ void SysTick_Handler(void) {
 	__ticks++;
 	__tickf = 0;
 	if (__delay) __delay--;
+}
+uint32_t HAL_GetTick(void)
+{
+  return __ticks;
 }
 /* USER CODE END 4 */
 

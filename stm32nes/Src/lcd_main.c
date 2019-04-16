@@ -4,7 +4,7 @@
 #include "strhelper.h"
 
 #define TFT_SPI SPI1
-#define TFT_DMA DMA2_Stream3
+#define TFT_DMA DMA2_Stream5
 
 //private data
 uint16_t curr_bg_color = BLACK;

@@ -46,10 +46,6 @@
 
 /* USER CODE END Includes */
 
-#include "stm32f4xx.h"
-#include "stm32f4xx_ll_system.h"
-#include "stm32f4xx_ll_gpio.h"
-#include "stm32f4xx_ll_exti.h"
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 
@@ -75,6 +71,8 @@ void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void DMA2_Stream2_IRQHandler(void);
+void DMA2_Stream5_IRQHandler(void);
+void DMA2_Stream6_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */

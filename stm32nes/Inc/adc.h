@@ -57,10 +57,10 @@ typedef struct JoystickStruct {
 } Joystick;
 extern Joystick joys[2];
 void joystick_init(void);
-#define JOYSTICK_DEADZONE 
+#define JOYSTICK_DEADZONE 70
 __forceinline int16_t joystick_conv(uint16_t j) {
   int16_t tmp = ((int16_t)j) - 2048;
-  if (tmp < 70 && tmp > -70) return 0;
+  if (tmp < JOYSTICK_DEADZONE && tmp > -JOYSTICK_DEADZONE) return 0;
   else return tmp;
 }
 /* USER CODE END Private defines */

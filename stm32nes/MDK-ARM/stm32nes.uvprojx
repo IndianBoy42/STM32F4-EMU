@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_FULL_LL_DRIVER,STM32F407xx,HSE_VALUE=8000000,HSE_STARTUP_TIMEOUT=100,LSE_STARTUP_TIMEOUT=5000,LSE_VALUE=32768,EXTERNAL_CLOCK_VALUE=12288000,HSI_VALUE=16000000,LSI_VALUE=32000,VDD_VALUE=3300,PREFETCH_ENABLE=1,INSTRUCTION_CACHE_ENABLE=1,DATA_CACHE_ENABLE=1</Define>
+              <Define>USE_FULL_LL_DRIVER,STM32F407xx,USE_HAL_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;     ../Drivers/STM32F4xx_HAL_Driver/Inc;     ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;     ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc;       ../Drivers/STM32F4xx_HAL_Driver/Inc;       ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;       ../Drivers/CMSIS/Include; ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -423,6 +423,11 @@
               <FilePath>../Src/dma.c</FilePath>
             </File>
             <File>
+              <FileName>sdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/sdio.c</FilePath>
+            </File>
+            <File>
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/spi.c</FilePath>
@@ -441,6 +446,21 @@
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_msp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
+            </File>
+            <File>
+              <FileName>cpu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\cpu.c</FilePath>
+            </File>
+            <File>
+              <FileName>ppu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\ppu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -468,9 +488,29 @@
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_dac.c</FilePath>
             </File>
             <File>
+              <FileName>stm32f4xx_ll_sdmmc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_sd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_sd.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f4xx_ll_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_tim_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_ll_tim.c</FileName>
@@ -496,6 +536,66 @@
               <FileName>stm32f4xx_ll_exti.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_rcc_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_flash_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_flash_ramfunc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_dma_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_pwr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_pwr_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_cortex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c</FilePath>
             </File>
           </Files>
         </Group>
