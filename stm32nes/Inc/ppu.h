@@ -53,8 +53,8 @@ typedef struct{
 	/******************************************************************************** 
 	 **PPU �ڴ�ӳ�� 64KBѰַ 16KB($0000 ~ &3FFF)�����ڴ�,�����Ϊ���� 
 	 */ 
-	uint8_t *patterntable0;			/*$0000 ~ $0FFF ͼ����0				*/  
-	uint8_t *patterntable1; 			/*$1000 ~ $1FFF ͼ����1				*/ 
+	const uint8_t *patterntable0;			/*$0000 ~ $0FFF ͼ����0				*/  
+	const uint8_t *patterntable1; 			/*$1000 ~ $1FFF ͼ����1				*/ 
 	uint8_t *name_table[4]; 			/*$2000 ~ $23BF ������0��32x30�飩	*/ 
 									/*$23C0 ~ $23FF ���Ա�0�� 			*/ 
 	 								/*$2400 ~ $27BF ������1��32x30�飩	*/ 
@@ -119,8 +119,8 @@ typedef struct{
  
 /*ɨ���кţ���ɨ��262��(0~261)*/ 
 #define SCAN_LINE_START_NUM				0 
-#define SCAN_LINE_DISPALY_START_NUM		21 
-#define	SCAN_LINE_DISPALY_END_NUM		261 
+#define SCAN_LINE_DISPLAY_START_NUM		21 
+#define	SCAN_LINE_DISPLAY_END_NUM		261 
 #define	SCAN_LINE_END_NUM				262 
  
 /*������ʾ name table ��*/ 
@@ -131,7 +131,7 @@ typedef struct{
  * �ⲿ���� scanline��ʾ���� 
  */ 
 extern int PPU_scanline; 
-extern uint8_t SpriteHitFlag; 
+extern uint8_t SpriteHitFlag, PPU_Latch_Flag; 
  
 /******************************************************************************** 
  **	�ⲿ���� �洢���������� 
@@ -144,31 +144,13 @@ extern SpriteType  * const sprite;
 /******************************************************************************** 
  **	�������� 
  */ 
- 
- 
-void  PPU_Init(uint8_t* vromaddr, uint8_t  ScreenMirrorType); 
- 
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
- *  PPU �洢����Ĵ���������  
- */ 
-void  PPU_MemWrite(uint8_t value); 
-uint8_t PPU_MemRead(void); 
- 
-void  PPU_RegWrite(uint16_t addr, uint8_t byte); 
-uint8_t PPU_RegRead(uint16_t addr); 
- 
-uint8_t PPU_NameTablesRead(void); 
-void  PPU_NameTablesWrite(uint8_t value); 
+void ppu_init(const uint8_t* vromaddr, uint8_t  ScreenMirrorType); 
  
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
  *  PPU ��ʾ������  
  */ 
-void NES_GetSpr0HitFlag(int y_axes); 
-void NES_RenderSprite88(SpriteType *sprptr, int dy_axes); 
-void NES_RenderSprite16(SpriteType *sprptr, int dy_axes); 
-void NES_RenderLine(int y_axes); 
-void NES_LCD_DisplayLine(int y_axes, uint16_t *Disaplyline_buffer); 
-void NES_LCD_BG_DisplayLine(uint16_t color); 
+void ppu_spr0_hit_flag(int y_axes);
+void ppu_render_line(int y_axes); 
   /** 
   * @} 
   */ 

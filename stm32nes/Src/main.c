@@ -53,6 +53,7 @@
 /* USER CODE BEGIN Includes */
 #include "lcd_main.h"
 #include "cpu.h"
+#include "nes.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -131,24 +132,45 @@ int main(void)
   MX_TIM7_Init();
   MX_SDIO_SD_Init();
   /* USER CODE BEGIN 2 */
-	
   tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
   joystick_init();
+  nes_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+#if 0
     tft_clear();
-    tft_printc(0, 0, "Hello WorldHello WorldHello WorldHello WorldHello World");
-    tft_printi(0, 1, get_ticks());
-    tft_printi(0, 2, joystick_conv(joys[0].x));
-    tft_printi(0, 3, joystick_conv(joys[0].y));
-    tft_printi(0, 4, joystick_conv(joys[1].x));
-    tft_printi(0, 5, joystick_conv(joys[1].y));
-    tft_printb(0, 6, BUTTONS, 16);
+    
+    // tft_printc(0, 0, "Hello WorldHello WorldHello WorldHello WorldHello World");
+    // tft_printi(0, 1, get_ticks());
+    // tft_printi(0, 2, joystick_conv(joys[0].x));
+    // tft_printi(0, 3, joystick_conv(joys[0].y));
+    // tft_printi(0, 4, joystick_conv(joys[1].x));
+    // tft_printi(0, 5, joystick_conv(joys[1].y));
+    // tft_printb(0, 6, BUTTONS, 16);
+    tft_printc(0, 0, "NES");
+    cpu_debug_print(1);
+    
     tft_update_dma();
+
+    static uint16_t btn_state = 0;
+    static uint32_t btn_clicked = 0;
+    #define btn_pressed(X) (BUTTONS & X)
+    #define btn_clicked(X) (BUTTONS & X) && !(btn_state & X)
+    if (btn_clicked(BTN_R1)) {
+      cpu_exec(1);
+      btn_clicked = get_ticks();
+    }
+    if (btn_clicked(BTN_D1)) {
+      nes_init();
+    }
+    if (btn_pressed(BTN_L1)) {
+      cpu_exec(113);
+    }
+    btn_state = BUTTONS;
 
 		if (tick_tock()) {
 			static uint32_t last_ticks = 0;
@@ -156,7 +178,17 @@ int main(void)
 				gpio_toggle(LED1);
 				last_ticks = get_ticks();
 			}
+
+      if (((BUTTONS & BTN_R1)) && (get_ticks() - btn_clicked) > 1000) {
+        cpu_exec(10);
+      } else if (((BUTTONS & BTN_R1)) && (get_ticks() - btn_clicked) > 200) {
+        cpu_exec(1);
+      }
 		}
+#else
+    nes_frame();
+    gpio_toggle(LED1);
+#endif
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

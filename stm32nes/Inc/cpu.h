@@ -104,10 +104,7 @@ void cpu_irq(void);
  
 /* must be called first to initialise cpu_all  engines arrays */ 
  
-void cpu_initmem(	uint8_t* exp_romptr, 
-					uint8_t* sramptr,			 
-					uint8_t* prg_rombank0ptr,		 
-					uint8_t  rom_num); 
+void cpu_initmem(const uint8_t* prg_rombank0ptr, uint8_t rom_num); 
  
 /* sets all of cpu_the  registers. The program counter is set from 
  * locations $FFFC and $FFFD masked with the above addrmask 

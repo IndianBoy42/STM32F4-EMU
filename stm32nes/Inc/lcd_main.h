@@ -150,6 +150,7 @@ void tft_printb(uint8_t x, uint8_t y, uint32_t b, uint8_t bits);
 void tft_printl(uint8_t x, uint8_t y, int64_t num);
 void tft_printu(uint8_t x, uint8_t y, uint32_t num);
 void tft_printf(uint8_t x, uint8_t y, float num, uint32_t dp);
+void tft_printh(uint8_t x, uint8_t y, uint32_t b, uint8_t bits);
 
 void tft_update(void);
 

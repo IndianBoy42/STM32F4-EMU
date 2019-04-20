@@ -92,7 +92,7 @@ __forceinline uint8_t dma_flag_status(DMA_Stream_TypeDef* dma, uint32_t flag) {
 		case (uint32_t)DMA2_Stream7: chflag = flag<<22;
 			break;
 	}
-	chflag &= DMA_FLAG_RESERVED_MASK;
+	// chflag &= DMA_FLAG_RESERVED_MASK;
 
 	// return tmpreg & chflag;
 	return (tmpreg & chflag) != 0;
@@ -506,6 +506,20 @@ void tft_printb(uint8_t x, uint8_t y, uint32_t b, uint8_t bits) {
 	
 	tft_printc(x, y, buf);
 }
+void tft_printh(uint8_t x, uint8_t y, uint32_t b, uint8_t bits) {
+	char buf[9]={0};
+	int c = bits/4-1;
+	for(int i=0; i<bits; i+=4) {
+		uint8_t tmp = (b & (0xF<<i))>>i;
+		if (tmp < 10) 
+			buf[c] = '0' + tmp;
+		else 
+			buf[c] = 'A' + tmp-10;
+		c--;
+	}
+	
+	tft_printc(x, y, buf);
+}
 
 void tft_printl(uint8_t x, uint8_t y, int64_t num) {
 	char buf[12]={0};
@@ -582,8 +596,12 @@ void tft_dma_tx(void* ptr, uint16_t size) {
 	dma_transfer(TFT_DMA, ptr, size);
 }
 void tft_dma_wait(void) {
-	while (dma_flag_status(TFT_DMA,DMA_FLAG_TC) == 0);
-	dma_clear_flag(TFT_DMA,DMA_FLAG_TC);
+	// while (dma_flag_status(TFT_DMA,DMA_FLAG_TC) == 0);
+	// dma_clear_flag(TFT_DMA,DMA_FLAG_TC);
+	while (LL_DMA_IsActiveFlag_TC5(DMA2)==0) {
+		gpio_toggle(LED2);
+	}
+	LL_DMA_ClearFlag_TC5(DMA2);
 }
 
 void tft_circ_push_pxbuf(void* buf, uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
@@ -707,4 +725,12 @@ void tft_pxbuf_write(uint16_t* tft_px_buffer) {
 	
 	cur_screen = (cur_screen == 0);
 	next_screen = (next_screen == 0);
+}
+
+void tft_print_nes_line(int y, uint16_t* buf) {
+	tft_dma_wait();
+
+	tft_set_region(32, y, 256, 1);
+	
+	dma_transfer(TFT_DMA, buf+8, 256*2);
 }

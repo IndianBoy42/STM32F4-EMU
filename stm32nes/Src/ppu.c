@@ -15,7 +15,8 @@
 /* Includes ------------------------------------------------------------------*/    
 // #include "nes_main.h"   
 #include "lcd_main.h"   
-   #include "ppu.h"
+void tft_print_nes_line(int y, uint16_t* buf);
+#include "ppu.h"
 
 /*�������� ------------------------------------------------------------------*/   
 /*�洢�����*/   
@@ -30,6 +31,7 @@ SpriteType  * const sprite = (SpriteType  *)&Spr_Mem.spr_ram[0]; //ָ���һ
 /*��ʾ���*/   
 uint8_t   SpriteHitFlag, PPU_Latch_Flag; //sprite #0 ��ʾ��ײ������ɨ���к�, ����λ�ƣ�2005д���־    
 int     PPU_scanline;                   //��ǰɨ����   
+// uint16_t  DisplayBuffer[256*240] = {0};
 uint16_t  Buffer_scanline[8 + 256 + 8];   //����ʾ����,���±�Խ�����Ϊ7����ʾ�� 7 ~ 263  0~7 263~270 Ϊ��ֹ�����   
    
 uint8_t PPU_BG_VScrlOrg, PPU_BG_HScrlOrg;   
@@ -41,70 +43,70 @@ uint8_t PPU_BG_VScrlOrg, PPU_BG_HScrlOrg;
  */   
 const uint16_t NES_Color_Palette[64] ={   
 /*��ɫ������ַ->RGBֵ -> RGB565(16bit)*/   
-/*  0x00 -> 0x75, 0x75, 0x75 */  0x73AE,    
-/*  0x01 -> 0x27, 0x1B, 0x8F */  0x20D1,   
-/*  0x02 -> 0x00, 0x00, 0xAB */  0x0015,   
-/*  0x03 -> 0x47, 0x00, 0x9F */  0x4013,   
-/*  0x04 -> 0x8F, 0x00, 0x77 */  0x880E,   
-/*  0x05 -> 0xAB, 0x00, 0x13 */  0xA802,   
-/*  0x06 -> 0xA7, 0x00, 0x00 */  0xA000,   
-/*  0x07 -> 0x7F, 0x0B, 0x00 */  0x7840,   
-/*  0x08 -> 0x43, 0x2F, 0x00 */  0x4160,   
-/*  0x09 -> 0x00, 0x47, 0x00 */  0x0220,   
-/*  0x0A -> 0x00, 0x51, 0x00 */  0x0280,   
-/*  0x0B -> 0x00, 0x3F, 0x17 */  0x01E2,   
-/*  0x0C -> 0x1B, 0x3F, 0x5F */  0x19EB,   
+/*  0x00 -> 0x75, 0x75, 0x75 */  0xAE73,    
+/*  0x01 -> 0x27, 0x1B, 0x8F */  0xD120,   
+/*  0x02 -> 0x00, 0x00, 0xAB */  0x1500,   
+/*  0x03 -> 0x47, 0x00, 0x9F */  0x1340,   
+/*  0x04 -> 0x8F, 0x00, 0x77 */  0x0E88,   
+/*  0x05 -> 0xAB, 0x00, 0x13 */  0x02A8,   
+/*  0x06 -> 0xA7, 0x00, 0x00 */  0x00A0,   
+/*  0x07 -> 0x7F, 0x0B, 0x00 */  0x4078,   
+/*  0x08 -> 0x43, 0x2F, 0x00 */  0x6041,   
+/*  0x09 -> 0x00, 0x47, 0x00 */  0x2002,   
+/*  0x0A -> 0x00, 0x51, 0x00 */  0x8002,   
+/*  0x0B -> 0x00, 0x3F, 0x17 */  0xE201,   
+/*  0x0C -> 0x1B, 0x3F, 0x5F */  0xEB19,   
 /*  0x0D -> 0x00, 0x00, 0x00 */  0x0000,   
 /*  0x0E -> 0x00, 0x00, 0x00 */  0x0000,   
 /*  0x0F -> 0x00, 0x00, 0x00 */  0x0000,   
    
-/*  0x10 -> 0xBC, 0xBC, 0xBC */  0xBDF7,   
-/*  0x11 -> 0x00, 0x73, 0xEF */  0x039D,   
-/*  0x12 -> 0x23, 0x3B, 0xEF */  0x21DD,   
-/*  0x13 -> 0x83, 0x00, 0xF3 */  0x801E,   
-/*  0x14 -> 0xBF, 0x00, 0xBF */  0xB817,   
-/*  0x15 -> 0xE7, 0x00, 0x5B */  0xE00B,   
-/*  0x16 -> 0xDB, 0x2B, 0x00 */  0xD940,   
-/*  0x17 -> 0xCB, 0x4F, 0x0F */  0xCA61,   
-/*  0x18 -> 0x8B, 0x73, 0x00 */  0x8B80,   
-/*  0x19 -> 0x00, 0x97, 0x00 */  0x04A0,   
-/*  0x1A -> 0x00, 0xAB, 0x00 */  0x0540,   
-/*  0x1B -> 0x00, 0x93, 0x3B */  0x0487,   
-/*  0x1C -> 0x00, 0x83, 0x8B */  0x0411,   
+/*  0x10 -> 0xBC, 0xBC, 0xBC */  0xF7BD,   
+/*  0x11 -> 0x00, 0x73, 0xEF */  0x9D03,   
+/*  0x12 -> 0x23, 0x3B, 0xEF */  0xDD21,   
+/*  0x13 -> 0x83, 0x00, 0xF3 */  0x1E80,   
+/*  0x14 -> 0xBF, 0x00, 0xBF */  0x17B8,   
+/*  0x15 -> 0xE7, 0x00, 0x5B */  0x0BE0,   
+/*  0x16 -> 0xDB, 0x2B, 0x00 */  0x40D9,   
+/*  0x17 -> 0xCB, 0x4F, 0x0F */  0x61CA,   
+/*  0x18 -> 0x8B, 0x73, 0x00 */  0x808B,   
+/*  0x19 -> 0x00, 0x97, 0x00 */  0xA004,   
+/*  0x1A -> 0x00, 0xAB, 0x00 */  0x4005,   
+/*  0x1B -> 0x00, 0x93, 0x3B */  0x8704,   
+/*  0x1C -> 0x00, 0x83, 0x8B */  0x1104,   
 /*  0x1D -> 0x00, 0x00, 0x00 */  0x0000,   
 /*  0x1E -> 0x00, 0x00, 0x00 */  0x0000,   
 /*  0x1F -> 0x00, 0x00, 00x0 */  0x0000,   
    
 /*  0x20 -> 0xFF, 0xFF, 0xFF */  0xFFFF,   
-/*  0x21 -> 0x3F, 0xBF, 0xFF */  0x3DFF,   
-/*  0x22 -> 0x5F, 0x97, 0xFF */  0x5CBF,   
-/*  0x23 -> 0xA7, 0x8B, 0xFD */  0xA45F,   
-/*  0x24 -> 0xF7, 0x7B, 0xFF */  0xF3DF,   
-/*  0x25 -> 0xFF, 0x77, 0xB7 */  0xFBB6,   
-/*  0x26 -> 0xFF, 0x77, 0x63 */  0xFBAC,   
-/*  0x27 -> 0xFF, 0x9B, 0x3B */  0xFCC7,   
-/*  0x28 -> 0xF3, 0xBF, 0x3F */  0xF5E7,   
-/*  0x29 -> 0x83, 0xD3, 0x13 */  0x8682,   
-/*  0x2A -> 0x4F, 0xDF, 0x4B */  0x4EE9,   
-/*  0x2B -> 0x58, 0xF8, 0x98 */  0x5FD3,   
-/*  0x2C -> 0x00, 0xEB, 0xDB */  0x075B,   
+/*  0x21 -> 0x3F, 0xBF, 0xFF */  0xFF3D,   
+/*  0x22 -> 0x5F, 0x97, 0xFF */  0xBF5C,   
+/*  0x23 -> 0xA7, 0x8B, 0xFD */  0x5FA4,   
+/*  0x24 -> 0xF7, 0x7B, 0xFF */  0xDFF3,   
+/*  0x25 -> 0xFF, 0x77, 0xB7 */  0xB6FB,   
+/*  0x26 -> 0xFF, 0x77, 0x63 */  0xACFB,   
+/*  0x27 -> 0xFF, 0x9B, 0x3B */  0xC7FC,   
+/*  0x28 -> 0xF3, 0xBF, 0x3F */  0xE7F5,   
+/*  0x29 -> 0x83, 0xD3, 0x13 */  0x8286,   
+/*  0x2A -> 0x4F, 0xDF, 0x4B */  0xE94E,   
+/*  0x2B -> 0x58, 0xF8, 0x98 */  0xD35F,   
+/*  0x2C -> 0x00, 0xEB, 0xDB */  0x5B07,   
 /*  0x2D -> 0x00, 0x00, 0x00 */  0x0000,   
 /*  0x2E -> 0x00, 0x00, 0x00 */  0x0000,   
 /*  0x2F -> 0x00, 0x00, 0x00 */  0x0000,   
    
 /*  0x30 -> 0xFF, 0xFF, 0xFF */  0xFFFF,   
-/*  0x31 -> 0xAB, 0xE7, 0xFF */  0xAF3F,   
-/*  0x32 -> 0xC7, 0xD7, 0xFF */  0xC6BF,   
-/*  0x33 -> 0xD7, 0xCB, 0xFF */  0xD65F,   
-/*  0x34 -> 0xFF, 0xC7, 0xFF */  0xFE3F,   
-/*  0x35 -> 0xFF, 0xC7, 0xDB */  0xFE3B,   
-/*  0x36 -> 0xFF, 0xBF, 0xB3 */  0xFDF6,   
-/*  0x37 -> 0xFF, 0xDB, 0xAB */  0xFED5,   
-/*  0x38 -> 0xFF, 0xE7, 0xA3 */  0xFF34,   
-/*  0x39 -> 0xE3, 0xFF, 0xA3 */  0xE7F4,   
-/*  0x3A -> 0xAB, 0xF3, 0xBF */  0xAF97,   
-/*  0x3B -> 0xB3, 0xFF, 0xCF */  0xB7F9,   
-/*  0x3C -> 0x9F, 0xFF, 0xF3 */  0x9FFE,   
+/*  0x31 -> 0xAB, 0xE7, 0xFF */  0x3FAF,   
+/*  0x32 -> 0xC7, 0xD7, 0xFF */  0xBFC6,   
+/*  0x33 -> 0xD7, 0xCB, 0xFF */  0x5FD6,   
+/*  0x34 -> 0xFF, 0xC7, 0xFF */  0x3FFE,   
+/*  0x35 -> 0xFF, 0xC7, 0xDB */  0x3BFE,   
+/*  0x36 -> 0xFF, 0xBF, 0xB3 */  0xF6FD,   
+/*  0x37 -> 0xFF, 0xDB, 0xAB */  0xD5FE,   
+/*  0x38 -> 0xFF, 0xE7, 0xA3 */  0x34FF,   
+/*  0x39 -> 0xE3, 0xFF, 0xA3 */  0xF4E7,   
+/*  0x3A -> 0xAB, 0xF3, 0xBF */  0x97AF,   
+/*  0x3B -> 0xB3, 0xFF, 0xCF */  0xF9B7,   
+/*  0x3C -> 0x9F, 0xFF, 0xF3 */  0xFE9F,   
 /*  0x3D -> 0x00, 0x00, 0x00 */  0x0000,   
 /*  0x3E -> 0x00, 0x00,0x 00 */  0x0000,   
 /*  0x3F -> 0x00, 0x00, 0x00 */  0x0000   
@@ -119,13 +121,13 @@ const uint16_t NES_Color_Palette[64] ={
 /*  
  * PPU ��ʼ��  
  */   
-void PPU_Init(  uint8_t* patterntableptr, /* Pattern table ��ַ*/   
+void ppu_init(const uint8_t* patterntableptr, /* Pattern table ��ַ*/   
                 uint8_t  ScreenMirrorType /* ��Ļ��������*/   
                 )   
 {   
-    memset(&PPU_Mem, 0, sizeof(PPU_Mem));//����洢��   
-    memset(&Spr_Mem, 0, sizeof(Spr_Mem));   
-    memset(&PPU_Reg, 0, sizeof(PPU_Reg));   
+    // memset(&PPU_Mem, 0, sizeof(PPU_Mem));//����洢��   
+    // memset(&Spr_Mem, 0, sizeof(Spr_Mem));   
+    // memset(&PPU_Reg, 0, sizeof(PPU_Reg));   
    
     PPU_Mem.patterntable0 =  patterntableptr;   
     PPU_Mem.patterntable1 =  patterntableptr + 0x1000;   
@@ -150,235 +152,9 @@ void PPU_Init(  uint8_t* patterntableptr, /* Pattern table ��ַ*/
 //  PPU_BG_NameTableNum = 0;   
 //  PPU_AddrTemp = 0;   
     PPU_scanline = 0;   
-   
-}   
-   
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
- *  PPU �洢����Ĵ���������   
- */   
-   
-/*  
- * ��PPU name table ����  
- */   
-uint8_t PPU_NameTablesRead(void)   
-{   
-    uint16_t addrtemp = PPU_Mem.PPU_addrcnt & 0xFFF;   
-   
-    if(addrtemp > 0xC00){   
-        return  PPU_Mem.name_table[3][addrtemp - 0xC00];        //nametable3   
-    }   
-    if(addrtemp > 0x800){   
-        return  PPU_Mem.name_table[2][addrtemp - 0x800];        //nametable2   
-    }   
-    if(addrtemp > 0x400){   
-        return  PPU_Mem.name_table[1][addrtemp - 0x400];        //nametable1   
-    }else{   
-        return  PPU_Mem.name_table[0][addrtemp];                //nametable0   
-    }   
-}   
-   
-/*  
- * дPPU name table ����  
- */   
-void PPU_NameTablesWrite(uint8_t value)   
-{   
-    uint16_t addrtemp = PPU_Mem.PPU_addrcnt & 0xFFF;   
-   
-    if(addrtemp > 0xC00){   
-        PPU_Mem.name_table[3][addrtemp - 0xC00] = value;        //nametable3   
-        return;   
-    }   
-    if(addrtemp > 0x800){   
-        PPU_Mem.name_table[2][addrtemp - 0x800] = value;        //nametable2   
-        return;   
-    }   
-    if(addrtemp > 0x400){   
-        PPU_Mem.name_table[1][addrtemp - 0x400] = value;        //nametable1   
-        return;   
-    }else{   
-        PPU_Mem.name_table[0][addrtemp] = value;                //nametable0   
-        return;   
-    }   
-}   
-   
-/*  
- * дPPU�洢��  
- */   
-void PPU_MemWrite(uint8_t value)   
-{   
-    switch(PPU_Mem.PPU_addrcnt & 0xF000){   
-    case 0x0000: //$0000 ~ $0FFF  ֻ�� - �뿨���й�   
-//       PPU_Mem.patterntable0[PPU_Mem.PPU_addrcnt] = value;   
-         break;   
-    case 0x1000: //$1000 ~ $1FFF  ֻ�� - �뿨���й�   
-//       PPU_Mem.patterntable1[PPU_Mem.PPU_addrcnt & 0x0FFF] = value;   
-         break;   
-    case 0x2000: //$2000 ~ $2FFF   
-         PPU_NameTablesWrite(value);   
-         break;   
-    case 0x3000:    
-         //$3000 ~ $3EFF    -- $2000 ~ $2EFF�ľ���   
-         //$3F00 ~ $3F0F    image  palette   
-         //$3F10 ~ $3F1F    sprite palette   
-         if((PPU_Mem.PPU_addrcnt & 0x1F) > 0x0F){   
-            PPU_Mem.sprite_palette[(PPU_Mem.PPU_addrcnt & 0xF)] = value;    //������ɫ����ֵ��   
-            if((PPU_Mem.PPU_addrcnt & 3) == 0){                         //��Ӧλ��Ϊ͸��ɫ�ľ���   
-                PPU_Mem.sprite_palette[0] = PPU_Mem.image_palette[0] = value;   
-                PPU_Mem.sprite_palette[4] = PPU_Mem.image_palette[4] = value;   
-                PPU_Mem.sprite_palette[8] = PPU_Mem.image_palette[8] = value;   
-                PPU_Mem.sprite_palette[12] =PPU_Mem.image_palette[12]= value;   
-            }      
-         }else{   
-            PPU_Mem.image_palette[(PPU_Mem.PPU_addrcnt & 0xF)] = value;     //������ɫ����ֵ��   
-         }   
-//          PPU_NameTablesWrite(value);//name table����,һ�㲻ִ�е��˴�   
-         break;   
-    default: printf("д��PPU��ַ����$4000 %X", PPU_Mem.PPU_addrcnt);//��PPU_Mem.PPU_addrcnt & 0x3FFF   
-    }   
-    //��д�󣬵�ַ���������ӣ�����$2002 [bit2] 0��+1  1�� +32��   
-    PPU_Reg.R0 & PPU_ADDRINCR ? PPU_Mem.PPU_addrcnt += 32 : PPU_Mem.PPU_addrcnt++ ;   
-}   
-   
-/*  
- * ��PPU�洢��  
- */   
-uint8_t PPU_MemRead(void)   
-{   
-    //����Ӳ��ԭ��NES PPUÿ�ζ�ȡ���ص��ǻ���ֵ��Ϊʱ����ȡ��ַ��1��   
-    uint8_t temp;   
-   
-    temp = PPU_Mem.PPU_readtemp; //���滺��ֵ����Ϊ����ֵ   
-           
-    switch(PPU_Mem.PPU_addrcnt & 0xF000){   
-    case 0x0000: //$0000 ~ $0FFF   
-         PPU_Mem.PPU_readtemp = PPU_Mem.patterntable0[PPU_Mem.PPU_addrcnt];          //��ȡ��ַָ��ֵ������   
-         break;   
-    case 0x1000: //$1000 ~ $1FFF   
-         PPU_Mem.PPU_readtemp = PPU_Mem.patterntable1[PPU_Mem.PPU_addrcnt & 0x0FFF]; //��ȡ��ַָ��ֵ������   
-         break;   
-    case 0x2000: //$2000 ~ $2FFF   
-         PPU_Mem.PPU_readtemp = PPU_NameTablesRead();                                //��ȡ��ַָ��ֵ������   
-         break;   
-    case 0x3000:    
-         //$3000 ~ $3EFF    -- $2000 ~ $2EFF�ľ���   
-         //$3F00 ~ $3F0F image  palette   
-         //$3F10 ~ $3F1F    sprite palette   
-         if(PPU_Mem.PPU_addrcnt >= 0x3F10){   
-            temp =  PPU_Mem.sprite_palette[(PPU_Mem.PPU_addrcnt & 0xF)];    //PPU ��ȡ���岻���� palette ��ɫ��,ֱ�ӷ���   
-            break;     
-         }   
-         if(PPU_Mem.PPU_addrcnt >= 0x3F00){   
-                temp = PPU_Mem.image_palette[(PPU_Mem.PPU_addrcnt & 0xF)];  //PPU ��ȡ���岻���� palette ��ɫ��,ֱ�ӷ���   
-                break;   
-         }   
-//          temp = PPU_NameTablesRead();//name tables ����,һ�㲻ִ�е��˴�   
-         break;   
-    default: temp = 0;    
-         printf("��ȡPPU��ַ����$4000 %X", PPU_Mem.PPU_addrcnt);   
-    }   
-    //��д�󣬵�ַ���������ӣ�����$2002 [bit2] 0��+1  1�� +32��   
-    PPU_Reg.R0 & PPU_ADDRINCR ? PPU_Mem.PPU_addrcnt += 32 : PPU_Mem.PPU_addrcnt++ ;   
-    return temp;   
-}   
-   
-/*  
- * дPPU�Ĵ���  
- */   
-void PPU_RegWrite(uint16_t RX, uint8_t value)   
-{   
-//#ifdef _NES_DEBUG_   
-//  printf("\r\nPPU д�Ĵ��� %d %x", RX, value);   
-//#endif   
-    switch(RX){   
-/*$2000*/   
-    case 0: PPU_Reg.R0 = value;   
-//          printf("\r\n PPU r0: %x", value);   
-            // Account for Loopy's scrolling discoveries  �ο�InfoNes   
-//          PPU_AddrTemp = ( PPU_AddrTemp & 0xF3FF ) | ( ( ( (uint16_t)value ) & 0x0003 ) << 10 );   
-//          PPU_BG_NameTableNum = PPU_Reg.R0 & R0_NAME_TABLE;      
-/*$2001*/   break;   
-    case 1: PPU_Reg.R1 = value;     
-/*$2003*/   break;   
-    case 3: //Sprite Memory Address�� 8λ��ַ������   
-            Spr_Mem.spr_addrcnt = value;   
-/*$2004*/   break;   
-    case 4: //Sprite Memory Data ,ÿ�δ�ȡ sprite ram ��ַ������spr_addrcnt�Զ���1   
-            Spr_Mem.spr_ram[Spr_Mem.spr_addrcnt++] = value;   
-/*$2005*/   break;   
-    case 5: //PPU_Reg.R5 = value;   
-            if(PPU_Latch_Flag){   //��1����ֱscroll����   
-                PPU_BG_VScrlOrg = (value > 239) ? 0 : value;   
-                //��ַ����ֵ�仯���ο�infones   
-//              PPU_AddrTemp = ( PPU_AddrTemp & 0xFC1F ) | ((((uint16_t)value) & 0xF8 ) << 2);   
-//              PPU_AddrTemp = ( PPU_AddrTemp & 0x8FFF ) | ((((uint16_t)value) & 0x07 ) << 12);   
-            }else{                //��0��ˮƽscroll����   
-                PPU_BG_HScrlOrg = value;   
-                // Added : more Loopy Stuff  �ο�Infones   
-//              PPU_AddrTemp = ( PPU_AddrTemp & 0xFFE0 ) | ((((uint16_t)value) & 0xF8 ) >> 3 );   
-            }                       
-            PPU_Latch_Flag ^= 1;   
-/*$2006*/   break;   
-    case 6:    
-//          if(PPU_Latch_Flag){     //1   
-////                PPU_Mem.PPU_addrcnt = (PPU_Mem.PPU_addrcnt << 8) + value; //PPU �洢����ַ����������д��8λ����д��8λ   
-//              /* Low */   
-//              PPU_AddrTemp = ( PPU_AddrTemp & 0xFF00 ) | (((uint16_t)value ) & 0x00FF);   
-//              PPU_Mem.PPU_addrcnt = PPU_AddrTemp;   
-//              PPU_BG_VScrlOrg = (uint8_t)(PPU_Mem.PPU_addrcnt & 0x001F );   
-//              PPU_BG_HScrlOrg = (uint8_t)((PPU_Mem.PPU_addrcnt& 0x03E0 ) >> 5 );    
-//          }else{                 //0   
-//              /* High */   
-//              PPU_AddrTemp = (PPU_AddrTemp & 0x00FF)|((((uint8_t)value) & 0x003F ) << 8 );    
-//          }   
-//          PPU_Latch_Flag ^= 1;   
-   
-            PPU_Mem.PPU_addrcnt = (PPU_Mem.PPU_addrcnt << 8) + value; //PPU �洢����ַ����������д��8λ����д��8λ   
-            PPU_Latch_Flag ^= 1;   
-/*$2007*/   break;    
-    case 7: /*д PPU Memory Data*/   
-            PPU_MemWrite(value);   
-            break;   
-    default : printf("\r\nPPU д���ַ���� %d", RX);   
-    }   
-}   
-   
-/*  
- * ��PPU�Ĵ���  
- */   
-uint8_t PPU_RegRead(uint16_t RX)   
-{   
-    uint8_t temp;   
-   
-    switch(RX){   
-    case 0: temp = PPU_Reg.R0;  //$2000 RW   
-            break;   
-    case 1: temp = PPU_Reg.R1;  //$2001 RW   
-            break;   
-    case 2: temp = PPU_Reg.R2;   
-            PPU_Reg.R2 &= ~(R0_VB_NMI_EN);   
-            //��ȡ$2002����ԭPPU��ַ������д��ʱ��־   
-            //ͬ������$2005 $2006д��״̬���Ʊ�־   
-            PPU_Latch_Flag = 0;   
-            // Make a Nametable 0 in V-Blank   
-            if ((PPU_scanline > 20 && PPU_scanline < 262) && !(PPU_Reg.R0 & R0_VB_NMI_EN)){   
-                PPU_Reg.R0 &= ~R0_NAME_TABLE;               //ѡ�� name table #0   
-//              PPU_BG_NameTableNum = 0;                    //name table �� #0    
-            }   
-            break;; //$2002 R   
-    case 4: /*�� Sprite Memory Data*/   
-            temp = Spr_Mem.spr_ram[Spr_Mem.spr_addrcnt++];   
-            break;   
-    case 7: /*�� PPU Memory Data*/   
-            temp = PPU_MemRead();   
-            break;   
-    default : printf("\r\nPPU ��ȡ��ַ���� %d", RX);   
-            return RX;   
-    }   
-//#ifdef _NES_DEBUG_   
-//  printf("\r\nPPU ���Ĵ��� %d %x", RX, temp);   
-//#endif   
-    return temp;       
-}   
+
+    // tft_circ_push_pxbuf(DisplayBuffer, 32, 0, 256, 240);
+} 
    
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
  *  PPU ��ʾ������   
@@ -387,7 +163,7 @@ uint8_t PPU_RegRead(uint16_t RX)
 /*  
  * ����sprite #0��ײ��־  
  */   
-void NES_GetSpr0HitFlag(int y_axes)   
+void ppu_spr0_hit_flag(int y_axes)   
 {   
     int   i,y_scroll, dy_axes, dx_axes;   
     uint8_t y_TitleLine, x_TitleLine;   
@@ -395,8 +171,8 @@ void NES_GetSpr0HitFlag(int y_axes)
     uint8_t nNameTable, BG_TitlePatNum;   
     uint8_t BG_Data0, BG_Data1, BG_Data;   
     uint16_t title_addr;   
-    uint8_t *BG_Patterntable;   
-    uint8_t *Spr_Patterntable;   
+    const uint8_t *BG_Patterntable;   
+    const uint8_t *Spr_Patterntable;   
    
     /*�ж�sprite #0 ��ʾ�����Ƿ��ڵ�ǰ��*/   
     spr_size = PPU_Reg.R0 & R0_SPR_SIZE ? 0x0F : 0x07;      //spr_size 8��0~7��16: 0~15   
@@ -463,13 +239,13 @@ void NES_GetSpr0HitFlag(int y_axes)
 /*  
  * ��ʾһ�б���������sprite��ײ��������ײ��־  
  */   
-void NES_RenderBGLine(int y_axes)   
+__forceinline void render_bg_line(int y_axes)   
 {   
     int     i,y_scroll, /*x_scroll,*/ dy_axes, dx_axes;   
     int     Buffer_LineCnt, y_TitleLine, x_TitleLine;   
     uint8_t   H_byte, L_byte, BG_color_num, BG_attr_value;   
     uint8_t   nNameTable, BG_TitlePatNum;   
-    uint8_t  *BG_Patterntable;   
+    const uint8_t  *BG_Patterntable;   
    
 //  nNameTable = PPU_BG_NameTableNum;           //ȡ�õ�ǰ��Ļ��name table ��   
     nNameTable = PPU_Reg.R0 & R0_NAME_TABLE;   
@@ -538,7 +314,7 @@ void NES_RenderBGLine(int y_axes)
 /*  
  * ��ʾһ��sprite��title 88  
  */   
-void NES_RenderSprPattern(SpriteType *sprptr, uint8_t *Spr_Patterntable, uint16_t title_addr, uint8_t dy_axes)   
+__forceinline void render_sprite_pattern(SpriteType *sprptr, const uint8_t *Spr_Patterntable, uint16_t title_addr, uint8_t dy_axes)   
 {   
     int   i, dx_axes;   
     uint8_t Spr_color_num, H_byte, L_byte;   
@@ -588,36 +364,36 @@ void NES_RenderSprPattern(SpriteType *sprptr, uint8_t *Spr_Patterntable, uint16_
 /*  
  * sprite 8*8 ��ʾ����ɨ��  
  */   
-void NES_RenderSprite88(SpriteType *sprptr, int dy_axes)   
+__forceinline void render_sprite_88(SpriteType *sprptr, int dy_axes)   
 {   
-    uint8_t  *Spr_Patterntable;      
+    const uint8_t  *Spr_Patterntable;      
     /*ȡ������title Pattern�׵�ַ*/   
     Spr_Patterntable = (PPU_Reg.R0 & SPR_PATTERN_ADDR)  ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;   
-    NES_RenderSprPattern(sprptr, Spr_Patterntable, sprptr -> t_num << 4, (uint8_t)dy_axes);   
+    render_sprite_pattern(sprptr, Spr_Patterntable, sprptr -> t_num << 4, (uint8_t)dy_axes);   
 }   
    
 /*  
  * sprite 8*16 ��ʾ����ɨ��  
  */            
-void NES_RenderSprite16(SpriteType *sprptr, int dy_axes)   
+__forceinline void render_sprite_16(SpriteType *sprptr, int dy_axes)   
 {   
     if(sprptr -> t_num & 0x01){                                         
         if(dy_axes < 8)   //sprite  title ������   
-            NES_RenderSprPattern(sprptr, PPU_Mem.patterntable1, (sprptr -> t_num & 0xFE) << 4, (uint8_t)dy_axes);       //��8*8   
+            render_sprite_pattern(sprptr, PPU_Mem.patterntable1, (sprptr -> t_num & 0xFE) << 4, (uint8_t)dy_axes);       //��8*8   
         else   
-            NES_RenderSprPattern(sprptr, PPU_Mem.patterntable1, sprptr -> t_num << 4, (uint8_t)dy_axes & 7);        //��8*8   
+            render_sprite_pattern(sprptr, PPU_Mem.patterntable1, sprptr -> t_num << 4, (uint8_t)dy_axes & 7);        //��8*8   
     }else{   
         if(dy_axes < 8)  //sprite  title ż����   
-            NES_RenderSprPattern(sprptr, PPU_Mem.patterntable0, sprptr -> t_num << 4, (uint8_t)dy_axes);            //��8*8   
+            render_sprite_pattern(sprptr, PPU_Mem.patterntable0, sprptr -> t_num << 4, (uint8_t)dy_axes);            //��8*8   
         else   
-            NES_RenderSprPattern(sprptr, PPU_Mem.patterntable0, (sprptr -> t_num | 1) << 4, (uint8_t)dy_axes & 7);   //��8*8   
+            render_sprite_pattern(sprptr, PPU_Mem.patterntable0, (sprptr -> t_num | 1) << 4, (uint8_t)dy_axes & 7);   //��8*8   
     }   
 }   
    
 /*  
  * PPU ��ʾһ��  
  */   
-void NES_RenderLine(int y_axes)   
+void ppu_render_line(int y_axes)   
 {   
     int i, render_spr_num, spr_size, dy_axes;   
     /* MMC5 VROM switch -- VROM�洢���л� */   
@@ -649,16 +425,16 @@ void NES_RenderLine(int y_axes)
                     break;   
                 }   
                 if(PPU_Reg.R0 & R0_SPR_SIZE){                           //��Ϊ�棬sprite�Ĵ�С8*16   
-                    NES_RenderSprite16(&sprite[i], dy_axes);   
+                    render_sprite_16(&sprite[i], dy_axes);   
                 }else{                                                  //��Ϊ�٣�sprite�Ĵ�С8*8   
-                    NES_RenderSprite88(&sprite[i], dy_axes);   
+                    render_sprite_88(&sprite[i], dy_axes);   
                 }   
             }      
         }   
        
         /* ɨ�豳�� background*/   
         if(PPU_Reg.R1 & R1_BG_VISIBLE){   
-            NES_RenderBGLine(y_axes);                                   //ɨ�貢����Sprite #0��ײ��־   
+            render_bg_line(y_axes);                                   //ɨ�貢����Sprite #0��ײ��־   
         }   
        
         /* ɨ��ǰ��sprite��ת������ʾ����д�뵽����,ÿһ�����ֻ����ʾ8��Sprite*/   
@@ -679,35 +455,24 @@ void NES_RenderLine(int y_axes)
                     break;   
                 }   
                 if(PPU_Reg.R0 & R0_SPR_SIZE){                           //��Ϊ�棬sprite�Ĵ�С8*16   
-                    NES_RenderSprite16(&sprite[i], dy_axes);   
+                    render_sprite_16(&sprite[i], dy_axes);   
                 }else{                                                  //��Ϊ�٣�sprite�Ĵ�С8*8   
-                    NES_RenderSprite88(&sprite[i], dy_axes);   
+                    render_sprite_88(&sprite[i], dy_axes);   
                 }   
             }      
         }   
     }else{   
         for(i=8; i<264; i++){   
-            //TODO: Buffer_scanline[i] = Black;                                 //�����ʾ����,����   
+            Buffer_scanline[i] = 0;                                 //�����ʾ����,����   
         }   
     }   
     /*���ɨ�裬������ʾ����д��LCD*/   
-    //TODO: NES_LCD_DisplayLine(y_axes, Buffer_scanline);                                   //����LCD��ʾһ�У���ѯ��DMA����   
-}   
-   
-/*  
- * PPU ���л��棬д��LCD  
- */   
-void NES_LCD_DisplayLine(int y_axes, uint16_t *Disaplyline_buffer)   
-{   
-    uint32_t index;   
-       
-    //TODO: LCD_ConfigDispWindow(y_axes,y_axes,32,287);    
-    //TODO: LCD_SetCursor(y_axes,287);   
-    //TODO: LCD_GRAM_Prepare();   
-    for(index = 8; index < 264; index++){   
-        //TODO: LCD_RAM_Addr = Buffer_scanline[index];   
-    }   
-}   
+
+    tft_print_nes_line(y_axes, Buffer_scanline);                                   //����LCD��ʾһ�У���ѯ��DMA����   
+    // for (int i=0; i<256; i++) {
+        // DisplayBuffer[(y_axes)*256 + i] = Buffer_scanline[i];
+    // } 
+}
    
 ///*   
 // * PPU��ʾ�رգ����ױ���д��LCD       
@@ -722,5 +487,3 @@ void NES_LCD_DisplayLine(int y_axes, uint16_t *Disaplyline_buffer)
    
    
 /*******************************END OF FILE***********************************/   
-
- 
