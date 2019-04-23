@@ -135,6 +135,8 @@ int main(void)
   tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
   joystick_init();
   nes_init();
+  TIM6->PSC = 83;
+  TIM6->ARR = 33333;
   TIM6->CR1 = TIM_CR1_CEN;
   /* USER CODE END 2 */
 
@@ -187,9 +189,10 @@ int main(void)
       }
 		}
 #else
-    if (TIM6->CNT > 0/*16666*/) {
-      nes_frame();
-      TIM6->CNT = 0;
+    if (TIM6->SR & TIM_SR_UIF) {
+      TIM6->SR = 0;
+      nes_frame(0);
+      nes_frame(1);
       gpio_toggle(LED1);
     }
 #endif

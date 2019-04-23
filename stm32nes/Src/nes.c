@@ -11,7 +11,7 @@ void nes_init(void) {
 	ppu_init(&romfile.data[romfile.romnum * 0x4000], (romfile.romfeature & 0x01));
 }
 
-void nes_frame(void) { 
+void nes_frame(uint8_t render) { 
     frame_count++; 
     SpriteHitFlag = FALSE;         
     for(PPU_scanline=0; PPU_scanline<20; PPU_scanline++){    
@@ -36,9 +36,10 @@ void nes_frame(void) {
             if(SpriteHitFlag == FALSE)   
                 ppu_spr0_hit_flag(PPU_scanline - SCAN_LINE_DISPLAY_START_NUM);
         }   
+        if(render) 
         // if(frame_count & 1) 
         // if((frame_count & 1) ^ (PPU_scanline & 1)) 
-        	ppu_render_line(PPU_scanline - SCAN_LINE_DISPLAY_START_NUM);
+            ppu_render_line(PPU_scanline - SCAN_LINE_DISPLAY_START_NUM);
     }   
     /* scanline: 262*/   
     cpu_exec(CLOCKS_PER_SCANLINE);   

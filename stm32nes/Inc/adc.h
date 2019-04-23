@@ -63,9 +63,6 @@ __forceinline int16_t joystick_conv(uint16_t j) {
   if (tmp < JOYSTICK_DEADZONE && tmp > -JOYSTICK_DEADZONE) return 0;
   else return tmp;
 }
-__forceinline int16_t joystick_up(Joystick* j) {
-  return j->x > 3072;
-}
 /* USER CODE END Private defines */
 
 void MX_ADC1_Init(void);

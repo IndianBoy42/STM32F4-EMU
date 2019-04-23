@@ -1,7 +1,9 @@
 /*  memory map */   
 uint8_t cpu_ram[0x800] = {0};  /* RAM*/   
-uint8_t exp_rom[0x2000] = {0};
-uint8_t sram[0x2000] = {0};
+// uint8_t erom[0x2000] = {0};
+// uint8_t sram[0x2000] = {0};
+// #define SRAM sram
+// #define EROM erom
 //uint8_t* ppu_regbase;       /* PPU IO reg*/   
 //uint8_t* apu_regbase;       /* APU IO reg*/    
 const uint8_t* prg_rombank0;    /* prg-rom lower bank*/   
@@ -174,62 +176,68 @@ __forceinline uint8_t ppu_read_register(uint16_t RX)
    
     switch(RX){   
     case 0: temp = PPU_Reg.R0;  //$2000 RW   
-            break;   
+        break;   
     case 1: temp = PPU_Reg.R1;  //$2001 RW   
-            break;   
+        break;   
     case 2: temp = PPU_Reg.R2;   
-            PPU_Reg.R2 &= ~(R0_VB_NMI_EN);
-            PPU_Latch_Flag = 0;   
-            // Make a Nametable 0 in V-Blank   
-            if ((PPU_scanline > 20 && PPU_scanline < 262) && !(PPU_Reg.R0 & R0_VB_NMI_EN)){   
-                PPU_Reg.R0 &= ~R0_NAME_TABLE;
-//              PPU_BG_NameTableNum = 0;   
-            }   
-            break;; //$2002 R   
+        PPU_Reg.R2 &= ~(R0_VB_NMI_EN);
+        PPU_Latch_Flag = 0;   
+        // Make a Nametable 0 in V-Blank   
+        if ((PPU_scanline > 20 && PPU_scanline < 262) && !(PPU_Reg.R0 & R0_VB_NMI_EN)){   
+            PPU_Reg.R0 &= ~R0_NAME_TABLE;
+    //              PPU_BG_NameTableNum = 0;   
+        }   
+        break;; //$2002 R   
     case 4: 
-            temp = Spr_Mem.spr_ram[Spr_Mem.spr_addrcnt++];   
-            break;   
+        temp = Spr_Mem.spr_ram[Spr_Mem.spr_addrcnt++];   
+        break;   
     case 7:  
-            temp = ppu_getmemory();   
-            break;   
+        temp = ppu_getmemory();   
+        break;   
     default :   
-            return RX;   
+        return RX;   
     } 
     return temp;       
 }  
 
 void sprite_dma(uint8_t scr_addr)  
-{   
- const uint8_t *scr_addrptr = 0;  
- int     i;   
+{      
+    extern int cpu_clockticks;
+    cpu_clockticks -= 512;
 
- switch(scr_addr >> 4){  
- case 0x0: //RAM   
- case 0x1: scr_addrptr = &cpu_ram[(scr_addr << 8)];   
-     break;   
- case 0x6: //SRAM   
- case 0x7:    
-     scr_addrptr = sram + ((scr_addr << 8) - 0x6000);   
-     break;   
- case 0x8:
- case 0x9:   
- case 0xA:   
- case 0xB:   
-     scr_addrptr = &prg_rombank0[(scr_addr << 8) - 0x8000];   
-     break;   
- case 0xC:   
- case 0xD:   
- case 0xE:   
- case 0xF:   
-     scr_addrptr = &prg_rombank1[(scr_addr << 8) - 0xC000];   
-     break;   
- }   
-  
- for(i=0; i<256; i++){   
+    const uint8_t *scr_addrptr = 0;  
+    int     i;   
+
+    switch(scr_addr >> 4){  
+    case 0x0: //RAM   
+    case 0x1: 
+        scr_addrptr = &cpu_ram[(scr_addr << 8)];   
+        break;   
+    case 0x6: //SRAM   
+    case 0x7:    
+    #ifdef SRAM 
+        scr_addrptr = SRAM + ((scr_addr << 8) - 0x6000);   
+        break;
+    #else
+        return;
+    #endif   
+    case 0x8:
+    case 0x9:   
+    case 0xA:   
+    case 0xB:   
+        scr_addrptr = &prg_rombank0[(scr_addr << 8) - 0x8000];   
+        break;   
+    case 0xC:   
+    case 0xD:   
+    case 0xE:   
+    case 0xF:   
+        scr_addrptr = &prg_rombank1[(scr_addr << 8) - 0xC000];   
+        break;   
+    }  
+
+    for(i=0; i<256; i++){   
     Spr_Mem.spr_ram[i] = scr_addrptr[i];   
- }     
- extern int cpu_clockticks;
-cpu_clockticks -= 512;
+    }   
 }   
 
 __forceinline int cpu_getmemory(uint16_t addr)
@@ -258,10 +266,18 @@ __forceinline int cpu_getmemory(uint16_t addr)
          }   
          break;   
     case 0x5000: /* expansion rom*/
-        return exp_rom[addr - 0x5000];
+    #ifdef EROM
+        return EROM[addr - 0x5000];
+    #else
+        return 0;
+    #endif
     case 0x6000:
     case 0x7000:
-        return sram[addr - 0x6000];
+    #ifdef SRAM
+        return SRAM[addr - 0x6000];
+    #else
+        return 0;
+    #endif
     case 0x8000:
     case 0x9000:
     case 0xA000:   
@@ -302,10 +318,18 @@ __forceinline int cpu_getmemory16(uint16_t addr)
          }   
          break;   
     case 0x5000: /* expansion rom*/
-        return *(uint16_t*)&exp_rom[addr - 0x5000];
+    #ifdef EROM
+        return *(uint16_t*)&EROM[addr - 0x5000];
+    #else
+        return 0;
+    #endif
     case 0x6000:
     case 0x7000:
-        return *(uint16_t*)&sram[addr - 0x6000];
+    #ifdef SRAM
+        return *(uint16_t*)&SRAM[addr - 0x6000];
+    #else
+        return 0;
+    #endif
     case 0x8000:
     case 0x9000:
     case 0xA000:   
@@ -343,16 +367,23 @@ __forceinline void cpu_putmemory(uint16_t addr, uint8_t value)
             //joypad_write(1, value);   
         }   
 //       if(addr >= 0x4020){   
-//          exp_rom[addr - 0x6000] = value;   
+//          EROM[addr - 0x6000] = value;   
 //       }    
-        break;   
-    case 0x5000: //Exp Rom
-        exp_rom[addr - 0x5000] = value;
         break;
+           
+    case 0x5000: //Exp Rom
+    #ifdef EROM
+        EROM[addr - 0x5000] = value;
+    #endif
+        break;
+
     case 0x6000:
     case 0x7000:  
-        sram[addr - 0x6000] = value;  
-        break;   
+    #ifdef SRAM
+        SRAM[addr - 0x6000] = value;  
+    #endif
+        break; 
+
     case 0x8000:
     case 0x9000:
     case 0xA000:

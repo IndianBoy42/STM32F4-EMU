@@ -16,13 +16,13 @@ SpriteType  * const sprite = (SpriteType  *)&Spr_Mem.spr_ram[0];
 uint8_t   SpriteHitFlag, PPU_Latch_Flag; 
 int     PPU_scanline;     
 uint16_t  DisplayBuffer[256*240] = {0};
-uint16_t  Buffer_scanline[8 + 256 + 8];    
+static uint16_t  Buffer_scanline[8 + 256 + 8];    
    
 uint8_t PPU_BG_VScrlOrg, PPU_BG_HScrlOrg;   
 //uint8_t PPU_BG_VScrlOrg_Pre, PPU_BG_HScrlOrg_Pre;   
 //uint8_t PPU_BG_NameTableNum;     
 //uint16_t PPU_AddrTemp;   
-const uint16_t NES_Color_Palette[64] ={   
+static const uint16_t NES_Color_Palette[64] ={   
 /*��ɫ������ַ->RGBֵ -> RGB565(16bit)*/   
 /*  0x00 -> 0x75, 0x75, 0x75 */  0xAE73,    
 /*  0x01 -> 0x27, 0x1B, 0x8F */  0xD120,   
@@ -190,7 +190,7 @@ void ppu_spr0_hit_flag(int y_axes)
         SpriteHitFlag = TRUE;   
     }    
 } 
-__forceinline void render_bg_line(int y_axes)   
+static __forceinline void render_bg_line(int y_axes)   
 {   
     int     i,y_scroll, /*x_scroll,*/ dy_axes, dx_axes;   
     int     Buffer_LineCnt, y_TitleLine, x_TitleLine;   
@@ -251,7 +251,7 @@ __forceinline void render_bg_line(int y_axes)
     }   
 }   
 
-__forceinline void render_sprite_pattern(SpriteType *sprptr, const uint8_t *Spr_Patterntable, uint16_t title_addr, uint8_t dy_axes)   
+static __forceinline void render_sprite_pattern(SpriteType *sprptr, const uint8_t *Spr_Patterntable, uint16_t title_addr, uint8_t dy_axes)   
 {   
     int   i, dx_axes;   
     uint8_t Spr_color_num, H_byte, L_byte;   
@@ -298,14 +298,14 @@ __forceinline void render_sprite_pattern(SpriteType *sprptr, const uint8_t *Spr_
     }   
 }   
    
-__forceinline void render_sprite_88(SpriteType *sprptr, int dy_axes)   
+static __forceinline void render_sprite_88(SpriteType *sprptr, int dy_axes)   
 {   
     const uint8_t  *Spr_Patterntable;     
     Spr_Patterntable = (PPU_Reg.R0 & SPR_PATTERN_ADDR)  ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;   
     render_sprite_pattern(sprptr, Spr_Patterntable, sprptr -> t_num << 4, (uint8_t)dy_axes);   
 }   
    
-__forceinline void render_sprite_16(SpriteType *sprptr, int dy_axes)   
+static __forceinline void render_sprite_16(SpriteType *sprptr, int dy_axes)   
 {   
     if(sprptr -> t_num & 0x01){                                         
         if(dy_axes < 8) 
@@ -380,6 +380,12 @@ void ppu_render_line(int y_axes)
         }   
     }   
     // tft_print_nes_line(y_axes, Buffer_scanline);  
+    // uint64_t* ptr = (void*)&Buffer_scanline[8];
+    // uint64_t* end = (void*)&Buffer_scanline[262];
+    // uint64_t* out = (void*)&DisplayBuffer[y_axes*256];
+    // while (ptr != end) {
+        // *out++ = *ptr++;
+    // }
     for (int i=0; i<256; i++) { \
         DisplayBuffer[(y_axes)*256 + i] = Buffer_scanline[8+i]; \
     } 

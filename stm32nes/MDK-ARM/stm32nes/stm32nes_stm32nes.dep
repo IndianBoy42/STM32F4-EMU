@@ -51,7 +51,7 @@ I (../Inc/lcd_font.h)(0x5CB4955E)
 I (../Inc/lcd_init.h)(0x5C713A35)
 I (../Inc/strhelper.h)(0x5C912E94)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x599ECD2A)
-F (../Src/main.c)(0x5CBF3BD5)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\main.o --omf_browse stm32nes\main.crf --depend stm32nes\main.d)
+F (../Src/main.c)(0x5CBF6BC0)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\main.o --omf_browse stm32nes\main.crf --depend stm32nes\main.d)
 I (../Inc/main.h)(0x5CB5D15C)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5CB33BB3)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5CB5943C)
@@ -95,7 +95,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-I (../Inc/adc.h)(0x5CBAE189)
+I (../Inc/adc.h)(0x5CBF618F)
 I (../Inc/dac.h)(0x5CB5943A)
 I (../Inc/dma.h)(0x5CB5943B)
 I (../Inc/sdio.h)(0x5CB5943C)
@@ -104,8 +104,8 @@ I (../Inc/tim.h)(0x5CB5943C)
 I (../Inc/usart.h)(0x5CB5943C)
 I (../Inc/gpio.h)(0x5CB5942F)
 I (../Inc/lcd_main.h)(0x5CBF2CED)
-I (../Inc/cpu.h)(0x5CBF4425)
-I (../Inc/nes.h)(0x5CBAD9FE)
+I (../Inc/cpu.h)(0x5CBF5E9E)
+I (../Inc/nes.h)(0x5CBF6BD2)
 F (../Src/gpio.c)(0x5CB5D15C)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\gpio.o --omf_browse stm32nes\gpio.crf --depend stm32nes\gpio.d)
 I (../Inc/gpio.h)(0x5CB5942F)
 I (../Inc/main.h)(0x5CB5D15C)
@@ -152,7 +152,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
 F (../Src/adc.c)(0x5CB5943A)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\adc.o --omf_browse stm32nes\adc.crf --depend stm32nes\adc.d)
-I (../Inc/adc.h)(0x5CBAE189)
+I (../Inc/adc.h)(0x5CBF618F)
 I (../Inc/main.h)(0x5CB5D15C)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5CB33BB3)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5CB5943C)
@@ -376,7 +376,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (../Src/tim.c)(0x5CBF3106)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\tim.o --omf_browse stm32nes\tim.crf --depend stm32nes\tim.d)
+F (../Src/tim.c)(0x5CBF6236)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\tim.o --omf_browse stm32nes\tim.crf --depend stm32nes\tim.d)
 I (../Inc/tim.h)(0x5CB5943C)
 I (../Inc/main.h)(0x5CB5D15C)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5CB33BB3)
@@ -555,8 +555,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-F (..\Src\cpu.c)(0x5CBF442A)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\cpu.o --omf_browse stm32nes\cpu.crf --depend stm32nes\cpu.d)
-I (../Inc/cpu.h)(0x5CBF4425)
+F (..\Src\cpu.c)(0x5CBF69DE)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\cpu.o --omf_browse stm32nes\cpu.crf --depend stm32nes\cpu.d)
+I (../Inc/cpu.h)(0x5CBF5E9E)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
@@ -585,8 +585,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sd.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_sdmmc.h)(0x5CB33BB4)
-I (../Inc/nes.h)(0x5CBAD9FE)
-I (..\Src\joypad.h)(0x5CBF358F)
+I (../Inc/nes.h)(0x5CBF6BD2)
+I (..\Src\joypad.h)(0x5CBF69E4)
 I (../Inc/gpio.h)(0x5CB5942F)
 I (../Inc/main.h)(0x5CB5D15C)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h)(0x5CB33BB4)
@@ -603,13 +603,16 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
-I (../Inc/adc.h)(0x5CBAE189)
+I (../Inc/adc.h)(0x5CBF618F)
 I (../Inc/ppu.h)(0x5CBF3175)
-I (..\Src\mem.h)(0x5CBF406A)
-I (../Inc/instr.h)(0x5CBF3CA1)
+I (..\Src\mem.h)(0x5CBF6844)
+I (../Inc/cpu_optable.h)(0x5CBF606A)
+I (..\Src\cpu_adrmode.h)(0x5CBF5961)
+I (..\Src\cpu_instructions.h)(0x5CBF5D59)
+I (..\Src\cpu_zpinstr.h)(0x5CBF5E8C)
 I (../Inc/lcd_main.h)(0x5CBF2CED)
 I (../Inc/spi.h)(0x5CB5943C)
-F (..\Src\ppu.c)(0x5CBF3AC2)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\ppu.o --omf_browse stm32nes\ppu.crf --depend stm32nes\ppu.d)
+F (..\Src\ppu.c)(0x5CBF6702)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\ppu.o --omf_browse stm32nes\ppu.crf --depend stm32nes\ppu.d)
 I (../Inc/lcd_main.h)(0x5CBF2CED)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
@@ -657,9 +660,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
 I (../Inc/gpio.h)(0x5CB5942F)
 I (../Inc/spi.h)(0x5CB5943C)
 I (../Inc/ppu.h)(0x5CBF3175)
-F (..\Src\nes.c)(0x5CBF4317)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\nes.o --omf_browse stm32nes\nes.crf --depend stm32nes\nes.d)
-I (../Inc/nes.h)(0x5CBAD9FE)
-I (../Inc/cpu.h)(0x5CBF4425)
+F (..\Src\nes.c)(0x5CBF6B88)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\nes.o --omf_browse stm32nes\nes.crf --depend stm32nes\nes.d)
+I (../Inc/nes.h)(0x5CBF6BD2)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h)(0x5CB33BA5)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x5CB33BB3)
@@ -688,8 +690,9 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_sd.h)(0x5CB33BB4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_sdmmc.h)(0x5CB33BB4)
+I (../Inc/cpu.h)(0x5CBF5E9E)
 I (../Inc/ppu.h)(0x5CBF3175)
-I (../Inc/rom.h)(0x5CBF45ED)
+I (../Inc/rom.h)(0x5CBF6791)
 F (../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_gpio.c)(0x5CB33BB4)(--c99 -c --cpu Cortex-M4.fp -g -O3 -Otime --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy-I.\RTE\_stm32nes-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-IC:\Users\FieryDragon\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F407xx -DUSE_FULL_LL_DRIVER -DSTM32F407xx -DUSE_HAL_DRIVER-o stm32nes\stm32f4xx_ll_gpio.o --omf_browse stm32nes\stm32f4xx_ll_gpio.crf --depend stm32nes\stm32f4xx_ll_gpio.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h)(0x5CB33BB4)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x5CB33BA5)
