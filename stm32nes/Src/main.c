@@ -134,7 +134,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
   joystick_init();
-  nes_init();
   TIM6->CR1 = TIM_CR1_CEN;
   /* USER CODE END 2 */
 
@@ -187,11 +186,46 @@ int main(void)
       }
 		}
 #else
-    if (TIM6->CNT > 0/*16666*/) {
-      nes_frame();
-      TIM6->CNT = 0;
-      gpio_toggle(LED1);
+    static u8 GAME_START = 0;
+    static u8 GAME_SELECT = 0;
+    #define NUM_OF_GAMES 3
+    while (GAME_START) {
+      if (TIM6->CNT > 0/*16666*/) {
+        nes_frame();
+        TIM6->CNT = 0;
+        gpio_toggle(LED1);
+      }
     }
+    tft_clear();
+    tft_printc()
+    tft_printc(0, 0, "[ELEC3300 STM32 NES Emulator]");
+    tft_printc(0, 1, "Group 24 - Anshuman & Aaron");
+    tft_printi(0, 35, get_ticks()%1000);
+    tft_printc(0, 4, "Select Game:");
+    tft_prints(0, 5, "%s Super Mario Bros]", (GAME_SELECT == 0) ? ("[>") : ("-"));
+    tft_prints(0, 6, "%s Battle City]"     , (GAME_SELECT == 1) ? ("[>") : ("-"));
+    tft_prints(0, 7, "%s Mappy]"           , (GAME_SELECT == 2) ? ("[>") : ("-"));
+    // tft_prints(0, 8, "%s Super Mario Bros]", (GAME_SELECT == 3) ? ("[>") : ("-"));
+
+    static uint16_t btn_state = 0;
+    #define btn_pressed(X) (BUTTONS & X)
+    #define btn_clicked(X) (BUTTONS & X) && !(btn_state & X)
+
+    if (btn_clicked(BTN_X3)) {
+      GAME_SELECT++;
+      GAME_SELECT %= 3;
+    }
+    if (btn_clicked(BTN_X4)) {
+      GAME_SELECT--;
+      if (GAME_SELECT<0) GAME_SELECT += 3;
+    }
+    if (btn_clicked(BTN_X2)) {
+      GAME_START = 1;
+      nes_init(GAME_SELECT);
+    }
+    btn_state = BUTTONS;
+
+    tft_update_dma();
 #endif
     /* USER CODE END WHILE */
 
