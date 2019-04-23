@@ -1,20 +1,3 @@
-enum {//ROMS
-	TEST_ROM,
-	SUPER_MARIO,
-};
-
-#pragma anon_unions
-typedef struct {
-	uint8_t Constant_NES[4];
-	uint8_t romnum, vromnum, romfeature, rommappernum;
-	uint8_t dontcare[8];
-} NesRomHeader;
-
-typedef struct {
-	NesRomHeader;
-	uint8_t data[40960];
-} NesRom;
-
 #define Constant_NES_Expected 0x4E45531A
 
 #define _USE_ROM_MARIO_
@@ -5667,4 +5650,7 @@ static const NesRom MappyRomFile = {78,69,83,26,1,1,1,0,0,0,0,0,0,0,0,0,
 86,69,68,32,32,32,32,32,32,32,32,32,32,32,32,32};
 #endif
 
-static const NesRom* romFiles[3] = {MarioRomFile, TankRomFile, MappyRomFile};
+static const NesRom* romFiles[3] = {&MarioRomFile, &TankRomFile, &MappyRomFile};
+const NesRom* rom_select(int sel) {
+    return romFiles[sel];
+}

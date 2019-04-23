@@ -188,47 +188,66 @@ int main(void)
       }
 		}
 #else
-    static u8 GAME_START = 0;
-    static u8 GAME_SELECT = 0;
+    static int GAME_SELECT = 0;
     #define NUM_OF_GAMES 3
-    while (GAME_START) {
-      if (TIM6->SR & TIM_SR_UIF) {
-        TIM6->SR = 0;
-        nes_frame(0);
-        nes_frame(1);
-        gpio_toggle(LED1);
-      }
-    }
+    
     tft_clear();
-    tft_printc()
-    tft_printc(0, 0, "[ELEC3300 STM32 NES Emulator]");
-    tft_printc(0, 1, "Group 24 - Anshuman & Aaron");
-    tft_printi(0, 35, get_ticks()%1000);
-    tft_printc(0, 4, "Select Game:");
-    tft_prints(0, 5, "%s Super Mario Bros]", (GAME_SELECT == 0) ? ("[>") : ("-"));
-    tft_prints(0, 6, "%s Battle City]"     , (GAME_SELECT == 1) ? ("[>") : ("-"));
-    tft_prints(0, 7, "%s Mappy]"           , (GAME_SELECT == 2) ? ("[>") : ("-"));
-    // tft_prints(0, 8, "%s Super Mario Bros]", (GAME_SELECT == 3) ? ("[>") : ("-"));
+    tft_printc(4, 0, "ELEC3300(24) - Anshuman & Aaron");
+    tft_printc(6, 12, "SELECT");
+    tft_prints(13, 12, "%s Super Mario Bros]", (GAME_SELECT == 0) ? ("[>") : ("-"));
+    tft_prints(13, 13, "%s Battle City]"     , (GAME_SELECT == 1) ? ("[>") : ("-"));
+    tft_prints(13, 14, "%s Mappy]"           , (GAME_SELECT == 2) ? ("[>") : ("-"));
+    
+    tft_printc(0, 5, " {/\\} \n{<}  {>}\n {\\/} ");
+    // tft_printc(0, 5, " /\\ \n/  \\\n\\  /\n \\/ ");
+    tft_printc(37, 5, " {A} \n{B} {A}\n {B} ");
+    tft_prints(0,  14, "{SEL}");
+    tft_prints(36, 14, "{STRT}");
+
+    tft_printc(5, 1, " __    __  ________   ______   \n\
+/  \\  /  |/        | /      \\ \n\
+[$$]  \\ [$$] |[$$$$$$$$]/ /[$$$$$$]  |\n\
+[$$$]  \\[$$] |[$$] |__    [$$] \\__[$$]/ \n\
+[$$$$]  [$$] |[$$]    |   [$$]      \\ \n\
+[$$] [$$] [$$] |[$$$$$]/     [$$$$$$]  |\n\
+[$$] |[$$$$] |[$$] |_____ /  \\__[$$] |\n\
+[$$] | [$$$] |[$$]       |[$$]    [$$]/ \n\
+[$$]/   [$$]/ [$$$$$$$$]/  [$$$$$$]/  ");
+
+    tft_update();
+
+    static uint32_t last_blink = 0;
+    if ((get_ticks() - last_blink) > 100) {
+      gpio_toggle(LED2);
+      last_blink = get_ticks();
+    }
 
     static uint16_t btn_state = 0;
-    #define btn_pressed(X) (BUTTONS & X)
-    #define btn_clicked(X) (BUTTONS & X) && !(btn_state & X)
+    #define btn_pressed(X) (BUTTONS & (X))
+    #define btn_clicked(X) (BUTTONS & (X)) && !(btn_state & (X))
 
-    if (btn_clicked(BTN_X3)) {
+    if (btn_clicked(BTN_X2|BTN_D1|BTN_D2|BTN_X1)) {
       GAME_SELECT++;
       GAME_SELECT %= 3;
     }
-    if (btn_clicked(BTN_X4)) {
+    if (btn_clicked(BTN_X3|BTN_U1|BTN_U2)) {
       GAME_SELECT--;
       if (GAME_SELECT<0) GAME_SELECT += 3;
     }
-    if (btn_clicked(BTN_X2)) {
-      GAME_START = 1;
-      nes_init(GAME_SELECT);
+    if (btn_clicked(BTN_X4)) {
+      nes_init(rom_select(GAME_SELECT));
+
+      while (1) {
+        if (TIM6->SR & TIM_SR_UIF) {
+          TIM6->SR = 0;
+          nes_frame(0);
+          nes_frame(1);
+          gpio_toggle(LED1);
+        }
+      }
     }
     btn_state = BUTTONS;
 
-    tft_update_dma();
 #endif
     /* USER CODE END WHILE */
 

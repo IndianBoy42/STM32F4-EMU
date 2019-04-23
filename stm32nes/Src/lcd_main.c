@@ -455,6 +455,7 @@ void tft_printc(uint8_t x, uint8_t y, char * fp) {
 			case '\r':
 			case '\n':
 			j++;
+			i = x;
 			break;
 			case '[':
 			case ']':
@@ -464,9 +465,9 @@ void tft_printc(uint8_t x, uint8_t y, char * fp) {
 			case '}':
 			is_highlighted = (*fp == '{');
 			break;
-			case '|':
-			is_underlined = !is_underlined;
-			break;
+			// case '|':
+			// is_underlined = !is_underlined;
+			// break;
 			default:
 			text_buf[cur_screen][i][j] = ((*fp) | (is_underlined ? 0x80 : 0x00));
 			text_color_buf[cur_screen][i][j] = is_special     ? curr_text_color_sp   : curr_text_color;

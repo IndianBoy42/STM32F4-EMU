@@ -23,7 +23,7 @@ static __forceinline uint8_t joypad_SEL(uint8_t n) {
 	return (BUTTONS & (BTN_X1)) != 0;
 }
 static __forceinline uint8_t joypad_START(uint8_t n) {
-	return (BUTTONS & (BTN_X2)) != 0;
+	return (BUTTONS & (BTN_X4)) != 0;
 }
 
 typedef void (*JoypadBtnFunc)(void);
