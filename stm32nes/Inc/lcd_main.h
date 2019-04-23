@@ -167,5 +167,6 @@ void tft_pxbuf_update(uint16_t* tft_px_buffer); //Update pixel buffer
 void tft_pxbuf_write(uint16_t* tft_px_buffer); //Always write text to px buffer
 void tft_push_pxbuf(void* buf, uint32_t x, uint32_t y, uint32_t w, uint32_t h); //Push the pixel buffer to the display with DMA
 void tft_circ_push_pxbuf(void* buf, uint32_t x, uint32_t y, uint32_t w, uint32_t h); //Set DMA in circular mode, call once
+void tft_double_push_pxbuf(void* buf, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 
 #endif		/* __LCD_MAIN_H */

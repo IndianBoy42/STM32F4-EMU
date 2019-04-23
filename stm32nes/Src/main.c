@@ -135,6 +135,7 @@ int main(void)
   tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
   joystick_init();
   nes_init();
+  TIM6->CR1 = TIM_CR1_CEN;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -186,8 +187,11 @@ int main(void)
       }
 		}
 #else
-    nes_frame();
-    gpio_toggle(LED1);
+    if (TIM6->CNT > 0/*16666*/) {
+      nes_frame();
+      TIM6->CNT = 0;
+      gpio_toggle(LED1);
+    }
 #endif
     /* USER CODE END WHILE */
 

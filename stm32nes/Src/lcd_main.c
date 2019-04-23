@@ -36,6 +36,10 @@ __forceinline void dma_circular_mode(DMA_Stream_TypeDef* dma, uint8_t enable) {
 	if (enable) dma->CR |= DMA_SxCR_CIRC;
 	else        dma->CR &= ~DMA_SxCR_CIRC;
 }
+__forceinline void dma_doublebuf_mode(DMA_Stream_TypeDef* dma, uint8_t enable) {
+	if (enable) dma->CR |= DMA_SxCR_DBM;
+	else        dma->CR &= ~DMA_SxCR_DBM;
+}
 #define DMA_FLAG_RESERVED_MASK ((uint32_t)0x0F7D0F7D)
 #define DMA_FLAG_FE DMA_LISR_FEIF0
 #define DMA_FLAG_DM DMA_LISR_DMEIF0
@@ -155,13 +159,13 @@ __forceinline void dma_clear_flag(DMA_Stream_TypeDef* dma, uint32_t flag) {
 void tft_spi_init(void) {
 	LL_SPI_EnableDMAReq_TX(TFT_SPI);
 	TFT_DMA->PAR = (uint32_t) &TFT_SPI->DR;
-	TFT_DMA->CR |= DMA_SxCR_DIR_0;
+	// TFT_DMA->CR |= DMA_SxCR_DIR_0;
 	LL_SPI_Enable(TFT_SPI);
 
 	gpio_set(TFT_DC);
 	gpio_reset(TFT_LED);
 	
-	dma_transfer(TFT_DMA, text_color_buf, 16);
+	dma_transfer(TFT_DMA, (void*)0x20000000, 16);
 }
 
 /**
@@ -598,9 +602,7 @@ void tft_dma_tx(void* ptr, uint16_t size) {
 void tft_dma_wait(void) {
 	// while (dma_flag_status(TFT_DMA,DMA_FLAG_TC) == 0);
 	// dma_clear_flag(TFT_DMA,DMA_FLAG_TC);
-	while (LL_DMA_IsActiveFlag_TC5(DMA2)==0) {
-		gpio_toggle(LED2);
-	}
+	while (LL_DMA_IsActiveFlag_TC5(DMA2)==0);
 	LL_DMA_ClearFlag_TC5(DMA2);
 }
 
@@ -611,6 +613,19 @@ void tft_circ_push_pxbuf(void* buf, uint32_t x, uint32_t y, uint32_t w, uint32_t
 	
 	dma_circular_mode(TFT_DMA, 1);
 	dma_transfer(TFT_DMA, buf, w*h*2);
+}
+void tft_double_push_pxbuf(void* buf, uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
+	tft_dma_wait();
+	// TFT_DMA->CR &= (uint32_t)~DMA_SxCR_EN;
+
+	tft_set_region(x, y, w-1, h-1);
+
+	uint32_t ptr = (uint32_t)buf;
+	TFT_DMA->M0AR = ptr;
+	TFT_DMA->M1AR = ptr+(w*h);  
+	TFT_DMA->NDTR = w*h;
+	dma_doublebuf_mode(TFT_DMA, 1);
+	TFT_DMA->CR |= (uint32_t)DMA_SxCR_EN;
 }
 void tft_push_pxbuf(void* buf, uint32_t x, uint32_t y, uint32_t w, uint32_t h) {
 	tft_dma_wait();

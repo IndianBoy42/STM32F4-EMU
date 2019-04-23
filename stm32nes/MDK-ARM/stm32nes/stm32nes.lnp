@@ -42,7 +42,7 @@
 "stm32nes\stm32f4xx_hal_cortex.o"
 "stm32nes\stm32f4xx_hal.o"
 "stm32nes\system_stm32f4xx_1.o"
---library_type=microlib --strict --scatter "stm32nes\stm32nes.sct"
+--strict --scatter "stm32nes\stm32nes.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "stm32nes.map" -o stm32nes\stm32nes.axf

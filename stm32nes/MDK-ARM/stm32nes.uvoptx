@@ -152,25 +152,41 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>300</LineNumber>
+          <LineNumber>730</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134231264</Address>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\Src\lcd_main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>189</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134278250</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Src\mem.h</Filename>
+          <Filename>../Src/main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\stm32nes\../Src/mem.h\300</Expression>
+          <Expression>\\stm32nes\../Src/main.c\189</Expression>
         </Bp>
         <Bp>
-          <Number>1</Number>
+          <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>730</LineNumber>
+          <LineNumber>632</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134285560</Address>
+          <Address>134282414</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -179,7 +195,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Src\lcd_main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\stm32nes\../Src/lcd_main.c\730</Expression>
+          <Expression>\\stm32nes\../Src/lcd_main.c\632</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -286,6 +302,10 @@
         <Entry>
           <Name>System Viewer\GPIOE</Name>
           <WinId>35903</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\SPI1</Name>
+          <WinId>35902</WinId>
         </Entry>
       </SystemViewers>
       <DebugDescription>
@@ -472,7 +492,7 @@
       <GroupNumber>2</GroupNumber>
       <FileNumber>14</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\Src\cpu.c</PathWithFileName>

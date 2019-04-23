@@ -256,11 +256,11 @@
 	X(7, inc,    absx,      0xFE)                  \
 	X(2, nop,    implied,   0xFF)   
 
-#define OPCODE_ENUM_NAME(A, B, C, D) CPU_OP_ ## B ## _ ## C ## _ ## D
-#define OPCODE_ENUM(A, B, C, D) OPCODE_ENUM_NAME(A, B, C, D),
-enum {
-	OPCODE_TABLE(OPCODE_ENUM)
-};
+// #define OPCODE_ENUM_NAME(A, B, C, D) CPU_OP_ ## B ## _ ## C ## _ ## D
+// #define OPCODE_ENUM(A, B, C, D) OPCODE_ENUM_NAME(A, B, C, D),
+// enum {
+// 	OPCODE_TABLE(OPCODE_ENUM)
+// };
 
 typedef struct{   
 	unsigned short int  ticks;   
@@ -272,4 +272,9 @@ typedef struct{
 const OPCODE opcodetable[] = {OPCODE_TABLE(OPCODE_ARR)};
 const char* opcode_names[] = {OPCODE_TABLE(OPCODE_STR)};
 
-#define OPCODE_SWITCH(A, B, C, D) case OPCODE_ENUM_NAME(A, B, C, D): cpu_ ## B(); cpu_clockticks += A; break;
+#define OPCODE_SWITCH(A, B, C, D) case D: cpu_ ## B(); cpu_clockticks += A; break;
+__forceinline void exec_instr(uint8_t op) {
+	switch (op) {
+		OPCODE_TABLE(OPCODE_SWITCH)
+	}
+}

@@ -2,7 +2,6 @@
 #include "nes.h"
 #include "joypad.h"
 #include "ppu.h" 
-#include "instr.h"
 #include "mem.h"
 //flags = NVRBDIZC   
 #define C_FLAG      0x01        // 1: Carry   
@@ -29,21 +28,13 @@ static uint16_t PC;
 /* internal registers */   
 uint8_t opcode;   
 int  cpu_clockticks;   
+#include "instr.h"
 
 /* help variables */   
 uint16_t savepc;   
 uint8_t value;   
 int  sum, saveflags;   
 uint16_t help;   
-
-/******************************************************************************  
- ******************************************************************************  
- *  
- *                              Ѱַģʽ  
- *  
- ******************************************************************************  
- ******************************************************************************  
- */   
 
 /* Adressing modes */   
 /* Implied */   
@@ -61,8 +52,9 @@ void cpu_immediate(void)
 void cpu_abs(void)   
 {   
 //      savepc = gameImage[PC] + (gameImage[PC + 1] << 8);   
-  	savepc  = cpu_getmemory(PC);   
+  	// savepc  = cpu_getmemory(PC); \
   	savepc += (cpu_getmemory(PC+1) << 8);   
+  	savepc = cpu_getmemory16(PC);
 
   	PC++;   
   	PC++;   
@@ -85,10 +77,12 @@ void cpu_indirect(void)
 {   
 //      help = gameImage[PC] + (gameImage[PC + 1] << 8);   
 //      savepc = gameImage[help] + (gameImage[help + 1] << 8);   
-  	help    =  cpu_getmemory(PC);   
+  	// help    =  cpu_getmemory(PC);   \
   	help   += (cpu_getmemory(PC+1) << 8);   
-  	savepc  =  cpu_getmemory(help);   
+  	// savepc  =  cpu_getmemory(help);   \
   	savepc += (cpu_getmemory(help+1) << 8);   
+  	help = cpu_getmemory16(PC);
+  	savepc = cpu_getmemory16(help);
 
   	PC++;   
   	PC++;   
@@ -98,8 +92,9 @@ void cpu_indirect(void)
 void cpu_absx(void)   
 {   
 //      savepc = gameImage[PC] + (gameImage[PC + 1] << 8);   
-  	savepc  = cpu_getmemory(PC);   
-  	savepc += (cpu_getmemory(PC+1) << 8);   
+  	// savepc  = cpu_getmemory(PC);   \
+  	savepc += (cpu_getmemory(PC+1) << 8);  
+  	savepc = cpu_getmemory16(PC); 
 
   	PC++;   
   	PC++;   
@@ -113,15 +108,16 @@ void cpu_absx(void)
 void cpu_absy(void)   
 {   
 //      savepc = gameImage[PC] + (gameImage[PC + 1] << 8);   
-savepc  = cpu_getmemory(PC);   
-savepc += (cpu_getmemory(PC+1) << 8);   
+	// savepc  = cpu_getmemory(PC);   \
+	savepc += (cpu_getmemory(PC+1) << 8);  
+	savepc =  cpu_getmemory16(PC);
 
-PC++;   
-PC++;   
+	PC++;   
+	PC++;   
 
-if (opcodetable[opcode].ticks==4)   
-	if ((savepc>>8) != ((savepc+Y)>>8))   
-		cpu_clockticks++;   
+	if (opcodetable[opcode].ticks==4)   
+		if ((savepc>>8) != ((savepc+Y)>>8))   
+			cpu_clockticks++;   
 	savepc += Y;   
 }   
 
@@ -160,21 +156,23 @@ void cpu_indx(void)
 //      savepc = gameImage[value] + (gameImage[value+1] << 8);   
 	value = cpu_getmemory(PC) + Y;   
 	PC++;      
-	savepc  = cpu_getmemory(value);     
-	savepc += cpu_getmemory(value + 1) << 8;    
+	// savepc  = cpu_getmemory(value);     \
+	savepc += cpu_getmemory(value + 1) << 8;
+	savepc = cpu_getmemory16(value);    
 }   
 
 /* (ZP),Y */   
 void cpu_indy(void)   
 {   
-//  value = gameImage[PC++];   
-//  savepc = gameImage[value] + (gameImage[value+1] << 8);   
-value = cpu_getmemory(PC);   
-PC++;   
-savepc  = cpu_getmemory(value);     
-savepc += cpu_getmemory(value + 1) << 8;     
+	//  value = gameImage[PC++];   
+	//  savepc = gameImage[value] + (gameImage[value+1] << 8);   
+	value = cpu_getmemory(PC);   
+	PC++;   
+	// savepc  = cpu_getmemory(value);     \
+	savepc += cpu_getmemory(value + 1) << 8; 
+	savepc = cpu_getmemory16(value);       
 
-if (opcodetable[opcode].ticks==5)   
+	if (opcodetable[opcode].ticks==5)   
 	if ((savepc>>8) != ((savepc+Y)>>8))   
 		cpu_clockticks++;   
 	savepc += Y;   
@@ -185,10 +183,12 @@ void cpu_indabsx(void)
 {   
 //      help = gameImage[PC] + (gameImage[PC + 1] << 8) + X;   
 //      savepc = gameImage[help] + (gameImage[help + 1] << 8);   
-	help = cpu_getmemory(PC);   
+	// help = cpu_getmemory(PC);   \
 	help = (cpu_getmemory(PC+1) << 8) +X;   
-	savepc  = cpu_getmemory(help);     
+	// savepc  = cpu_getmemory(help);  \
 	savepc += cpu_getmemory(help + 1) << 8;   
+	help = cpu_getmemory16(PC);
+	savepc = cpu_getmemory16(help);
 }   
 
 /* (ZP) */   
@@ -198,20 +198,13 @@ void cpu_indzp(void)
 //      savepc = gameImage[value] + (gameImage[value + 1] << 8);   
 	value = cpu_getmemory(PC);   
 	PC++;   
-	savepc  = cpu_getmemory(value);     
-	savepc += cpu_getmemory(value + 1) << 8;   
+	// savepc  = cpu_getmemory(value);     \
+	savepc += cpu_getmemory(value + 1) << 8;  
+	savepc = cpu_getmemory16(value);      
 }   
 
-/******************************************************************************  
-******************************************************************************  
-*  
-*                              ָ��  
-*  
-******************************************************************************  
-******************************************************************************  
-*/   
 /* Instructions */   
-void cpu_adc(void)   
+static inline void cpu_adc(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //      value = gameImage[savepc];   
@@ -242,7 +235,7 @@ void cpu_adc(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_and(void)   
+static inline void cpu_and(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //      value = gameImage[savepc];   
@@ -253,7 +246,7 @@ void cpu_and(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_asl(void)   
+static inline void cpu_asl(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	value = cpu_getmemory(savepc);   
@@ -264,7 +257,7 @@ void cpu_asl(void)
 	if (value & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_asla(void)   
+static inline void cpu_asla(void)   
 {   
 	P= (P & 0xfe) | ((A >>7) & 0x01);   
 	A = A << 1;   
@@ -272,7 +265,7 @@ void cpu_asla(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_bcc(void)   
+static inline void cpu_bcc(void)   
 {   
 	if ((P & 0x01)==0)   
 	{   
@@ -286,7 +279,7 @@ void cpu_bcc(void)
 	}   
 }   
 
-void cpu_bcs(void)   
+static inline void cpu_bcs(void)   
 {   
 	if (P & 0x01){   
 		opcodetable[opcode].adrmode();   
@@ -299,7 +292,7 @@ void cpu_bcs(void)
 	}   
 }   
 
-void cpu_beq(void)   
+static inline void cpu_beq(void)   
 {   
 	if (P & 0x02){   
 		opcodetable[opcode].adrmode();   
@@ -312,7 +305,7 @@ void cpu_beq(void)
 	}   
 }   
 
-void cpu_bit(void)   
+static inline void cpu_bit(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //  value=gameImage[savepc];   
@@ -326,7 +319,7 @@ void cpu_bit(void)
 	P = (P & 0x3f) | (value & 0xc0);   
 }   
 
-void cpu_bmi(void)   
+static inline void cpu_bmi(void)   
 {   
 	if (P & 0x80){   
 		opcodetable[opcode].adrmode();   
@@ -339,7 +332,7 @@ void cpu_bmi(void)
 	}   
 }   
 
-void cpu_bne(void)   
+static inline void cpu_bne(void)   
 {   
 	if ((P & 0x02)==0){   
 		opcodetable[opcode].adrmode();   
@@ -352,7 +345,7 @@ void cpu_bne(void)
 	}   
 }   
 
-void cpu_bpl(void)   
+static inline void cpu_bpl(void)   
 {   
 	if ((P & 0x80)==0)  {   
 		opcodetable[opcode].adrmode();   
@@ -365,7 +358,7 @@ void cpu_bpl(void)
 	}   
 }   
 
-void cpu_brk(void)   
+static inline void cpu_brk(void)   
 {   
 	PC++;   
 	cpu_putmemory(0x0100+S--,(uint8_t)(PC>>8));   
@@ -376,7 +369,7 @@ void cpu_brk(void)
 	PC = cpu_getmemory(0xFFFE) + (cpu_getmemory(0xFFFF) << 8);   
 }   
 
-void cpu_bvc(void)   
+static inline void cpu_bvc(void)   
 {   
 	if ((P & 0x40)==0){   
 		opcodetable[opcode].adrmode();   
@@ -389,7 +382,7 @@ void cpu_bvc(void)
 	}   
 }   
 
-void cpu_bvs(void)   
+static inline void cpu_bvs(void)   
 {   
 	if (P & 0x40){   
 		opcodetable[opcode].adrmode();   
@@ -402,27 +395,27 @@ void cpu_bvs(void)
 	}   
 }   
 
-void cpu_clc(void)   
+static inline void cpu_clc(void)   
 {   
 	P &= 0xfe;   
 }   
 
-void cpu_cld(void)   
+static inline void cpu_cld(void)   
 {   
 	P &= 0xf7;   
 }   
 
-void cpu_cli(void)   
+static inline void cpu_cli(void)   
 {   
 	P &= 0xfb;   
 }   
 
-void cpu_clv(void)   
+static inline void cpu_clv(void)   
 {   
 	P &= 0xbf;   
 }   
 
-void cpu_cmp(void)   
+static inline void cpu_cmp(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	value = cpu_getmemory(savepc);   
@@ -432,7 +425,7 @@ void cpu_cmp(void)
 	if (value & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_cpx(void)   
+static inline void cpu_cpx(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	value = cpu_getmemory(savepc);   
@@ -442,7 +435,7 @@ void cpu_cpx(void)
 	if (value & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_cpy(void)   
+static inline void cpu_cpy(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	value = cpu_getmemory(savepc);   
@@ -452,7 +445,7 @@ void cpu_cpy(void)
 	if (value & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_dec(void)   
+static inline void cpu_dec(void)   
 {   
 	uint8_t temp;    
 
@@ -467,21 +460,21 @@ void cpu_dec(void)
 	if (value & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_dex(void)   
+static inline void cpu_dex(void)   
 {   
 	X--;   
 	if (X) P &= 0xfd; else P |= 0x02;   
 	if (X & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_dey(void)   
+static inline void cpu_dey(void)   
 {   
 	Y--;   
 	if (Y) P &= 0xfd; else P |= 0x02;   
 	if (Y & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_eor(void)   
+static inline void cpu_eor(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //  A ^= gameImage[savepc];   
@@ -490,7 +483,7 @@ void cpu_eor(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_inc(void)   
+static inline void cpu_inc(void)   
 {   
 	uint8_t temp;     
 
@@ -505,27 +498,27 @@ void cpu_inc(void)
 	if (value & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_inx(void)   
+static inline void cpu_inx(void)   
 {   
 	X++;   
 	if (X) P &= 0xfd; else P |= 0x02;   
 	if (X & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_iny(void)   
+static inline void cpu_iny(void)   
 {   
 	Y++;   
 	if (Y) P &= 0xfd; else P |= 0x02;   
 	if (Y & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_jmp(void)   
+static inline void cpu_jmp(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	PC=savepc;   
 }   
 
-void cpu_jsr(void)   
+static inline void cpu_jsr(void)   
 {   
 	PC++;   
 	cpu_putmemory(0x0100+S--,(uint8_t)(PC >> 8));   
@@ -535,7 +528,7 @@ void cpu_jsr(void)
 	PC=savepc;   
 }   
 
-void cpu_lda(void)   
+static inline void cpu_lda(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //  A=gameImage[savepc];   
@@ -546,7 +539,7 @@ void cpu_lda(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_ldx(void)   
+static inline void cpu_ldx(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //  X=gameImage[savepc];   
@@ -555,7 +548,7 @@ void cpu_ldx(void)
 	if (X & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_ldy(void)   
+static inline void cpu_ldy(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //      Y=gameImage[savepc];   
@@ -564,7 +557,7 @@ void cpu_ldy(void)
 	if (Y & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_lsr(void)   
+static inline void cpu_lsr(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //      value=gameImage[savepc];   
@@ -586,7 +579,7 @@ void cpu_lsr(void)
 		P &= 0x7f;   
 }   
 
-void cpu_lsra(void)   
+static inline void cpu_lsra(void)   
 {   
 	P= (P & 0xfe) | (A & 0x01);   
 	A = A >>1;   
@@ -594,11 +587,11 @@ void cpu_lsra(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_nop(void)   
+static inline void cpu_nop(void)   
 {   
 }   
 
-void cpu_ora(void)   
+static inline void cpu_ora(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //      A |= gameImage[savepc];   
@@ -608,19 +601,19 @@ void cpu_ora(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_pha(void)   
+static inline void cpu_pha(void)   
 {   
 //      gameImage[0x100+S--] = A;   
 	cpu_putmemory(0x100 + S-- , A);   
 }   
 
-void cpu_php(void)   
+static inline void cpu_php(void)   
 {   
 //      gameImage[0x100+S--] = P;   
 	cpu_putmemory(0x100 + S--, P);   
 }   
 
-void cpu_pla(void)   
+static inline void cpu_pla(void)   
 {   
 //      A=gameImage[++S+0x100];   
 	A = cpu_getmemory(++S + 0x100);   
@@ -628,13 +621,13 @@ void cpu_pla(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_plp(void)   
+static inline void cpu_plp(void)   
 {   
 //      P=gameImage[++S+0x100] | 0x20;   
 	P = cpu_getmemory(++S + 0x100) | 0x20;   
 }   
 
-void cpu_rol(void)   
+static inline void cpu_rol(void)   
 {   
 	saveflags=(P & 0x01);   
 	opcodetable[opcode].adrmode();   
@@ -647,7 +640,7 @@ void cpu_rol(void)
 	if (value & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_rola(void)   
+static inline void cpu_rola(void)   
 {   
 	saveflags=(P & 0x01);   
 	P= (P & 0xfe) | ((A >>7) & 0x01);   
@@ -657,7 +650,7 @@ void cpu_rola(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_ror(void)   
+static inline void cpu_ror(void)   
 {   
 	saveflags=(P & 0x01);   
 	opcodetable[opcode].adrmode();   
@@ -672,7 +665,7 @@ void cpu_ror(void)
 	if (value & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_rora(void)   
+static inline void cpu_rora(void)   
 {   
 	saveflags=(P & 0x01);   
 	P= (P & 0xfe) | (A & 0x01);   
@@ -682,7 +675,7 @@ void cpu_rora(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_rti(void)   
+static inline void cpu_rti(void)   
 {   
 //      P=gameImage[++S+0x100] | 0x20;   
 //      PC=gameImage[++S+0x100];   
@@ -693,7 +686,7 @@ void cpu_rti(void)
 	PC |= (cpu_getmemory(++S + 0x100) << 8);   
 }   
 
-void cpu_rts(void)   
+static inline void cpu_rts(void)   
 {   
 //      PC=gameImage[++S+0x100];   
 //      PC |= (gameImage[++S+0x100] << 8);   
@@ -703,7 +696,7 @@ void cpu_rts(void)
 	PC++;   
 }   
 
-void cpu_sbc(void)   
+static inline void cpu_sbc(void)   
 {   
 	opcodetable[opcode].adrmode();   
 //      value = gameImage[savepc] ^ 0xff;   
@@ -735,106 +728,106 @@ void cpu_sbc(void)
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_sec(void)   
+static inline void cpu_sec(void)   
 {   
 	P |= 0x01;   
 }   
 
-void cpu_sed(void)   
+static inline void cpu_sed(void)   
 {   
 	P |= 0x08;   
 }   
 
-void cpu_sei(void)   
+static inline void cpu_sei(void)   
 {   
 	P |= 0x04;   
 }   
 
-void cpu_sta(void)   
+static inline void cpu_sta(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	cpu_putmemory(savepc,A);   
 }   
 
-void cpu_stx(void)   
+static inline void cpu_stx(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	cpu_putmemory(savepc,X);   
 }   
 
-void cpu_sty(void)   
+static inline void cpu_sty(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	cpu_putmemory(savepc,Y);   
 }   
 
-void cpu_tax(void)   
+static inline void cpu_tax(void)   
 {   
 	X=A;   
 	if (X) P &= 0xfd; else P |= 0x02;   
 	if (X & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_tay(void)   
+static inline void cpu_tay(void)   
 {   
 	Y=A;   
 	if (Y) P &= 0xfd; else P |= 0x02;   
 	if (Y & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_tsx(void)   
+static inline void cpu_tsx(void)   
 {   
 	X=S;   
 	if (X) P &= 0xfd; else P |= 0x02;   
 	if (X & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_txa(void)   
+static inline void cpu_txa(void)   
 {   
 	A=X;   
 	if (A) P &= 0xfd; else P |= 0x02;   
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_txs(void)   
+static inline void cpu_txs(void)   
 {   
 	S=X;   
 }   
 
-void cpu_tya(void)   
+static inline void cpu_tya(void)   
 {   
 	A=Y;   
 	if (A) P &= 0xfd; else P |= 0x02;   
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_bra(void)   
+static inline void cpu_bra(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	PC += savepc;   
 	cpu_clockticks++;   
 }   
 
-void cpu_dea(void)   
+static inline void cpu_dea(void)   
 {   
 	A--;   
 	if (A) P &= 0xfd; else P |= 0x02;   
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_ina(void)   
+static inline void cpu_ina(void)   
 {   
 	A++;   
 	if (A) P &= 0xfd; else P |= 0x02;   
 	if (A & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_phx(void)   
+static inline void cpu_phx(void)   
 {   
 	cpu_putmemory(0x100+S--,X);   
 }   
 
-void cpu_plx(void)   
+static inline void cpu_plx(void)   
 {   
 //  X=gameImage[++S+0x100];   
 	X = cpu_getmemory(++S + 0x100);   
@@ -843,12 +836,12 @@ void cpu_plx(void)
 	if (X & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_phy(void)   
+static inline void cpu_phy(void)   
 {   
 	cpu_putmemory(0x100+S--, Y);   
 }   
 
-void cpu_ply(void)   
+static inline void cpu_ply(void)   
 {   
 //  Y=gameImage[++S+0x100];   
 	Y = cpu_getmemory(++S + 0x100);   
@@ -857,13 +850,13 @@ void cpu_ply(void)
 	if (Y & 0x80) P |= 0x80; else P &= 0x7f;   
 }   
 
-void cpu_stz(void)   
+static inline void cpu_stz(void)   
 {   
 	opcodetable[opcode].adrmode();   
 	cpu_putmemory(savepc,0);   
 }   
 
-void cpu_tsb(void)   
+static inline void cpu_tsb(void)   
 {   
 	uint8_t temp;    
 
@@ -877,7 +870,7 @@ void cpu_tsb(void)
 	if(cpu_getmemory(savepc))P &= 0xfd; else P |= 0x02;   
 }   
 
-void cpu_trb(void)   
+static inline void cpu_trb(void)   
 {   
 	uint8_t temp;       
 
@@ -948,8 +941,9 @@ void cpu_exec(int timerTicks)
 	{   
 		opcode = cpu_getmemory(PC);   
 		PC++;   
-		opcodetable[opcode].instruction();   
-		cpu_clockticks += opcodetable[opcode].ticks;   
+		// opcodetable[opcode].instruction();   
+		// cpu_clockticks += opcodetable[opcode].ticks;   
+		exec_instr(opcode);
 	}   
 	cpu_clockticks -= timerTicks;   
 }

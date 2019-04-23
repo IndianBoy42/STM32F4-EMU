@@ -1,28 +1,35 @@
 #include "gpio.h"
 #include "adc.h"
-__forceinline uint8_t joypad_A() {
+static __forceinline uint8_t joypad_A() {
 	return (BUTTONS & (BTN_R2|BTN_U2)) != 0;
 }
-__forceinline uint8_t joypad_B() {
+static __forceinline uint8_t joypad_B() {
 	return (BUTTONS & (BTN_D2|BTN_L2)) != 0;
 
 }
-__forceinline uint8_t joypad_U() {
+static __forceinline uint8_t joypad_U() {
 	return ((BUTTONS & (BTN_U1))) != 0;
 }
-__forceinline uint8_t joypad_D() {
+static __forceinline uint8_t joypad_D() {
 	return ((BUTTONS & (BTN_D1))) != 0;
 }
-__forceinline uint8_t joypad_L() {
+static __forceinline uint8_t joypad_L() {
 	return ((BUTTONS & (BTN_L1))) != 0;
 }
-__forceinline uint8_t joypad_R() {
+static __forceinline uint8_t joypad_R() {
 	return ((BUTTONS & (BTN_R1))) != 0;
 }
-__forceinline uint8_t joypad_SEL() {
+static __forceinline uint8_t joypad_SEL() {
 	return (BUTTONS & (BTN_X1)) != 0;
 }
-__forceinline uint8_t joypad_START() {
+static __forceinline uint8_t joypad_START() {
+	// if ((BUTTONS & (BTN_X2)) != 0) {
+	// 	gpio_set(LED2);
+	// 	return 1;
+	// } else {
+	// 	gpio_reset(LED2);
+	// 	return 0;
+	// }
 	return (BUTTONS & (BTN_X2)) != 0;
 }
 
@@ -44,7 +51,7 @@ enum {
 	JOYPAD_BTN_TABLE(JOYPAD_BTN_ENUM)
 };
 void joypad_write(uint8_t n, uint8_t v) {
-	// if (joypad_strobe && !v) {
+	// if (joypad_strobe[n] && !v) {
 	if (v) {
 		joypad_read_state[n] = 0;
 	}

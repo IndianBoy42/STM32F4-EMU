@@ -1,46 +1,27 @@
-/**  
-  ******************************************************************************  
-  * @file      
-  * @author    
-  * @version   
-  * @date      
-  * @brief    
-  ******************************************************************************  
-  * @attention  
-  *  
-  *   
-  ******************************************************************************  
-  */     
-   
 /* Includes ------------------------------------------------------------------*/    
 // #include "nes_main.h"   
 #include "lcd_main.h"   
 void tft_print_nes_line(int y, uint16_t* buf);
 #include "ppu.h"
 
-/*�������� ------------------------------------------------------------------*/   
-/*�洢�����*/   
 uint8_t NameTable[2048];   
    
 PPU_RegType PPU_Reg;   
 PPU_MemType PPU_Mem;   
    
 Spr_MemType Spr_Mem;   
-SpriteType  * const sprite = (SpriteType  *)&Spr_Mem.spr_ram[0]; //ָ���һ��sprite 0 ��λ��   
+SpriteType  * const sprite = (SpriteType  *)&Spr_Mem.spr_ram[0];
    
-/*��ʾ���*/   
-uint8_t   SpriteHitFlag, PPU_Latch_Flag; //sprite #0 ��ʾ��ײ������ɨ���к�, ����λ�ƣ�2005д���־    
-int     PPU_scanline;                   //��ǰɨ����   
-// uint16_t  DisplayBuffer[256*240] = {0};
-uint16_t  Buffer_scanline[8 + 256 + 8];   //����ʾ����,���±�Խ�����Ϊ7����ʾ�� 7 ~ 263  0~7 263~270 Ϊ��ֹ�����   
+
+uint8_t   SpriteHitFlag, PPU_Latch_Flag; 
+int     PPU_scanline;     
+uint16_t  DisplayBuffer[256*240] = {0};
+uint16_t  Buffer_scanline[8 + 256 + 8];    
    
 uint8_t PPU_BG_VScrlOrg, PPU_BG_HScrlOrg;   
 //uint8_t PPU_BG_VScrlOrg_Pre, PPU_BG_HScrlOrg_Pre;   
-//uint8_t PPU_BG_NameTableNum;            //��ǰ������������   
+//uint8_t PPU_BG_NameTableNum;     
 //uint16_t PPU_AddrTemp;   
-/********************************************************************************  
- **NES ��ɫ�� ��ɫ����RGB565�� 64  
- */   
 const uint16_t NES_Color_Palette[64] ={   
 /*��ɫ������ַ->RGBֵ -> RGB565(16bit)*/   
 /*  0x00 -> 0x75, 0x75, 0x75 */  0xAE73,    
@@ -111,33 +92,21 @@ const uint16_t NES_Color_Palette[64] ={
 /*  0x3E -> 0x00, 0x00,0x 00 */  0x0000,   
 /*  0x3F -> 0x00, 0x00, 0x00 */  0x0000   
 };   
-/*  
- **  
- *********************************************************************************/   
-   
-   
-/*�������� ----------------------------------------------------------------------*/   
-   
-/*  
- * PPU ��ʼ��  
- */   
-void ppu_init(const uint8_t* patterntableptr, /* Pattern table ��ַ*/   
-                uint8_t  ScreenMirrorType /* ��Ļ��������*/   
-                )   
-{   
-    // memset(&PPU_Mem, 0, sizeof(PPU_Mem));//����洢��   
+
+void ppu_init(const uint8_t* patterntableptr, uint8_t  ScreenMirrorType )   {   
+    // memset(&PPU_Mem, 0, sizeof(PPU_Mem));   
     // memset(&Spr_Mem, 0, sizeof(Spr_Mem));   
     // memset(&PPU_Reg, 0, sizeof(PPU_Reg));   
    
     PPU_Mem.patterntable0 =  patterntableptr;   
     PPU_Mem.patterntable1 =  patterntableptr + 0x1000;   
        
-    if(ScreenMirrorType == 0){  //ˮƽ����   
+    if(ScreenMirrorType == 0){   
         PPU_Mem.name_table[0] = &NameTable[0];   
         PPU_Mem.name_table[1] = &NameTable[0];   
         PPU_Mem.name_table[2] = &NameTable[1024];   
         PPU_Mem.name_table[3] = &NameTable[1024];   
-    }else{                      //��ֱ����   
+    }else{                      
         PPU_Mem.name_table[0] = &NameTable[0];   
         PPU_Mem.name_table[1] = &NameTable[1024];   
         PPU_Mem.name_table[2] = &NameTable[0];   
@@ -153,16 +122,9 @@ void ppu_init(const uint8_t* patterntableptr, /* Pattern table ��ַ*/
 //  PPU_AddrTemp = 0;   
     PPU_scanline = 0;   
 
-    // tft_circ_push_pxbuf(DisplayBuffer, 32, 0, 256, 240);
+    tft_double_push_pxbuf(DisplayBuffer, 32, 0, 256, 240);
 } 
    
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
- *  PPU ��ʾ������   
- */   
-   
-/*  
- * ����sprite #0��ײ��־  
- */   
 void ppu_spr0_hit_flag(int y_axes)   
 {   
     int   i,y_scroll, dy_axes, dx_axes;   
@@ -174,55 +136,49 @@ void ppu_spr0_hit_flag(int y_axes)
     const uint8_t *BG_Patterntable;   
     const uint8_t *Spr_Patterntable;   
    
-    /*�ж�sprite #0 ��ʾ�����Ƿ��ڵ�ǰ��*/   
-    spr_size = PPU_Reg.R0 & R0_SPR_SIZE ? 0x0F : 0x07;      //spr_size 8��0~7��16: 0~15   
-    dy_axes = y_axes - (uint8_t)(sprite[0].y + 1);            //�ж�sprite#0 �Ƿ��ڵ�ǰ����ʾ��Χ��,0����ʵ��ֵΪFF   
+    spr_size = PPU_Reg.R0 & R0_SPR_SIZE ? 0x0F : 0x07;       
+    dy_axes = y_axes - (uint8_t)(sprite[0].y + 1);            
     if(dy_axes != (dy_axes & spr_size))            
         return;   
    
-    /*ȡ��sprite��ʾλ�õı�����ʾ����*/   
-//  nNameTable = PPU_BG_NameTableNum;           //ȡ�õ�ǰ��Ļ��name table ��   
     nNameTable = PPU_Reg.R0 & R0_NAME_TABLE;   
-    BG_Patterntable = PPU_Reg.R0 & BG_PATTERN_ADDR ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;//����pattern�׵�ַ   
-    y_scroll = y_axes + PPU_BG_VScrlOrg;    //Scorll λ�ƺ󱳾���ʾ�е�Y���꣬����[00]��[01]��[10]��[11]��ÿ����ʾ(0+x_scroll_org,y_scroll_org)   
+    BG_Patterntable = PPU_Reg.R0 & BG_PATTERN_ADDR ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0; 
+    y_scroll = y_axes + PPU_BG_VScrlOrg;    
     if(y_scroll > 239){   
         y_scroll -= 240;   
-        nNameTable ^= NAME_TABLE_V_MASK;        //��ֱ������Ļ���л�name table��   
+        nNameTable ^= NAME_TABLE_V_MASK;        
     }   
-    y_TitleLine = y_scroll >> 3;              //title �к� 0~29��y�������8��   
-    x_TitleLine = (PPU_BG_HScrlOrg + sprite[0].x) >> 3;//title �к� 0~31��y�������8��    
-    dy_axes = y_scroll & 0x07;                  //title��ʾy��ƫ������ ��8������   
-    dx_axes = PPU_BG_HScrlOrg & 0x07;       //title��ʾx��ƫ������ ��8������   
-    if(x_TitleLine > 31)                     //x�������ʾ   
+    y_TitleLine = y_scroll >> 3;             
+    x_TitleLine = (PPU_BG_HScrlOrg + sprite[0].x) >> 3;
+    dy_axes = y_scroll & 0x07; 
+    dx_axes = PPU_BG_HScrlOrg & 0x07;
+    if(x_TitleLine > 31)
         nNameTable ^= NAME_TABLE_H_MASK;   
-    BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine];    //y_TitleLine * 32 +��x_TitleLine,��name����ȡ��sprite��ʾλ�õı�����title�ŵ�    
-    BG_Data0  = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];                     //������ʾ����0   
+    BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine]; 
+    BG_Data0  = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];
     BG_Data0 |= BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes + 8];   
-    if((x_TitleLine + 1) > 31)                   //x�������ʾ   
+    if((x_TitleLine + 1) > 31)
         nNameTable ^= NAME_TABLE_H_MASK;   
-    BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine + 1]; //��name������һ��������ʾ��title�ŵ�   
-    BG_Data1  = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];                     //������ʾ����1   
+    BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine + 1];
+    BG_Data1  = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];
     BG_Data1 |= BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes + 8];   
-    BG_Data = (BG_Data0 << dx_axes) | (BG_Data1 >> dx_axes);                            //������Sprite #0 λ����ͬ�ĵ�ǰ��ʾ�е���ʾ����   
-       
-    /*ȡ��sprite #0 ��ʾ����*/   
-    if(sprite[0].attr & SPR_VFLIP)                          //����ֱ��ת   
+    BG_Data = (BG_Data0 << dx_axes) | (BG_Data1 >> dx_axes); 
+
+    if(sprite[0].attr & SPR_VFLIP)
         dy_axes = spr_size - dy_axes;                          
-    if(PPU_Reg.R2 & R0_SPR_SIZE){//8*16                     //��Ϊ�棬sprite�Ĵ�С8*16   
-        /*ȡ������title Pattern�׵�ַ*/   
+    if(PPU_Reg.R2 & R0_SPR_SIZE){//8*16
         Spr_Patterntable = (sprite[0].t_num & 0x01) ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;   
-        title_addr = (sprite[0].t_num & 0XFE) << 4;       //*16,ԭ��ַ��*2   
+        title_addr = (sprite[0].t_num & 0XFE) << 4;
         Spr0_Data  = Spr_Patterntable[title_addr + dy_axes];   
         Spr0_Data |= Spr_Patterntable[title_addr + dy_axes + 8];   
     }else{                      //8*8   
-        /*ȡ��sprite #0 ����title Pattern�׵�ַ*/   
         Spr_Patterntable = (PPU_Reg.R0 & SPR_PATTERN_ADDR)  ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;   
-        title_addr = sprite[0].t_num  << 4;               //*16   
+        title_addr = sprite[0].t_num  << 4; 
         Spr0_Data  = Spr_Patterntable[title_addr + dy_axes];   
         Spr0_Data |= Spr_Patterntable[title_addr + dy_axes + 8];   
     }   
    
-    if(sprite[0].attr & SPR_HFLIP){             /*��ˮƽ��ת, ��ת�ߵ�λ����*/   
+    if(sprite[0].attr & SPR_HFLIP){  
         temp = 0;   
         for(i=0; i<8; i++){   
             temp |= (Spr0_Data >> i) & 1;   
@@ -231,14 +187,9 @@ void ppu_spr0_hit_flag(int y_axes)
         Spr0_Data = temp;   
     }   
     if(Spr0_Data & BG_Data){   
-//      printf("\r\nSprite #0 Hit!");   
         SpriteHitFlag = TRUE;   
     }    
-}   
-   
-/*  
- * ��ʾһ�б���������sprite��ײ��������ײ��־  
- */   
+} 
 __forceinline void render_bg_line(int y_axes)   
 {   
     int     i,y_scroll, /*x_scroll,*/ dy_axes, dx_axes;   
@@ -247,56 +198,45 @@ __forceinline void render_bg_line(int y_axes)
     uint8_t   nNameTable, BG_TitlePatNum;   
     const uint8_t  *BG_Patterntable;   
    
-//  nNameTable = PPU_BG_NameTableNum;           //ȡ�õ�ǰ��Ļ��name table ��   
+//  nNameTable = PPU_BG_NameTableNum; 
     nNameTable = PPU_Reg.R0 & R0_NAME_TABLE;   
-//  printf("\r\n name table num: %x", nNameTable);   
-    BG_Patterntable = PPU_Reg.R0 & BG_PATTERN_ADDR ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;//����pattern�׵�ַ   
-    y_scroll = y_axes + PPU_BG_VScrlOrg;    //Scorll λ�ƺ���ʾ�е�Y����   
+    BG_Patterntable = PPU_Reg.R0 & BG_PATTERN_ADDR ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;
+    y_scroll = y_axes + PPU_BG_VScrlOrg; 
     if(y_scroll > 239){   
         y_scroll -= 240;   
-        nNameTable ^= NAME_TABLE_V_MASK;        //��ֱ������Ļ���л�name table��   
+        nNameTable ^= NAME_TABLE_V_MASK;
     }   
-    y_TitleLine = y_scroll >> 3;              //title �к� 0~29��y�������8��   
-    dy_axes = y_scroll & 0x07;                  //��8������   
+    y_TitleLine = y_scroll >> 3;
+    dy_axes = y_scroll & 0x07;  
 //  x_scroll =  PPU_BG_HScrlOrg_Pre;           
-    dx_axes = PPU_BG_HScrlOrg & 0x07;           //x��ƫ������   
-       
-    /*����ʾһ�е���߲���,�ӵ�һ�����ؿ�ʼɨ��*/   
-    Buffer_LineCnt = 8 - dx_axes;               //����д��λ��(0~ 255)��8����ʾ��ʼ��   
-    /*x_TitleLine ~ 31 ��������ʾ��8bitһ�У�*/   
-    for(x_TitleLine = PPU_BG_HScrlOrg >> 3; x_TitleLine < 32; x_TitleLine++){         //��������һ����ʾtitle��Ԫ��ʼ   
-//      printf("\r\n%d %d %d",y_axes, y_TitleLine, x_TitleLine);   
-        BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine];    //y_TitleLine * 32,��ǰ��ʾ��title�ŵ�    
-        L_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];                            //BG_TitlePatNum * 16 + dy_xaes   
-        H_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes + 8];   
-        //���Ա� �в��� ����λ��ɫ����ֵ                     ��4ȥ�����ٳ�8                ��4            
-        BG_attr_value = PPU_Mem.name_table[nNameTable][960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)];//title��Ӧ�����Ա�8bitֵ   
-         //��title��Ӧ�ĸ���λ����y title bit2  ���� 1λ��(����)�� ��x title bit2������ֵ [000][010][100][110] 0 2 4 6Ϊ��Ӧ��attr 8bit[0:1][2:3][4:5][6:7] �еĸ���λ��ɫֵ   
-        BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2;            
-        /*x��ÿ��ɨ��8������ʾ*/   
-        for(i=7; i>=0; i--){                            //��д������ص���ɫ   
-            //[1:0]����λ��ɫ����ֵ   
+    dx_axes = PPU_BG_HScrlOrg & 0x07;
+    Buffer_LineCnt = 8 - dx_axes;
+    for(x_TitleLine = PPU_BG_HScrlOrg >> 3; x_TitleLine < 32; x_TitleLine++){  
+        BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine];
+        L_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];
+        H_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes + 8];         
+        BG_attr_value = PPU_Mem.name_table[nNameTable][960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)]; 
+        BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2;  
+        for(i=7; i>=0; i--){ 
             BG_color_num = BG_attr_value;   
             BG_color_num |=(L_byte >> i) & 1;                
             BG_color_num |=((H_byte >> i) & 1) << 1;   
-            if(BG_color_num & 3){             //�������λΪ0����Ϊ͸��ɫ,��д��   
+            if(BG_color_num & 3){
                 Buffer_scanline[Buffer_LineCnt] =  NES_Color_Palette[PPU_Mem.image_palette[BG_color_num]];   
                 Buffer_LineCnt++;   
             }else{   
                 Buffer_LineCnt++;   
             }   
         }   
-    }   
-    /*��ʾһ���ұ߲���, �л�name table��*/   
+    } 
     nNameTable ^= NAME_TABLE_H_MASK;   
-//  Buffer_LineCnt -= dx_axes;   
-    /*�ұ�0 ~ PPU_BG_HScrlOrg_Pre >> 3*/   
+//  Buffer_LineCnt -= dx_axes;  
     for (x_TitleLine = 0; x_TitleLine <= (PPU_BG_HScrlOrg >> 3); x_TitleLine++ ){   
-        BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine]; //y_TitleLine * 32,��ǰ��ʾ��title�ŵ�    
+        BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine];
         L_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];                   
         H_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes + 8];   
-        BG_attr_value = PPU_Mem.name_table[nNameTable][960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)];//title��Ӧ�����Ա�8bitֵ   
-        BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2;           //������ɫ[4:3]   
+        BG_attr_value = PPU_Mem.name_table[nNameTable][960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)];
+        BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2; 
         for(i=7; i>=0; i--){   
             BG_color_num = BG_attr_value;                                 
             BG_color_num |=(L_byte >> i) & 1;                
@@ -310,49 +250,46 @@ __forceinline void render_bg_line(int y_axes)
         }   
     }   
 }   
-   
-/*  
- * ��ʾһ��sprite��title 88  
- */   
+
 __forceinline void render_sprite_pattern(SpriteType *sprptr, const uint8_t *Spr_Patterntable, uint16_t title_addr, uint8_t dy_axes)   
 {   
     int   i, dx_axes;   
     uint8_t Spr_color_num, H_byte, L_byte;   
        
-    if((PPU_Reg.R1 & R1_SPR_LEFT8 == 0) && sprptr -> x < 8){         //��ֹ��8��������ʾ   
+    if((PPU_Reg.R1 & R1_SPR_LEFT8 == 0) && sprptr -> x < 8){  
         dx_axes =  8 - sprptr -> x;   
         if(dx_axes == 0)    return;        
     }else{   
         dx_axes = 0;   
     }   
-    if(sprptr -> attr & SPR_VFLIP){      //����ֱ��ת   
-        dy_axes = 7 - dy_axes;          //sprite 8*8��ʾdy_axes��   
+    if(sprptr -> attr & SPR_VFLIP){ 
+        dy_axes = 7 - dy_axes;
     }   
     L_byte = Spr_Patterntable[title_addr + dy_axes];   
     H_byte = Spr_Patterntable[title_addr + dy_axes + 8];   
-    if(sprptr -> attr & SPR_HFLIP){                                  //��ˮƽ��ת   
-        for(i=7; i>=dx_axes; i--){                                   //��д�ұ� ��ɫ����   
-            Spr_color_num  = (L_byte >> i) & 1;                       //bit0   
-            Spr_color_num |= ((H_byte >> i) & 1) << 1;              //bit1   
+    if(sprptr -> attr & SPR_HFLIP){ 
+        for(i=7; i>=dx_axes; i--){
+            Spr_color_num  = (L_byte >> i) & 1;              //bit0   
+            Spr_color_num |= ((H_byte >> i) & 1) << 1;       //bit1   
             if(Spr_color_num == 0)  continue;   
-            Spr_color_num |= (sprptr -> attr & 0x03) << 2;         //bit23   
-            Buffer_scanline[sprptr -> x + i + 8] =  NES_Color_Palette[PPU_Mem.sprite_palette[Spr_color_num]]; //ƫ��8   
-//          if(Spr_color_num & 0x03 && (PPU_Reg.R1 & R1_SPR_LEFT8 || (sprptr -> x + 8 - i) > 8)){             //��ɫ�������2λΪ0��ʾ͸��,��ʾ�ױ�����$3F00��&&  �������룬0:������8����ʾ����                     
-//              Buffer_scanline[sprptr -> x + 8 - i] =  NES_Color_Palette[PPU_Mem.sprite_palette[Spr_color_num]];//д����ɫֵ������   
+            Spr_color_num |= (sprptr -> attr & 0x03) << 2;   //bit23   
+            Buffer_scanline[sprptr -> x + i + 8] =  NES_Color_Palette[PPU_Mem.sprite_palette[Spr_color_num]];
+//          if(Spr_color_num & 0x03 && (PPU_Reg.R1 & R1_SPR_LEFT8 || (sprptr -> x + 8 - i) > 8)){
+//              Buffer_scanline[sprptr -> x + 8 - i] =  NES_Color_Palette[PPU_Mem.sprite_palette[Spr_color_num]];
 //          }   
 //          else{   
 //              Buffer_scanline[sprptr -> x + 8 - i] =  NES_Color_Palette[PPU_Mem.sprite_palette[0]];       
 //          }   
         }   
     }else{   
-        for(i=7; i>=dx_axes; i--){                               //��д�ұ� ��ɫ����   
-            Spr_color_num  = (L_byte >> (7-i)) & 1;               //bit0   
+        for(i=7; i>=dx_axes; i--){ 
+            Spr_color_num  = (L_byte >> (7-i)) & 1;               //bit0 
             Spr_color_num |= ((H_byte >> (7-i)) & 1) << 1;      //bit1   
             if(Spr_color_num == 0)  continue;   
             Spr_color_num |= (sprptr -> attr & 0x03) << 2;         //bit23   
-            Buffer_scanline[sprptr -> x + i + 8] =  NES_Color_Palette[PPU_Mem.sprite_palette[Spr_color_num]];//д����ɫֵ������   
-//          if(Spr_color_num & 0x03 && (PPU_Reg.R1 & R1_SPR_LEFT8 || (sprptr -> x + 8 - i) > 8)){             //��ɫ�������2λΪ0��ʾ͸��,��ʾ�ױ�����$3F00��&&  �������룬0:������8����ʾ����                     
-//              Buffer_scanline[sprptr -> x + 8 - i] =  NES_Color_Palette[PPU_Mem.sprite_palette[Spr_color_num]];//д����ɫֵ������   
+            Buffer_scanline[sprptr -> x + i + 8] =  NES_Color_Palette[PPU_Mem.sprite_palette[Spr_color_num]];
+//          if(Spr_color_num & 0x03 && (PPU_Reg.R1 & R1_SPR_LEFT8 || (sprptr -> x + 8 - i) > 8)){
+//              Buffer_scanline[sprptr -> x + 8 - i] =  NES_Color_Palette[PPU_Mem.sprite_palette[Spr_color_num]];
 //          }   
 //          else{   
 //              Buffer_scanline[sprptr -> x + 8 - i] =  NES_Color_Palette[PPU_Mem.sprite_palette[0]];       
@@ -361,129 +298,91 @@ __forceinline void render_sprite_pattern(SpriteType *sprptr, const uint8_t *Spr_
     }   
 }   
    
-/*  
- * sprite 8*8 ��ʾ����ɨ��  
- */   
 __forceinline void render_sprite_88(SpriteType *sprptr, int dy_axes)   
 {   
-    const uint8_t  *Spr_Patterntable;      
-    /*ȡ������title Pattern�׵�ַ*/   
+    const uint8_t  *Spr_Patterntable;     
     Spr_Patterntable = (PPU_Reg.R0 & SPR_PATTERN_ADDR)  ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;   
     render_sprite_pattern(sprptr, Spr_Patterntable, sprptr -> t_num << 4, (uint8_t)dy_axes);   
 }   
    
-/*  
- * sprite 8*16 ��ʾ����ɨ��  
- */            
 __forceinline void render_sprite_16(SpriteType *sprptr, int dy_axes)   
 {   
     if(sprptr -> t_num & 0x01){                                         
-        if(dy_axes < 8)   //sprite  title ������   
+        if(dy_axes < 8) 
             render_sprite_pattern(sprptr, PPU_Mem.patterntable1, (sprptr -> t_num & 0xFE) << 4, (uint8_t)dy_axes);       //��8*8   
         else   
             render_sprite_pattern(sprptr, PPU_Mem.patterntable1, sprptr -> t_num << 4, (uint8_t)dy_axes & 7);        //��8*8   
     }else{   
-        if(dy_axes < 8)  //sprite  title ż����   
+        if(dy_axes < 8)  
             render_sprite_pattern(sprptr, PPU_Mem.patterntable0, sprptr -> t_num << 4, (uint8_t)dy_axes);            //��8*8   
         else   
             render_sprite_pattern(sprptr, PPU_Mem.patterntable0, (sprptr -> t_num | 1) << 4, (uint8_t)dy_axes & 7);   //��8*8   
     }   
 }   
    
-/*  
- * PPU ��ʾһ��  
- */   
 void ppu_render_line(int y_axes)   
 {   
     int i, render_spr_num, spr_size, dy_axes;   
-    /* MMC5 VROM switch -- VROM�洢���л� */   
 //  MapperRenderScreen( 1 );   
    
-    PPU_Reg.R2 &= ~R2_LOST_SPR;                                         //����PPU״̬�Ĵ���R2 SPR LOST�ı�־λ   
-//  PPU_BG_VScrlOrg_Pre = PPU_BG_VScrlOrg;                              //���� ��ֱ scroll    
-//  PPU_BG_HScrlOrg_Pre = PPU_BG_HScrlOrg;                              //���� ˮƽ scroll   
+    PPU_Reg.R2 &= ~R2_LOST_SPR;  
+//  PPU_BG_VScrlOrg_Pre = PPU_BG_VScrlOrg;
+//  PPU_BG_HScrlOrg_Pre = PPU_BG_HScrlOrg; 
    
-    if(PPU_Reg.R1 & (R1_BG_VISIBLE | R1_SPR_VISIBLE)){                  //��Ϊ�٣��ر���ʾ����0��   
-        /*�����ʾ���棬�ڴ����õױ���ɫ����ȷ����*/   
-        for(i=7; i<256 ; i++){                       //��ʾ�� 7 ~ 263  0~7 263~270 Ϊ��ֹ�����   
+    if(PPU_Reg.R1 & (R1_BG_VISIBLE | R1_SPR_VISIBLE)){ 
+        for(i=7; i<256 ; i++){  
             Buffer_scanline[i] =  NES_Color_Palette[PPU_Mem.image_palette[0]];   
         }   
-        spr_size = PPU_Reg.R0 & R0_SPR_SIZE ? 0x0F : 0x07;              //spr_size 8��0~7��16: 0~15   
-        /* ɨ�豳��sprite��ת������ʾ����д�뵽����,ÿһ�����ֻ����ʾ8��Sprite*/   
-        if(PPU_Reg.R1 & R1_SPR_VISIBLE){                                //������sprite��ʾ   
-            render_spr_num=0;                                           //������ʾ������   
-            for(i=63; i>=0; i--){                                        //���ص�sprites 0 ������ʾ������ȼ����������ȼ�˳���֮������������ʾ������ȼ�   
-                /*�ж���ʾ�㣨�ǣ� ����*/   
+        spr_size = PPU_Reg.R0 & R0_SPR_SIZE ? 0x0F : 0x07;
+        if(PPU_Reg.R1 & R1_SPR_VISIBLE){ 
+            render_spr_num=0; 
+            for(i=63; i>=0; i--){   
                 if(!(sprite[i].attr & SPR_BG_PRIO)) continue;            //(0=Sprite In front of BG, 1=Sprite Behind BG)   
-                /*�ж���ʾλ��*/   
-                dy_axes = y_axes - (uint8_t)(sprite[i].y + 1);            //�ж�sprite�Ƿ��ڵ�ǰ����ʾ��Χ��,sprite y (FF,00,01,...EE)(0~239)   
-                if(dy_axes != (dy_axes & spr_size)) continue;           //�������򷵻ؼ���ѭ��������һ��   
-                /*������sprite�ڵ�ǰ��ʾ��,��ת��������ʾ�׶�*/   
-                render_spr_num++;                                       //����ʾ��sprite����Ŀ+1   
-                if(render_spr_num > 8 ){                             //һ�г���8��spreite������ѭ��   
-                    PPU_Reg.R2 |= R2_LOST_SPR;                          //����PPU״̬�Ĵ���R2�ı�־λ   
+                dy_axes = y_axes - (uint8_t)(sprite[i].y + 1);  
+                if(dy_axes != (dy_axes & spr_size)) continue; 
+                render_spr_num++; 
+                if(render_spr_num > 8 ){ 
+                    PPU_Reg.R2 |= R2_LOST_SPR; 
                     break;   
                 }   
-                if(PPU_Reg.R0 & R0_SPR_SIZE){                           //��Ϊ�棬sprite�Ĵ�С8*16   
+                if(PPU_Reg.R0 & R0_SPR_SIZE){ 
                     render_sprite_16(&sprite[i], dy_axes);   
-                }else{                                                  //��Ϊ�٣�sprite�Ĵ�С8*8   
+                }else{
                     render_sprite_88(&sprite[i], dy_axes);   
                 }   
             }      
         }   
-       
-        /* ɨ�豳�� background*/   
+
         if(PPU_Reg.R1 & R1_BG_VISIBLE){   
-            render_bg_line(y_axes);                                   //ɨ�貢����Sprite #0��ײ��־   
-        }   
-       
-        /* ɨ��ǰ��sprite��ת������ʾ����д�뵽����,ÿһ�����ֻ����ʾ8��Sprite*/   
-        if(PPU_Reg.R1 & R1_SPR_VISIBLE){                                //������sprite��ʾ   
-            render_spr_num=0;                                           //������ʾ������   
-        /* ���ص�sprites 0 ������ʾ������ȼ����������ȼ�˳���֮������������ʾ������ȼ�  
-         * ��ע����ǰ��sprites ���ȼ����ڱ������ȼ����ص�����ɫ��ǰ�����ȼ����ڱ������ȼ��Ļ���ǰ����������ʾ(��δ����)*/   
-            for(i=63; i>=0; i--){                                           
-                /*�ж���ʾ�� ǰ��*/   
+            render_bg_line(y_axes);    
+        }     
+        if(PPU_Reg.R1 & R1_SPR_VISIBLE){  
+            render_spr_num=0; 
+          for(i=63; i>=0; i--){ 
                 if(sprite[i].attr & SPR_BG_PRIO)    continue;            //(0=Sprite In front of BG, 1=Sprite Behind BG)   
-                /*�ж���ʾλ��*/   
-                dy_axes = y_axes - ((int)sprite[i].y + 1);              //�ж�sprite�Ƿ��ڵ�ǰ����ʾ��Χ��,sprite y (FF,00,01,...EE)(0~239)   
-                if(dy_axes != (dy_axes & spr_size)) continue;           //�������򷵻ؼ���ѭ��������һ��   
-                /*������sprite�ڵ�ǰ��ʾ��,��ת��������ʾ�׶�*/   
-                render_spr_num++;                                       //����ʾ��sprite����Ŀ+1   
-                if(render_spr_num > 8 ){                             //һ�г���8��spreite������ѭ��   
-                    PPU_Reg.R2 |= R2_LOST_SPR;                          //����PPU״̬�Ĵ���R2�ı�־λ   
+                dy_axes = y_axes - ((int)sprite[i].y + 1);    
+                if(dy_axes != (dy_axes & spr_size)) continue; 
+                render_spr_num++;          
+                if(render_spr_num > 8 ){     
+                    PPU_Reg.R2 |= R2_LOST_SPR;
                     break;   
                 }   
-                if(PPU_Reg.R0 & R0_SPR_SIZE){                           //��Ϊ�棬sprite�Ĵ�С8*16   
+                if(PPU_Reg.R0 & R0_SPR_SIZE){ 
                     render_sprite_16(&sprite[i], dy_axes);   
-                }else{                                                  //��Ϊ�٣�sprite�Ĵ�С8*8   
+                }else{ 
                     render_sprite_88(&sprite[i], dy_axes);   
                 }   
             }      
         }   
     }else{   
         for(i=8; i<264; i++){   
-            Buffer_scanline[i] = 0;                                 //�����ʾ����,����   
+            Buffer_scanline[i] = 0;        
         }   
     }   
-    /*���ɨ�裬������ʾ����д��LCD*/   
-
-    tft_print_nes_line(y_axes, Buffer_scanline);                                   //����LCD��ʾһ�У���ѯ��DMA����   
-    // for (int i=0; i<256; i++) {
-        // DisplayBuffer[(y_axes)*256 + i] = Buffer_scanline[i];
-    // } 
+    // tft_print_nes_line(y_axes, Buffer_scanline);  
+    for (int i=0; i<256; i++) { \
+        DisplayBuffer[(y_axes)*256 + i] = Buffer_scanline[8+i]; \
+    } 
 }
-   
-///*   
-// * PPU��ʾ�رգ����ױ���д��LCD       
-// */   
-//void NES_LCD_BG_DisplayLine(uint16_t color)   
-//{   
-//   
-//}   
-  /**  
-  * @}  
-  */   
-   
    
 /*******************************END OF FILE***********************************/   
