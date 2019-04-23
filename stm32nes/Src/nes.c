@@ -5,10 +5,10 @@
 
 uint32_t frame_count = 0;
 
-void nes_init(void) {
-	cpu_initmem(romfile.data, romfile.romnum);
+void nes_init(u8 game) {
+	cpu_initmem(romFiles[game]->data, romFiles[game]->romnum);
 	cpu_reset();
-	ppu_init(&romfile.data[romfile.romnum * 0x4000], (romfile.romfeature & 0x01));
+	ppu_init(&romFiles[game]->data[romFiles[game]->romnum * 0x4000], (romFiles[game]->romfeature & 0x01));
 }
 
 void nes_frame(uint8_t render) { 
