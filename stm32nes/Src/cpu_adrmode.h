@@ -1,167 +1,154 @@
 /* Adressing modes */   
 /* Implied */   
-void cpu_implied(void)   
+static inline uint16_t cpu_implied(void)   
 {   
+	return 0;
 }   
 
 /* #Immediate */   
-void cpu_immediate(void)   
+static inline uint16_t cpu_immediate(void)   
 {   
+	uint16_t savepc;
 	savepc=PC++;   
+	return savepc;
 }   
 
 /* ABS */   
-void cpu_abs(void)   
-{   
-//      savepc = gameImage[PC] + (gameImage[PC + 1] << 8);   
-  	// savepc  = cpu_getmemory(PC); \
-  	savepc += (cpu_getmemory(PC+1) << 8);   
-  	savepc = cpu_getmemory16(PC);
+static inline uint16_t cpu_abs(void)   
+{    
+	uint16_t savepc;
+  	savepc = cpu_getoperand16();
 
   	PC++;   
   	PC++;   
+
+ 	return savepc;
 }   
 
 /* Branch */   
-void cpu_relative(void)   
-{   
-//      savepc = gameImage[PC++];   
-  	savepc  = cpu_getmemory(PC);   
-  	PC++;   
+static inline uint16_t cpu_relative(void)   
+{     
+	uint16_t savepc;
+  	savepc  = cpu_getoperand();  
 
   	if (savepc & 0x80) savepc -= 0x100;   
   	if ((savepc>>8) != (PC>>8))   
   		cpu_clockticks++;   
+
+ 	return savepc;
 }   
 
 /* (ABS) */   
-void cpu_indirect(void)   
-{   
-//      help = gameImage[PC] + (gameImage[PC + 1] << 8);   
-//      savepc = gameImage[help] + (gameImage[help + 1] << 8);   
-  	// help    =  cpu_getmemory(PC);   \
-  	help   += (cpu_getmemory(PC+1) << 8);   
-  	// savepc  =  cpu_getmemory(help);   \
-  	savepc += (cpu_getmemory(help+1) << 8);   
-  	help = cpu_getmemory16(PC);
+static inline uint16_t cpu_indirect(void)   
+{     
+	uint16_t savepc;
+  	uint16_t help = cpu_getoperand16();
   	savepc = cpu_getmemory16(help);
 
   	PC++;   
   	PC++;   
+
+ 	return savepc;
 }
 
 /* ABS,X */   
-void cpu_absx(void)   
+static inline uint16_t cpu_absx(void)   
 {   
-//      savepc = gameImage[PC] + (gameImage[PC + 1] << 8);   
-  	// savepc  = cpu_getmemory(PC);   \
-  	savepc += (cpu_getmemory(PC+1) << 8);  
-  	savepc = cpu_getmemory16(PC); 
+	uint16_t savepc;
+  	savepc = cpu_getoperand16(); 
 
   	PC++;   
   	PC++;   
-  	if (opcodetable[opcode].ticks==4)   
+  	if (opcodeticks[opcode]==4)   
   		if ((savepc>>8) != ((savepc+X)>>8))   
   			cpu_clockticks++;   
 	savepc += X;   
+	return savepc;
 }   
 
 /* ABS,Y */   
-void cpu_absy(void)   
-{   
-//      savepc = gameImage[PC] + (gameImage[PC + 1] << 8);   
-	// savepc  = cpu_getmemory(PC);   \
-	savepc += (cpu_getmemory(PC+1) << 8);  
-	savepc =  cpu_getmemory16(PC);
+static inline uint16_t cpu_absy(void)   
+{    
+	uint16_t savepc;
+	savepc =  cpu_getoperand16();
 
 	PC++;   
 	PC++;   
 
-	if (opcodetable[opcode].ticks==4)   
+	if (opcodeticks[opcode]==4)   
 		if ((savepc>>8) != ((savepc+Y)>>8))   
 			cpu_clockticks++;   
 	savepc += Y;   
+	return savepc;
 }   
 
 /* ZP */   
-void cpu_zp(void)   
+static inline uint16_t cpu_zp(void)   
 {   
-//  savepc=gameImage[PC++];   
-	savepc  = cpu_getmemory(PC);   
-	PC++;   
+	uint16_t savepc;
+	savepc  = cpu_getoperand(); 
+	return savepc;
 }   
 
 /* ZP,X */   
-void cpu_zpx(void)   
+static inline uint16_t cpu_zpx(void)   
 {   
-//  savepc=gameImage[PC++]+X;   
-	savepc  = cpu_getmemory(PC) + X;   
-	PC++;   
+	uint16_t savepc;
+	savepc  = cpu_getoperand() + X;  
 
 	savepc &= 0x00ff;   
+	return savepc;
 }   
 
 /* ZP,Y */   
-void cpu_zpy(void)   
-{   
-//      savepc=gameImage[PC++]+Y;   
-	savepc  = cpu_getmemory(PC) + Y;   
-	PC++;   
+static inline uint16_t cpu_zpy(void)   
+{    
+	uint16_t savepc;
+	savepc  = cpu_getoperand() + Y;
 
 	savepc &= 0x00ff;   
+	return savepc;
 }   
 
 /* (ZP,X) */   
-void cpu_indx(void)   
-{   
-//      value = gameImage[PC++]+X;   
-//      savepc = gameImage[value] + (gameImage[value+1] << 8);   
-	value = cpu_getmemory(PC) + Y;   
-	PC++;      
-	// savepc  = cpu_getmemory(value);     \
-	savepc += cpu_getmemory(value + 1) << 8;
-	savepc = cpu_getmemory16(value);    
+static inline uint16_t cpu_indx(void)   
+{      
+	uint16_t savepc;
+	uint8_t value = cpu_getoperand() + Y; 
+	// savepc = cpu_getmemory16(value);    
+	savepc = cpu_getzeropage16(value);
+	return savepc;
 }   
 
 /* (ZP),Y */   
-void cpu_indy(void)   
-{   
-	//  value = gameImage[PC++];   
-	//  savepc = gameImage[value] + (gameImage[value+1] << 8);   
-	value = cpu_getmemory(PC);   
-	PC++;   
-	// savepc  = cpu_getmemory(value);     \
-	savepc += cpu_getmemory(value + 1) << 8; 
-	savepc = cpu_getmemory16(value);       
+static inline uint16_t cpu_indy(void)   
+{     
+	uint16_t savepc;
+	uint8_t value = cpu_getoperand();  
+	savepc = cpu_getmemory16(value);    
+	// savepc = cpu_getzeropage16(value);   
 
-	if (opcodetable[opcode].ticks==5)   
+	if (opcodeticks[opcode]==5)   
 	if ((savepc>>8) != ((savepc+Y)>>8))   
 		cpu_clockticks++;   
 	savepc += Y;   
+	return savepc;
 }   
 
 /* (ABS,X) */   
-void cpu_indabsx(void)   
-{   
-//      help = gameImage[PC] + (gameImage[PC + 1] << 8) + X;   
-//      savepc = gameImage[help] + (gameImage[help + 1] << 8);   
-	// help = cpu_getmemory(PC);   \
-	help = (cpu_getmemory(PC+1) << 8) +X;   
-	// savepc  = cpu_getmemory(help);  \
-	savepc += cpu_getmemory(help + 1) << 8;   
-	help = cpu_getmemory16(PC);
+static inline uint16_t cpu_indabsx(void)   
+{     
+	uint16_t savepc;
+	uint16_t help = cpu_getoperand16();
 	savepc = cpu_getmemory16(help);
+	return savepc;
 }   
 
 /* (ZP) */   
-void cpu_indzp(void)   
-{   
-//      value = gameImage[PC++];   
-//      savepc = gameImage[value] + (gameImage[value + 1] << 8);   
-	value = cpu_getmemory(PC);   
-	PC++;   
-	// savepc  = cpu_getmemory(value);     \
-	savepc += cpu_getmemory(value + 1) << 8;  
-	// savepc = cpu_getmemory16(value);      
-	savepc = *(uint16_t*)&cpu_ram[value];      
+static inline uint16_t cpu_indzp(void)   
+{     
+	uint16_t savepc;
+	uint8_t value = cpu_getoperand();    
+	savepc = cpu_getzeropage16(value);       
+	return savepc;
 }   

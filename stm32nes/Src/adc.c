@@ -125,14 +125,14 @@ void MX_ADC1_Init(void)
 }
 
 /* USER CODE BEGIN 1 */
-Joystick joys[2] = {0};
+Joysticks joys = {0};
 void joystick_init(void) {
   LL_ADC_REG_SetDMATransfer(ADC1, LL_ADC_REG_DMA_TRANSFER_UNLIMITED);
   LL_DMA_SetMode(DMA2,LL_DMA_STREAM_0, LL_DMA_MODE_CIRCULAR);
   LL_DMA_SetDataLength(DMA2,LL_DMA_STREAM_0, 4);
   LL_DMA_ConfigAddresses(DMA2,LL_DMA_STREAM_0,
     LL_ADC_DMA_GetRegAddr(ADC1, LL_ADC_DMA_REG_REGULAR_DATA),
-    (uint32_t)joys,
+    (uint32_t)&joys,
     LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
   LL_DMA_EnableStream(DMA2,LL_DMA_STREAM_0);
   LL_ADC_Enable(ADC1);

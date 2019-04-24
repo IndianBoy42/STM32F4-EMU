@@ -742,11 +742,3 @@ void tft_pxbuf_write(uint16_t* tft_px_buffer) {
 	cur_screen = (cur_screen == 0);
 	next_screen = (next_screen == 0);
 }
-
-void tft_print_nes_line(int y, uint16_t* buf) {
-	tft_dma_wait();
-
-	tft_set_region(32, y, 256, 1);
-	
-	dma_transfer(TFT_DMA, buf+8, 256*2);
-}

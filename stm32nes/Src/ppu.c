@@ -1,7 +1,6 @@
 /* Includes ------------------------------------------------------------------*/    
 // #include "nes_main.h"   
 #include "lcd_main.h"   
-void tft_print_nes_line(int y, uint16_t* buf);
 #include "ppu.h"
 
 uint8_t NameTable[2048];   
@@ -16,7 +15,9 @@ SpriteType  * const sprite = (SpriteType  *)&Spr_Mem.spr_ram[0];
 uint8_t   SpriteHitFlag, PPU_Latch_Flag; 
 int     PPU_scanline;     
 uint16_t  DisplayBuffer[256*240] = {0};
-static uint16_t  Buffer_scanline[8 + 256 + 8];    
+static uint16_t  Buffer_scanline[8 + 256 + 8];   
+
+uint32_t Premapped_palette[16*16] = {0}; 
    
 uint8_t PPU_BG_VScrlOrg, PPU_BG_HScrlOrg;   
 //uint8_t PPU_BG_VScrlOrg_Pre, PPU_BG_HScrlOrg_Pre;   
@@ -92,6 +93,15 @@ static const uint16_t NES_Color_Palette[64] ={
 /*  0x3E -> 0x00, 0x00,0x 00 */  0x0000,   
 /*  0x3F -> 0x00, 0x00, 0x00 */  0x0000   
 };   
+
+void premap_palette() {
+    extern uint32_t Premapped_palette[16*16]; //TODO: this smarter \/
+    for (int i=0; i<16; i++)
+        for (int j=0; j<16; j++)
+            Premapped_palette[i + j*16] = 
+                ((uint32_t)NES_Color_Palette[PPU_Mem.image_palette[i]]) |
+                ((uint32_t)NES_Color_Palette[PPU_Mem.image_palette[j]]) << 16;
+}
 
 void ppu_init(const uint8_t* patterntableptr, uint8_t  ScreenMirrorType )   {   
     // memset(&PPU_Mem, 0, sizeof(PPU_Mem));   
@@ -190,62 +200,173 @@ void ppu_spr0_hit_flag(int y_axes)
         SpriteHitFlag = TRUE;   
     }    
 } 
-static __forceinline void render_bg_line(int y_axes)   
-{   
-    int     i,y_scroll, /*x_scroll,*/ dy_axes, dx_axes;   
-    int     Buffer_LineCnt, y_TitleLine, x_TitleLine;   
+static __forceinline void render_bg_line_fast(int y_axes) {
+    static int last_y_scroll = 0;
+    int     i;   
+    // int     Buffer_LineCnt;
+    int x_TitleLine;   
     uint8_t   H_byte, L_byte, BG_color_num, BG_attr_value;   
-    uint8_t   nNameTable, BG_TitlePatNum;   
+    uint8_t   _nNameTable =  PPU_Reg.R0 & R0_NAME_TABLE;
     const uint8_t  *BG_Patterntable;   
    
 //  nNameTable = PPU_BG_NameTableNum; 
-    nNameTable = PPU_Reg.R0 & R0_NAME_TABLE;   
     BG_Patterntable = PPU_Reg.R0 & BG_PATTERN_ADDR ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;
-    y_scroll = y_axes + PPU_BG_VScrlOrg; 
-    if(y_scroll > 239){   
-        y_scroll -= 240;   
-        nNameTable ^= NAME_TABLE_V_MASK;
+    int _y_scroll = y_axes + PPU_BG_VScrlOrg; 
+    if(_y_scroll > 239){   
+        _y_scroll -= 240;   
+        _nNameTable ^= NAME_TABLE_V_MASK;
     }   
-    y_TitleLine = y_scroll >> 3;
-    dy_axes = y_scroll & 0x07;  
+    const uint8_t nNameTable = _nNameTable;
+    const int y_scroll = _y_scroll;
+
+    uint8_t* nNameTablePtr;
+    const int y_TitleLine = y_scroll >> 3;
+    const int dy_axes = y_scroll & 0x07;  
 //  x_scroll =  PPU_BG_HScrlOrg_Pre;           
-    dx_axes = PPU_BG_HScrlOrg & 0x07;
-    Buffer_LineCnt = 8 - dx_axes;
+    const int dx_axes = PPU_BG_HScrlOrg & 0x07;
+    uint32_t* bufptr = (void*) &Buffer_scanline[8 - dx_axes];
+
+    nNameTablePtr = PPU_Mem.name_table[nNameTable];
     for(x_TitleLine = PPU_BG_HScrlOrg >> 3; x_TitleLine < 32; x_TitleLine++){  
-        BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine];
-        L_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];
-        H_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes + 8];         
-        BG_attr_value = PPU_Mem.name_table[nNameTable][960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)]; 
+        uint32_t BG_TitlePatNum = (nNameTablePtr[(y_TitleLine << 5) + x_TitleLine]<<4) + dy_axes;
+        L_byte = BG_Patterntable[BG_TitlePatNum];
+        H_byte = BG_Patterntable[BG_TitlePatNum + 8];         
+        BG_attr_value = nNameTablePtr[960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)]; 
+        BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2;  
+        for(i=7; i>=0; i--){ 
+            BG_color_num = BG_attr_value | (BG_attr_value << 4);   
+            BG_color_num |=(L_byte >> i) & 1;                
+            BG_color_num |=((H_byte >> i) & 1) << 1;  
+
+            i--;  
+            BG_color_num |=((L_byte >> i) & 1) << 4;                
+            BG_color_num |=((H_byte >> i) & 1) << 5;  
+
+            if((BG_color_num & 0x3) || (BG_color_num & 0x30)){
+                *bufptr++ =  Premapped_palette[BG_color_num];   
+                // *bufptr++ =  NES_Color_Palette[PPU_Mem.image_palette[BG_color_num]];   
+                // Buffer_LineCnt++;   
+            }else{  
+                if (BG_color_num & 0x3) {
+                    *(uint16_t*)bufptr = Premapped_palette[BG_color_num]>>16;
+                } else if (BG_color_num & 0x30) {
+                    *((uint16_t*)bufptr+1) = Premapped_palette[BG_color_num];
+                }
+                // Buffer_LineCnt++;  
+                bufptr++; 
+            }   
+            // gpio_toggle(LED2);
+        }    
+    } 
+
+    nNameTablePtr = PPU_Mem.name_table[nNameTable ^ NAME_TABLE_H_MASK]; 
+//  Buffer_LineCnt -= dx_axes;  
+    int end = (PPU_BG_HScrlOrg >> 3);
+    for (x_TitleLine = 0; x_TitleLine <= end; x_TitleLine++ ){   
+        uint32_t BG_TitlePatNum = (nNameTablePtr[(y_TitleLine << 5) + x_TitleLine]<<4) + dy_axes;
+        L_byte = BG_Patterntable[BG_TitlePatNum];
+        H_byte = BG_Patterntable[BG_TitlePatNum + 8];         
+        BG_attr_value = nNameTablePtr[960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)]; 
+        BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2;  
+        for(i=7; i>=0; i--){ 
+            BG_color_num = BG_attr_value | (BG_attr_value << 4);   
+            BG_color_num |=(L_byte >> i) & 1;                
+            BG_color_num |=((H_byte >> i) & 1) << 1;  
+
+            i--;  
+            BG_color_num |=((L_byte >> i) & 1) << 4;                
+            BG_color_num |=((H_byte >> i) & 1) << 5;  
+
+            if((BG_color_num & 0x3) || (BG_color_num & 0x30)){
+                *bufptr++ =  Premapped_palette[BG_color_num];   
+                // *bufptr++ =  NES_Color_Palette[PPU_Mem.image_palette[BG_color_num]];   
+                // Buffer_LineCnt++;   
+            }else{  
+                if (BG_color_num & 0x3) {
+                    *(uint16_t*)bufptr = Premapped_palette[BG_color_num]>>16;
+                } else if (BG_color_num & 0x30) {
+                    *((uint16_t*)bufptr+1) = Premapped_palette[BG_color_num];
+                }
+                // Buffer_LineCnt++;  
+                bufptr++; 
+            }    
+            // gpio_toggle(LED2);
+        }    
+    }   
+}
+static void render_bg_line(int y_axes)   
+{   
+    static int last_y_scroll = 0;
+    int     i;   
+    // int     Buffer_LineCnt;
+    int x_TitleLine;   
+    uint8_t   H_byte, L_byte, BG_color_num, BG_attr_value;   
+    uint8_t   _nNameTable =  PPU_Reg.R0 & R0_NAME_TABLE;
+    const uint8_t  *BG_Patterntable;   
+   
+//  nNameTable = PPU_BG_NameTableNum; 
+    BG_Patterntable = PPU_Reg.R0 & BG_PATTERN_ADDR ? PPU_Mem.patterntable1 : PPU_Mem.patterntable0;
+    int _y_scroll = y_axes + PPU_BG_VScrlOrg; 
+    if(_y_scroll > 239){   
+        _y_scroll -= 240;   
+        _nNameTable ^= NAME_TABLE_V_MASK;
+    }   
+    const uint8_t nNameTable = _nNameTable;
+    const int y_scroll = _y_scroll;
+
+    uint16_t premap_palette[16] = {0};
+    for (int i=0; i<16; i++)
+        premap_palette[i] = NES_Color_Palette[PPU_Mem.image_palette[i]];
+
+    uint8_t* nNameTablePtr;
+    const int y_TitleLine = y_scroll >> 3;
+    const int dy_axes = y_scroll & 0x07;  
+//  x_scroll =  PPU_BG_HScrlOrg_Pre;           
+    const int dx_axes = PPU_BG_HScrlOrg & 0x07;
+    uint16_t* bufptr = &Buffer_scanline[8 - dx_axes];
+
+    nNameTablePtr = PPU_Mem.name_table[nNameTable];
+    for(x_TitleLine = PPU_BG_HScrlOrg >> 3; x_TitleLine < 32; x_TitleLine++){  
+        uint32_t BG_TitlePatNum = (nNameTablePtr[(y_TitleLine << 5) + x_TitleLine]<<4) + dy_axes;
+        L_byte = BG_Patterntable[BG_TitlePatNum];
+        H_byte = BG_Patterntable[BG_TitlePatNum + 8];         
+        BG_attr_value = nNameTablePtr[960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)]; 
         BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2;  
         for(i=7; i>=0; i--){ 
             BG_color_num = BG_attr_value;   
             BG_color_num |=(L_byte >> i) & 1;                
             BG_color_num |=((H_byte >> i) & 1) << 1;   
             if(BG_color_num & 3){
-                Buffer_scanline[Buffer_LineCnt] =  NES_Color_Palette[PPU_Mem.image_palette[BG_color_num]];   
-                Buffer_LineCnt++;   
+                *bufptr++ =  premap_palette[BG_color_num];   
+                // *bufptr++ =  NES_Color_Palette[PPU_Mem.image_palette[BG_color_num]];   
+                // Buffer_LineCnt++;   
             }else{   
-                Buffer_LineCnt++;   
+                // Buffer_LineCnt++;  
+                bufptr++; 
             }   
         }   
     } 
-    nNameTable ^= NAME_TABLE_H_MASK;   
+
+    nNameTablePtr = PPU_Mem.name_table[nNameTable ^ NAME_TABLE_H_MASK]; 
 //  Buffer_LineCnt -= dx_axes;  
-    for (x_TitleLine = 0; x_TitleLine <= (PPU_BG_HScrlOrg >> 3); x_TitleLine++ ){   
-        BG_TitlePatNum = PPU_Mem.name_table[nNameTable][(y_TitleLine << 5) + x_TitleLine];
-        L_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes];                   
-        H_byte = BG_Patterntable[(BG_TitlePatNum << 4) + dy_axes + 8];   
-        BG_attr_value = PPU_Mem.name_table[nNameTable][960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)];
-        BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2; 
-        for(i=7; i>=0; i--){   
-            BG_color_num = BG_attr_value;                                 
+    int end = (PPU_BG_HScrlOrg >> 3);
+    for (x_TitleLine = 0; x_TitleLine <= end; x_TitleLine++ ){   
+        uint32_t BG_TitlePatNum = (nNameTablePtr[(y_TitleLine << 5) + x_TitleLine]<<4) + dy_axes;
+        L_byte = BG_Patterntable[BG_TitlePatNum];
+        H_byte = BG_Patterntable[BG_TitlePatNum + 8];         
+        BG_attr_value = nNameTablePtr[960 + ((y_TitleLine >> 2) << 3) + (x_TitleLine >> 2)]; 
+        BG_attr_value = ((BG_attr_value >> (((y_TitleLine & 2) << 1) | (x_TitleLine & 2))) & 3) << 2;  
+        for(i=7; i>=0; i--){ 
+            BG_color_num = BG_attr_value;   
             BG_color_num |=(L_byte >> i) & 1;                
             BG_color_num |=((H_byte >> i) & 1) << 1;   
-            if(BG_color_num & 3){               
-                Buffer_scanline[Buffer_LineCnt] = NES_Color_Palette[PPU_Mem.image_palette[BG_color_num]];   
-                Buffer_LineCnt++;   
+            if(BG_color_num & 3){
+                *bufptr++ = premap_palette[BG_color_num];   
+                // *bufptr++ = NES_Color_Palette[PPU_Mem.image_palette[BG_color_num]];   
+                // Buffer_LineCnt++;   
             }else{   
-                Buffer_LineCnt++;   
+                // Buffer_LineCnt++;  
+                bufptr++; 
             }   
         }   
     }   
@@ -295,7 +416,7 @@ static __forceinline void render_sprite_pattern(SpriteType *sprptr, const uint8_
 //              Buffer_scanline[sprptr -> x + 8 - i] =  NES_Color_Palette[PPU_Mem.sprite_palette[0]];       
 //          }      
         }    
-    }   
+    }
 }   
    
 static __forceinline void render_sprite_88(SpriteType *sprptr, int dy_axes)   
@@ -322,18 +443,24 @@ static __forceinline void render_sprite_16(SpriteType *sprptr, int dy_axes)
    
 void ppu_render_line(int y_axes)   
 {   
-    int i, render_spr_num, spr_size, dy_axes;   
+    int i, render_spr_num, dy_axes;   
 //  MapperRenderScreen( 1 );   
    
     PPU_Reg.R2 &= ~R2_LOST_SPR;  
 //  PPU_BG_VScrlOrg_Pre = PPU_BG_VScrlOrg;
 //  PPU_BG_HScrlOrg_Pre = PPU_BG_HScrlOrg; 
-   
-    if(PPU_Reg.R1 & (R1_BG_VISIBLE | R1_SPR_VISIBLE)){ 
+    if((PPU_Reg.R1 & R1_BG_VISIBLE) && !(PPU_Reg.R1 & R1_SPR_VISIBLE)) {
         for(i=7; i<256 ; i++){  
             Buffer_scanline[i] =  NES_Color_Palette[PPU_Mem.image_palette[0]];   
-        }   
-        spr_size = PPU_Reg.R0 & R0_SPR_SIZE ? 0x0F : 0x07;
+        } 
+        render_bg_line_fast(y_axes); 
+    } else if(PPU_Reg.R1 & (R1_BG_VISIBLE | R1_SPR_VISIBLE)){ 
+        for(i=7; i<256 ; i++){  
+            Buffer_scanline[i] =  NES_Color_Palette[PPU_Mem.image_palette[0]];   
+        } 
+
+        const int spr_size = PPU_Reg.R0 & R0_SPR_SIZE ? 0x0F : 0x07;
+        
         if(PPU_Reg.R1 & R1_SPR_VISIBLE){ 
             render_spr_num=0; 
             for(i=63; i>=0; i--){   
@@ -353,12 +480,15 @@ void ppu_render_line(int y_axes)
             }      
         }   
 
-        if(PPU_Reg.R1 & R1_BG_VISIBLE){   
-            render_bg_line(y_axes);    
-        }     
+        if(PPU_Reg.R1 & R1_BG_VISIBLE){  
+            gpio_set(LED3); 
+            render_bg_line_fast(y_axes);    
+            gpio_reset(LED3); 
+        }   
+
         if(PPU_Reg.R1 & R1_SPR_VISIBLE){  
             render_spr_num=0; 
-          for(i=63; i>=0; i--){ 
+            for(i=63; i>=0; i--){ 
                 if(sprite[i].attr & SPR_BG_PRIO)    continue;            //(0=Sprite In front of BG, 1=Sprite Behind BG)   
                 dy_axes = y_axes - ((int)sprite[i].y + 1);    
                 if(dy_axes != (dy_axes & spr_size)) continue; 
@@ -373,22 +503,29 @@ void ppu_render_line(int y_axes)
                     render_sprite_88(&sprite[i], dy_axes);   
                 }   
             }      
-        }   
+        }
+
+        uint64_t* ptr = (void*)&Buffer_scanline[4]; //Should be 8?
+        uint64_t* end = (void*)&Buffer_scanline[4+256];
+        uint64_t* out = (void*)&DisplayBuffer[y_axes*256];
+        while (ptr != end) {
+            *out++ = *ptr++;
+        } 
     }else{   
-        for(i=8; i<264; i++){   
-            Buffer_scanline[i] = 0;        
-        }   
+        // for(i=8; i<264; i++){   
+        //     Buffer_scanline[i] = 0;        
+        // }
+        uint64_t* out = (void*)&DisplayBuffer[y_axes*256];
+        uint64_t* end = (void*)&DisplayBuffer[(y_axes+1)*256];
+        while (out != end) {
+            *out++ = 0;
+        }    
     }   
-    // tft_print_nes_line(y_axes, Buffer_scanline);  
-    // uint64_t* ptr = (void*)&Buffer_scanline[8];
-    // uint64_t* end = (void*)&Buffer_scanline[262];
-    // uint64_t* out = (void*)&DisplayBuffer[y_axes*256];
-    // while (ptr != end) {
-        // *out++ = *ptr++;
-    // }
-    for (int i=0; i<256; i++) { \
-        DisplayBuffer[(y_axes)*256 + i] = Buffer_scanline[8+i]; \
-    } 
+
+    // for (int i=0; i<256; i++) { \
+    //     DisplayBuffer[(y_axes)*256 + i] = Buffer_scanline[8+i]; \
+    // } 
+
 }
    
 /*******************************END OF FILE***********************************/   

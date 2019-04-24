@@ -200,7 +200,7 @@ int main(void)
     
     tft_printc(0, 5, " {/\\} \n{<}  {>}\n {\\/} ");
     // tft_printc(0, 5, " /\\ \n/  \\\n\\  /\n \\/ ");
-    tft_printc(37, 5, " {A} \n{B} {A}\n {B} ");
+    tft_printc(36, 5, " {A} \n{B} {A}\n {B} ");
     tft_prints(0,  14, "{SEL}");
     tft_prints(36, 14, "{STRT}");
 
@@ -241,8 +241,13 @@ int main(void)
         if (TIM6->SR & TIM_SR_UIF) {
           TIM6->SR = 0;
           nes_frame(0);
+          gpio_toggle(LED1);
           nes_frame(1);
           gpio_toggle(LED1);
+          if (btn_clicked(BTN_X3)) cpu_reset();
+          gpio_set(LED2);
+        } else {
+          gpio_reset(LED2);
         }
       }
     }

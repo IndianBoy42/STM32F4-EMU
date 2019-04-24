@@ -268,12 +268,14 @@ typedef struct{
 	void (*adrmode)(void);   
 } OPCODE;
 #define OPCODE_ARR(A, B, C, D) {A, cpu_ ## B, cpu_ ## C}, 
+#define OPCODE_TCK(A, B, C, D) A, 
 #define OPCODE_STR(A, B, C, D) #B,
-const OPCODE opcodetable[] = {OPCODE_TABLE(OPCODE_ARR)};
+// const OPCODE opcodetable[] = {OPCODE_TABLE(OPCODE_ARR)};
+const int opcodeticks[] = {OPCODE_TABLE(OPCODE_TCK)};
 const char* opcode_names[] = {OPCODE_TABLE(OPCODE_STR)};
 
-#define OPCODE_SWITCH(A, B, C, D) case D: cpu_ ## B(); cpu_clockticks += A; break;
-__forceinline void exec_instr(uint8_t op) {
+#define OPCODE_SWITCH(A, B, C, D) case D: cpu_ ## B(cpu_ ## C); cpu_clockticks += A; break;
+static void cpu_execinstruction(uint8_t op) {
 	switch (op) {
 		OPCODE_TABLE(OPCODE_SWITCH)
 	}

@@ -52,17 +52,21 @@
 
 /* USER CODE BEGIN Private defines */
 typedef struct JoystickStruct {
-  uint16_t x;
-  uint16_t y; 
-} Joystick;
-extern Joystick joys[2];
+  uint16_t x0;
+  uint16_t y0;
+  uint16_t y1;
+  uint16_t x1; 
+} Joysticks;
+extern Joysticks joys;
 void joystick_init(void);
+
 #define JOYSTICK_DEADZONE 70
 __forceinline int16_t joystick_conv(uint16_t j) {
   int16_t tmp = ((int16_t)j) - 2048;
   if (tmp < JOYSTICK_DEADZONE && tmp > -JOYSTICK_DEADZONE) return 0;
   else return tmp;
 }
+__forceinline uint8_t joystick_moved(uint16_t j) { return j > 3072 || j < 1024; }
 /* USER CODE END Private defines */
 
 void MX_ADC1_Init(void);

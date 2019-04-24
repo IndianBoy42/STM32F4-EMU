@@ -76,6 +76,7 @@ __forceinline void ppu_putmemory(uint8_t value)
             }      
          }else{   
             PPU_Mem.image_palette[(PPU_Mem.PPU_addrcnt & 0xF)] = value;
+            premap_palette();
          }   
 //          ppu_write_nametables(value); 
          break;
@@ -236,7 +237,7 @@ void sprite_dma(uint8_t scr_addr)
     }  
 
     for(i=0; i<256; i++){   
-    Spr_Mem.spr_ram[i] = scr_addrptr[i];   
+        Spr_Mem.spr_ram[i] = scr_addrptr[i];   
     }   
 }   
 
@@ -370,7 +371,7 @@ __forceinline void cpu_putmemory(uint16_t addr, uint8_t value)
 //          EROM[addr - 0x6000] = value;   
 //       }    
         break;
-           
+
     case 0x5000: //Exp Rom
     #ifdef EROM
         EROM[addr - 0x5000] = value;
