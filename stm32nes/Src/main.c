@@ -54,6 +54,7 @@
 #include "lcd_main.h"
 #include "cpu.h"
 #include "nes.h"
+#include "imu.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -133,10 +134,19 @@ int main(void)
   MX_SDIO_SD_Init();
   /* USER CODE BEGIN 2 */
   tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
+  while(IMU_init() == 0);
+  // IMU_enableGyro(50);
+  IMU_enableRotation(50);
+  // IMU_enableAccel(50);
   joystick_init();
   TIM6->PSC = 83;
   TIM6->ARR = 33333;
   TIM6->CR1 = TIM_CR1_CEN;
+
+  TIM13->PSC = 8399;
+  TIM13->ARR = 99;
+  TIM13->CCR1 = 10;
+  TIM13->CR1 = TIM_CR1_CEN;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -191,6 +201,9 @@ int main(void)
     static int GAME_SELECT = 0;
     #define NUM_OF_GAMES 3
     
+    static uint16_t btn_state = 0;
+    #define btn_pressed(X) (BUTTONS & (X))
+    #define btn_clicked(X) (BUTTONS & (X)) && !(btn_state & (X))
     tft_clear();
     tft_printc(4, 0, "ELEC3300(24) - Anshuman & Aaron");
     tft_printc(6, 12, "SELECT");
@@ -204,29 +217,50 @@ int main(void)
     tft_prints(0,  14, "{SEL}");
     tft_prints(36, 14, "{STRT}");
 
-    tft_printc(5, 1, " __    __  ________   ______   \n\
-/  \\  /  |/        | /      \\ \n\
-[$$]  \\ [$$] |[$$$$$$$$]/ /[$$$$$$]  |\n\
-[$$$]  \\[$$] |[$$] |__    [$$] \\__[$$]/ \n\
-[$$$$]  [$$] |[$$]    |   [$$]      \\ \n\
-[$$] [$$] [$$] |[$$$$$]/     [$$$$$$]  |\n\
-[$$] |[$$$$] |[$$] |_____ /  \\__[$$] |\n\
-[$$] | [$$$] |[$$]       |[$$]    [$$]/ \n\
-[$$]/   [$$]/ [$$$$$$$$]/  [$$$$$$]/  ");
+//     tft_printc(5, 1, " __    __  ________   ______   \n\
+// /  \\  /  |/        | /      \\ \n\
+// [$$]  \\ [$$] |[$$$$$$$$]/ /[$$$$$$]  |\n\
+// [$$$]  \\[$$] |[$$] |__    [$$] \\__[$$]/ \n\
+// [$$$$]  [$$] |[$$]    |   [$$]      \\ \n\
+// [$$] [$$] [$$] |[$$$$$]/     [$$$$$$]  |\n\
+// [$$] |[$$$$] |[$$] |_____ /  \\__[$$] |\n\
+// [$$] | [$$$] |[$$]       |[$$]    [$$]/ \n\
+// [$$]/   [$$]/ [$$$$$$$$]/  [$$$$$$]/  ");
+IMU_dataAvailable();
+    tft_prints(6,10, "%sIMU Control]",(getIMUControl())?"[":"");
+    // tft_printi(6,11,(int16_t)getAccelY()*10);
+    if (btn_clicked(BTN_M1)) toggleIMUControl();
+    // tft_printi(0, 1, get_ticks()%1000);
+    // tft_printi(5,1,(int16_t)(getQuatI()*1000));
+    // tft_printi(5,2,(int16_t)(getQuatJ()*1000));
+    // tft_printi(5,3,(int16_t)(getQuatK()*1000));
+    // tft_printi(5,4,(int16_t)(getQuatReal()*1000));
+    tft_printi(10,1,(int16_t)(getRoll()*10));
+    tft_printi(10,2,(int16_t)(getPitch()*10));
+    tft_printi(10,3,(int16_t)(getYaw()*10));
+    // tft_printi(5,2,(int16_t)(getAccelX()*1000));
+
+    // tft_printi(5,1,getAccelLeftRight());
+    // static uint8_t asdf = 0;
+    // tft_printi(5,4,asdf+= getAccelFlick());
 
     tft_update();
-
+    
     static uint32_t last_blink = 0;
     if ((get_ticks() - last_blink) > 100) {
       gpio_toggle(LED2);
       last_blink = get_ticks();
     }
 
-    static uint16_t btn_state = 0;
-    #define btn_pressed(X) (BUTTONS & (X))
-    #define btn_clicked(X) (BUTTONS & (X)) && !(btn_state & (X))
+    static uint32_t last_bright = 0;
+    if ((get_ticks() - last_bright) > 50) {
+      if (btn_pressed(BTN_X1)) TIM13->CCR1+= 3;
+      TIM13->CCR1%= 100;
+      last_bright = get_ticks();
+    }
 
-    if (btn_clicked(BTN_X2|BTN_D1|BTN_D2|BTN_X1)) {
+
+    if (btn_clicked(BTN_X2|BTN_D1|BTN_D2)) {
       GAME_SELECT++;
       GAME_SELECT %= 3;
     }
@@ -238,7 +272,14 @@ int main(void)
       nes_init(rom_select(GAME_SELECT));
 
       while (1) {
+        static uint32_t last_bright = 0;
+        if ((get_ticks() - last_bright2) > 50) {
+          if (btn_pressed(BTN_X1)) TIM13->CCR1+= 3;
+          TIM13->CCR1 %= 100;
+          last_bright2 = get_ticks();
+        }
         if (TIM6->SR & TIM_SR_UIF) {
+          IMU_dataAvailable();
           TIM6->SR = 0;
           nes_frame(0);
           gpio_toggle(LED1);

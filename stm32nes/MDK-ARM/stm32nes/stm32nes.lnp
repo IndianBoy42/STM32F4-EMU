@@ -15,6 +15,7 @@
 "stm32nes\cpu.o"
 "stm32nes\ppu.o"
 "stm32nes\nes.o"
+"stm32nes\imu.o"
 "stm32nes\stm32f4xx_ll_gpio.o"
 "stm32nes\stm32f4xx_ll_adc.o"
 "stm32nes\stm32f4xx_ll_dma.o"

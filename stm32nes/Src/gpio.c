@@ -113,12 +113,17 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = APU_NSS_Pin|APU_IRQ_Pin|APU_RST_Pin|APU_IO1_Pin 
+  GPIO_InitStruct.Pin = APU_NSS_Pin|APU_RST_Pin|APU_IO1_Pin 
                           |APU_IO2_Pin|LED1_Pin|LED2_Pin|LED3_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = APU_IRQ_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /**/

@@ -13,7 +13,7 @@
 ;;;64     
 ;;;65       LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 000004  2400              MOVS     r4,#0
-000006  4841              LDR      r0,|L1.268|
+000006  4845              LDR      r0,|L1.284|
 000008  9401              STR      r4,[sp,#4]
 00000a  9402              STR      r4,[sp,#8]
 00000c  9403              STR      r4,[sp,#0xc]
@@ -63,7 +63,7 @@
 ;;;74     
 ;;;75       /**/
 ;;;76       LL_GPIO_ResetOutputPin(GPIOC, TFT_RST_Pin|TFT_DC_Pin);
-00006a  4929              LDR      r1,|L1.272|
+00006a  492d              LDR      r1,|L1.288|
 00006c  f0000008          AND      r0,r0,#8
 000070  9006              STR      r0,[sp,#0x18]
 000072  f44f1040          MOV      r0,#0x300000
@@ -71,7 +71,7 @@
 ;;;77     
 ;;;78       /**/
 ;;;79       LL_GPIO_ResetOutputPin(GPIOD, APU_NSS_Pin|APU_IRQ_Pin|APU_RST_Pin|APU_IO1_Pin 
-000078  4926              LDR      r1,|L1.276|
+000078  492a              LDR      r1,|L1.292|
 00007a  f04f407f          MOV      r0,#0xff000000
 00007e  6008              STR      r0,[r1,#0]
 ;;;80                               |APU_IO2_Pin|LED1_Pin|LED2_Pin|LED3_Pin);
@@ -84,12 +84,12 @@
 ;;;86                               |BTN_U2_Pin|BTN_L2_Pin|BTN_JS1_Pin|BTN_U1_Pin;
 ;;;87       GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
 ;;;88       GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-000084  2601              MOVS     r6,#1
+000084  2501              MOVS     r5,#1
 ;;;89       LL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 000086  9000              STR      r0,[sp,#0]
 000088  4669              MOV      r1,sp
-00008a  9604              STR      r6,[sp,#0x10]
-00008c  4822              LDR      r0,|L1.280|
+00008a  9504              STR      r5,[sp,#0x10]
+00008c  4826              LDR      r0,|L1.296|
 00008e  f7fffffe          BL       LL_GPIO_Init
 ;;;90     
 ;;;91       /**/
@@ -98,11 +98,11 @@
 ;;;93                               |LL_GPIO_PIN_1|LL_GPIO_PIN_2|LL_GPIO_PIN_3|LL_GPIO_PIN_6 
 ;;;94                               |LL_GPIO_PIN_7;
 ;;;95       GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
-000096  2503              MOVS     r5,#3
+000096  2603              MOVS     r6,#3
 ;;;96       GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
 ;;;97       LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-000098  e9cd0500          STRD     r0,r5,[sp,#0]
-00009c  4f1f              LDR      r7,|L1.284|
+000098  e9cd0600          STRD     r0,r6,[sp,#0]
+00009c  4f23              LDR      r7,|L1.300|
 00009e  4669              MOV      r1,sp
 0000a0  9404              STR      r4,[sp,#0x10]
 0000a2  4638              MOV      r0,r7
@@ -112,7 +112,7 @@
 ;;;100      GPIO_InitStruct.Pin = TFT_RST_Pin|TFT_DC_Pin;
 0000a8  2030              MOVS     r0,#0x30
 0000aa  9000              STR      r0,[sp,#0]
-0000ac  e9cd6401          STRD     r6,r4,[sp,#4]
+0000ac  e9cd5401          STRD     r5,r4,[sp,#4]
 ;;;101      GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
 ;;;102      GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
 ;;;103      GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -132,77 +132,88 @@
 ;;;111      GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
 ;;;112      GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
 ;;;113      LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-0000c0  e9cd0500          STRD     r0,r5,[sp,#0]
+0000c0  e9cd0600          STRD     r0,r6,[sp,#0]
 0000c4  4669              MOV      r1,sp
 0000c6  9404              STR      r4,[sp,#0x10]
-0000c8  4815              LDR      r0,|L1.288|
+0000c8  4819              LDR      r0,|L1.304|
 0000ca  f7fffffe          BL       LL_GPIO_Init
 ;;;114    
 ;;;115      /**/
-;;;116      GPIO_InitStruct.Pin = APU_NSS_Pin|APU_IRQ_Pin|APU_RST_Pin|APU_IO1_Pin 
-0000ce  f44f407f          MOV      r0,#0xff00
+;;;116      GPIO_InitStruct.Pin = APU_NSS_Pin|APU_RST_Pin|APU_IO1_Pin 
+0000ce  f44f407d          MOV      r0,#0xfd00
 0000d2  9000              STR      r0,[sp,#0]
-0000d4  e9cd6401          STRD     r6,r4,[sp,#4]
+0000d4  e9cd5401          STRD     r5,r4,[sp,#4]
 ;;;117                              |APU_IO2_Pin|LED1_Pin|LED2_Pin|LED3_Pin;
 ;;;118      GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
 ;;;119      GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
 ;;;120      GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
 ;;;121      GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
 ;;;122      LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-0000d8  4e12              LDR      r6,|L1.292|
+0000d8  4f16              LDR      r7,|L1.308|
 0000da  9403              STR      r4,[sp,#0xc]          ;121
 0000dc  4669              MOV      r1,sp
-0000de  4630              MOV      r0,r6
+0000de  4638              MOV      r0,r7
 0000e0  9404              STR      r4,[sp,#0x10]
 0000e2  f7fffffe          BL       LL_GPIO_Init
 ;;;123    
-;;;124      /**/
-;;;125      GPIO_InitStruct.Pin = LL_GPIO_PIN_8|LL_GPIO_PIN_9|LL_GPIO_PIN_10|LL_GPIO_PIN_11 
-0000e6  f44f401f          MOV      r0,#0x9f00
-;;;126                              |LL_GPIO_PIN_12|LL_GPIO_PIN_15;
-;;;127      GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
-;;;128      GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-;;;129      LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-0000ea  e9cd0500          STRD     r0,r5,[sp,#0]
-0000ee  4669              MOV      r1,sp
-0000f0  9404              STR      r4,[sp,#0x10]
-0000f2  480d              LDR      r0,|L1.296|
-0000f4  f7fffffe          BL       LL_GPIO_Init
-;;;130    
-;;;131      /**/
-;;;132      GPIO_InitStruct.Pin = LL_GPIO_PIN_0|LL_GPIO_PIN_1|LL_GPIO_PIN_3|LL_GPIO_PIN_4 
-0000f8  209b              MOVS     r0,#0x9b
-;;;133                              |LL_GPIO_PIN_7;
-;;;134      GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
-;;;135      GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-;;;136      LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-0000fa  e9cd0500          STRD     r0,r5,[sp,#0]
+;;;124      GPIO_InitStruct.Pin = APU_IRQ_Pin;
+0000e6  0268              LSLS     r0,r5,#9
+;;;125      GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+;;;126      GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+;;;127      LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+0000e8  e9cd0400          STRD     r0,r4,[sp,#0]
+0000ec  4669              MOV      r1,sp
+0000ee  9504              STR      r5,[sp,#0x10]
+0000f0  4638              MOV      r0,r7
+0000f2  f7fffffe          BL       LL_GPIO_Init
+;;;128    
+;;;129      /**/
+;;;130      GPIO_InitStruct.Pin = LL_GPIO_PIN_8|LL_GPIO_PIN_9|LL_GPIO_PIN_10|LL_GPIO_PIN_11 
+0000f6  f44f401f          MOV      r0,#0x9f00
+;;;131                              |LL_GPIO_PIN_12|LL_GPIO_PIN_15;
+;;;132      GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
+;;;133      GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+;;;134      LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+0000fa  e9cd0600          STRD     r0,r6,[sp,#0]
 0000fe  4669              MOV      r1,sp
 000100  9404              STR      r4,[sp,#0x10]
-000102  4630              MOV      r0,r6
+000102  480d              LDR      r0,|L1.312|
 000104  f7fffffe          BL       LL_GPIO_Init
-;;;137    
-;;;138    }
-000108  b007              ADD      sp,sp,#0x1c
-00010a  bdf0              POP      {r4-r7,pc}
-;;;139    
+;;;135    
+;;;136      /**/
+;;;137      GPIO_InitStruct.Pin = LL_GPIO_PIN_0|LL_GPIO_PIN_1|LL_GPIO_PIN_3|LL_GPIO_PIN_4 
+000108  209b              MOVS     r0,#0x9b
+;;;138                              |LL_GPIO_PIN_7;
+;;;139      GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
+;;;140      GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+;;;141      LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+00010a  e9cd0600          STRD     r0,r6,[sp,#0]
+00010e  4669              MOV      r1,sp
+000110  9404              STR      r4,[sp,#0x10]
+000112  4638              MOV      r0,r7
+000114  f7fffffe          BL       LL_GPIO_Init
+;;;142    
+;;;143    }
+000118  b007              ADD      sp,sp,#0x1c
+00011a  bdf0              POP      {r4-r7,pc}
+;;;144    
                           ENDP
 
-                  |L1.268|
-                          DCD      0x40023830
-                  |L1.272|
-                          DCD      0x40020818
-                  |L1.276|
-                          DCD      0x40020c18
-                  |L1.280|
-                          DCD      0x40021000
                   |L1.284|
-                          DCD      0x40020800
+                          DCD      0x40023830
                   |L1.288|
-                          DCD      0x40020400
+                          DCD      0x40020818
                   |L1.292|
-                          DCD      0x40020c00
+                          DCD      0x40020c18
                   |L1.296|
+                          DCD      0x40021000
+                  |L1.300|
+                          DCD      0x40020800
+                  |L1.304|
+                          DCD      0x40020400
+                  |L1.308|
+                          DCD      0x40020c00
+                  |L1.312|
                           DCD      0x40020000
 
 ;*** Start embedded assembler ***

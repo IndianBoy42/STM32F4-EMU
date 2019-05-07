@@ -671,6 +671,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\nes.c</FilePath>
             </File>
+            <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\imu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

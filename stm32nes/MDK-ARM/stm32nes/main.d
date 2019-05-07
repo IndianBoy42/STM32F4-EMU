@@ -54,3 +54,5 @@ stm32nes\main.o: ../Inc/gpio.h
 stm32nes\main.o: ../Inc/lcd_main.h
 stm32nes\main.o: ../Inc/cpu.h
 stm32nes\main.o: ../Inc/nes.h
+stm32nes\main.o: ../Inc/imu.h
+stm32nes\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

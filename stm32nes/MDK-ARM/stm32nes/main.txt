@@ -5,31 +5,31 @@
                           AREA ||i.Error_Handler||, CODE, READONLY, ALIGN=1
 
                   Error_Handler PROC
-;;;325      */
-;;;326    void Error_Handler(void)
+;;;360      */
+;;;361    void Error_Handler(void)
 000000  4770              BX       lr
-;;;327    {
-;;;328      /* USER CODE BEGIN Error_Handler_Debug */
-;;;329      /* User can add his own implementation to report the HAL error return state */
-;;;330    
-;;;331      /* USER CODE END Error_Handler_Debug */
-;;;332    }
-;;;333    
+;;;362    {
+;;;363      /* USER CODE BEGIN Error_Handler_Debug */
+;;;364      /* User can add his own implementation to report the HAL error return state */
+;;;365    
+;;;366      /* USER CODE END Error_Handler_Debug */
+;;;367    }
+;;;368    
                           ENDP
 
 
                           AREA ||i.HAL_GetTick||, CODE, READONLY, ALIGN=2
 
                   HAL_GetTick PROC
-;;;315    }
-;;;316    uint32_t HAL_GetTick(void)
+;;;350    }
+;;;351    uint32_t HAL_GetTick(void)
 000000  4801              LDR      r0,|L2.8|
-;;;317    {
-;;;318      return __ticks;
+;;;352    {
+;;;353      return __ticks;
 000002  6840              LDR      r0,[r0,#4]  ; __ticks
-;;;319    }
+;;;354    }
 000004  4770              BX       lr
-;;;320    /* USER CODE END 4 */
+;;;355    /* USER CODE END 4 */
                           ENDP
 
 000006  0000              DCW      0x0000
@@ -39,27 +39,27 @@
                           AREA ||i.SysTick_Handler||, CODE, READONLY, ALIGN=2
 
                   SysTick_Handler PROC
-;;;310    volatile uint8_t  __tickf = 1;
-;;;311    void SysTick_Handler(void) {
+;;;345    volatile uint8_t  __tickf = 1;
+;;;346    void SysTick_Handler(void) {
 000000  4806              LDR      r0,|L3.28|
-;;;312    	__ticks++;
+;;;347    	__ticks++;
 000002  6841              LDR      r1,[r0,#4]  ; __ticks
 000004  1c49              ADDS     r1,r1,#1
 000006  6041              STR      r1,[r0,#4]  ; __ticks
-;;;313    	__tickf = 0;
+;;;348    	__tickf = 0;
 000008  2100              MOVS     r1,#0
 00000a  7001              STRB     r1,[r0,#0]
-;;;314    	if (__delay) __delay--;
+;;;349    	if (__delay) __delay--;
 00000c  6881              LDR      r1,[r0,#8]  ; __delay
-00000e  2900              CMP      r1,#0                 ;311
-;;;315    }
+00000e  2900              CMP      r1,#0                 ;346
+;;;350    }
 000010  bf08              IT       EQ
 000012  4770              BXEQ     lr
-000014  6881              LDR      r1,[r0,#8]            ;314  ; __delay
-000016  1e49              SUBS     r1,r1,#1              ;314
-000018  6081              STR      r1,[r0,#8]            ;314  ; __delay
+000014  6881              LDR      r1,[r0,#8]            ;349  ; __delay
+000016  1e49              SUBS     r1,r1,#1              ;349
+000018  6081              STR      r1,[r0,#8]            ;349  ; __delay
 00001a  4770              BX       lr
-;;;316    uint32_t HAL_GetTick(void)
+;;;351    uint32_t HAL_GetTick(void)
                           ENDP
 
                   |L3.28|
@@ -68,10 +68,10 @@
                           AREA ||i.SystemClock_Config||, CODE, READONLY, ALIGN=2
 
                   SystemClock_Config PROC
-;;;267      */
-;;;268    void SystemClock_Config(void)
+;;;302      */
+;;;303    void SystemClock_Config(void)
 000000  482b              LDR      r0,|L4.176|
-;;;269    {
+;;;304    {
 000002  b510              PUSH     {r4,lr}
 000004  6801              LDR      r1,[r0,#0]
 000006  f021010f          BIC      r1,r1,#0xf
@@ -126,41 +126,41 @@
                   |L4.134|
 000086  6801              LDR      r1,[r0,#0]
 000088  f001010c          AND      r1,r1,#0xc
-;;;270      LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
-;;;271    
-;;;272      if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_5)
-;;;273      {
-;;;274      Error_Handler();  
-;;;275      }
-;;;276      LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
-;;;277      LL_RCC_HSE_Enable();
-;;;278    
-;;;279       /* Wait till HSE is ready */
-;;;280      while(LL_RCC_HSE_IsReady() != 1)
-;;;281      {
-;;;282        
-;;;283      }
-;;;284      LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
-;;;285      LL_RCC_PLL_Enable();
-;;;286    
-;;;287       /* Wait till PLL is ready */
-;;;288      while(LL_RCC_PLL_IsReady() != 1)
-;;;289      {
-;;;290        
-;;;291      }
-;;;292      LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-;;;293      LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
-;;;294      LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
-;;;295      LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
-;;;296    
-;;;297       /* Wait till System clock is ready */
-;;;298      while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
+;;;305      LL_FLASH_SetLatency(LL_FLASH_LATENCY_5);
+;;;306    
+;;;307      if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_5)
+;;;308      {
+;;;309      Error_Handler();  
+;;;310      }
+;;;311      LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE1);
+;;;312      LL_RCC_HSE_Enable();
+;;;313    
+;;;314       /* Wait till HSE is ready */
+;;;315      while(LL_RCC_HSE_IsReady() != 1)
+;;;316      {
+;;;317        
+;;;318      }
+;;;319      LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_8, 336, LL_RCC_PLLP_DIV_2);
+;;;320      LL_RCC_PLL_Enable();
+;;;321    
+;;;322       /* Wait till PLL is ready */
+;;;323      while(LL_RCC_PLL_IsReady() != 1)
+;;;324      {
+;;;325        
+;;;326      }
+;;;327      LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+;;;328      LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_4);
+;;;329      LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
+;;;330      LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
+;;;331    
+;;;332       /* Wait till System clock is ready */
+;;;333      while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
 00008c  2908              CMP      r1,#8
 00008e  d1fa              BNE      |L4.134|
-;;;299      {
-;;;300      
-;;;301      }
-;;;302      LL_Init1msTick(168000000);
+;;;334      {
+;;;335      
+;;;336      }
+;;;337      LL_Init1msTick(168000000);
 000090  4c0e              LDR      r4,|L4.204|
 000092  4620              MOV      r0,r4
 000094  f7fffffe          BL       LL_Init1msTick
@@ -168,13 +168,13 @@
 00009c  6908              LDR      r0,[r1,#0x10]
 00009e  f0400004          ORR      r0,r0,#4
 0000a2  6108              STR      r0,[r1,#0x10]
-;;;303      LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
-;;;304      LL_SetSystemCoreClock(168000000);
+;;;338      LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
+;;;339      LL_SetSystemCoreClock(168000000);
 0000a4  4620              MOV      r0,r4
 0000a6  e8bd4010          POP      {r4,lr}
 0000aa  f7ffbffe          B.W      LL_SetSystemCoreClock
-;;;305    }
-;;;306    
+;;;340    }
+;;;341    
                           ENDP
 
 0000ae  0000              DCW      0x0000
@@ -198,538 +198,575 @@
                           AREA ||i.main||, CODE, READONLY, ALIGN=2
 
                   main PROC
-;;;93       */
-;;;94     int main(void)
-000000  b082              SUB      sp,sp,#8
-;;;95     {
-;;;96       /* USER CODE BEGIN 1 */
-;;;97     
-;;;98       /* USER CODE END 1 */
-;;;99     
-;;;100      /* MCU Configuration--------------------------------------------------------*/
-;;;101    
-;;;102      /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-;;;103      HAL_Init();
-000002  f7fffffe          BL       HAL_Init
-;;;104    
-;;;105      /* USER CODE BEGIN Init */
-;;;106    
-;;;107      /* USER CODE END Init */
-;;;108    
-;;;109      /* Configure the system clock */
-;;;110      SystemClock_Config();
-000006  f7fffffe          BL       SystemClock_Config
-00000a  f04f20e0          MOV      r0,#0xe000e000
-00000e  6901              LDR      r1,[r0,#0x10]
-000010  f0410102          ORR      r1,r1,#2
-000014  6101              STR      r1,[r0,#0x10]
-;;;111    
-;;;112      /* USER CODE BEGIN SysInit */
-;;;113    	ticks_init();
-;;;114      /* USER CODE END SysInit */
-;;;115    
-;;;116      /* Initialize all configured peripherals */
-;;;117      MX_GPIO_Init();
-000016  f7fffffe          BL       MX_GPIO_Init
-;;;118      MX_DMA_Init();
-00001a  f7fffffe          BL       MX_DMA_Init
-;;;119      MX_SPI1_Init();
-00001e  f7fffffe          BL       MX_SPI1_Init
-;;;120      MX_USART1_UART_Init();
-000022  f7fffffe          BL       MX_USART1_UART_Init
-;;;121      MX_ADC1_Init();
-000026  f7fffffe          BL       MX_ADC1_Init
-;;;122      MX_SPI2_Init();
-00002a  f7fffffe          BL       MX_SPI2_Init
-;;;123      MX_USART2_UART_Init();
-00002e  f7fffffe          BL       MX_USART2_UART_Init
-;;;124      MX_TIM13_Init();
-000032  f7fffffe          BL       MX_TIM13_Init
-;;;125      MX_DAC_Init();
-000036  f7fffffe          BL       MX_DAC_Init
-;;;126      MX_TIM14_Init();
-00003a  f7fffffe          BL       MX_TIM14_Init
-;;;127      MX_TIM12_Init();
-00003e  f7fffffe          BL       MX_TIM12_Init
-;;;128      MX_TIM11_Init();
-000042  f7fffffe          BL       MX_TIM11_Init
-;;;129      MX_TIM10_Init();
-000046  f7fffffe          BL       MX_TIM10_Init
-;;;130      MX_TIM9_Init();
-00004a  f7fffffe          BL       MX_TIM9_Init
-;;;131      MX_TIM6_Init();
-00004e  f7fffffe          BL       MX_TIM6_Init
-;;;132      MX_TIM7_Init();
-000052  f7fffffe          BL       MX_TIM7_Init
-;;;133      MX_SDIO_SD_Init();
-000056  f7fffffe          BL       MX_SDIO_SD_Init
-;;;134      /* USER CODE BEGIN 2 */
-;;;135      tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
-00005a  f44f4078          MOV      r0,#0xf800
-00005e  9000              STR      r0,[sp,#0]
-000060  f44f63fc          MOV      r3,#0x7e0
-000064  f64f72ff          MOV      r2,#0xffff
-000068  2100              MOVS     r1,#0
-00006a  2001              MOVS     r0,#1
-00006c  f7fffffe          BL       tft_init
-;;;136      joystick_init();
-000070  f7fffffe          BL       joystick_init
-;;;137      TIM6->PSC = 83;
-000074  4f60              LDR      r7,|L5.504|
-000076  2053              MOVS     r0,#0x53
-000078  62b8              STR      r0,[r7,#0x28]
-;;;138      TIM6->ARR = 33333;
-00007a  f2482035          MOV      r0,#0x8235
-00007e  62f8              STR      r0,[r7,#0x2c]
-;;;139      TIM6->CR1 = TIM_CR1_CEN;
-000080  2001              MOVS     r0,#1
-000082  6038              STR      r0,[r7,#0]
-;;;140      /* USER CODE END 2 */
-;;;141    
-;;;142      /* Infinite loop */
-;;;143      /* USER CODE BEGIN WHILE */
-;;;144      while (1)
-;;;145      {
-;;;146    #if 0
-;;;147        tft_clear();
-;;;148        
-;;;149        // tft_printc(0, 0, "Hello WorldHello WorldHello WorldHello WorldHello World");
-;;;150        // tft_printi(0, 1, get_ticks());
-;;;151        // tft_printi(0, 2, joystick_conv(joys[0].x));
-;;;152        // tft_printi(0, 3, joystick_conv(joys[0].y));
-;;;153        // tft_printi(0, 4, joystick_conv(joys[1].x));
-;;;154        // tft_printi(0, 5, joystick_conv(joys[1].y));
-;;;155        // tft_printb(0, 6, BUTTONS, 16);
-;;;156        tft_printc(0, 0, "NES");
-;;;157        cpu_debug_print(1);
+;;;94       */
+;;;95     int main(void)
+000000  ed2d8b02          VPUSH    {d8}
+;;;96     {
+000004  b082              SUB      sp,sp,#8
+;;;97       /* USER CODE BEGIN 1 */
+;;;98     
+;;;99       /* USER CODE END 1 */
+;;;100    
+;;;101      /* MCU Configuration--------------------------------------------------------*/
+;;;102    
+;;;103      /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+;;;104      HAL_Init();
+000006  f7fffffe          BL       HAL_Init
+;;;105    
+;;;106      /* USER CODE BEGIN Init */
+;;;107    
+;;;108      /* USER CODE END Init */
+;;;109    
+;;;110      /* Configure the system clock */
+;;;111      SystemClock_Config();
+00000a  f7fffffe          BL       SystemClock_Config
+00000e  f04f20e0          MOV      r0,#0xe000e000
+000012  6901              LDR      r1,[r0,#0x10]
+000014  f0410102          ORR      r1,r1,#2
+000018  6101              STR      r1,[r0,#0x10]
+;;;112    
+;;;113      /* USER CODE BEGIN SysInit */
+;;;114    	ticks_init();
+;;;115      /* USER CODE END SysInit */
+;;;116    
+;;;117      /* Initialize all configured peripherals */
+;;;118      MX_GPIO_Init();
+00001a  f7fffffe          BL       MX_GPIO_Init
+;;;119      MX_DMA_Init();
+00001e  f7fffffe          BL       MX_DMA_Init
+;;;120      MX_SPI1_Init();
+000022  f7fffffe          BL       MX_SPI1_Init
+;;;121      MX_USART1_UART_Init();
+000026  f7fffffe          BL       MX_USART1_UART_Init
+;;;122      MX_ADC1_Init();
+00002a  f7fffffe          BL       MX_ADC1_Init
+;;;123      MX_SPI2_Init();
+00002e  f7fffffe          BL       MX_SPI2_Init
+;;;124      MX_USART2_UART_Init();
+000032  f7fffffe          BL       MX_USART2_UART_Init
+;;;125      MX_TIM13_Init();
+000036  f7fffffe          BL       MX_TIM13_Init
+;;;126      MX_DAC_Init();
+00003a  f7fffffe          BL       MX_DAC_Init
+;;;127      MX_TIM14_Init();
+00003e  f7fffffe          BL       MX_TIM14_Init
+;;;128      MX_TIM12_Init();
+000042  f7fffffe          BL       MX_TIM12_Init
+;;;129      MX_TIM11_Init();
+000046  f7fffffe          BL       MX_TIM11_Init
+;;;130      MX_TIM10_Init();
+00004a  f7fffffe          BL       MX_TIM10_Init
+;;;131      MX_TIM9_Init();
+00004e  f7fffffe          BL       MX_TIM9_Init
+;;;132      MX_TIM6_Init();
+000052  f7fffffe          BL       MX_TIM6_Init
+;;;133      MX_TIM7_Init();
+000056  f7fffffe          BL       MX_TIM7_Init
+;;;134      MX_SDIO_SD_Init();
+00005a  f7fffffe          BL       MX_SDIO_SD_Init
+;;;135      /* USER CODE BEGIN 2 */
+;;;136      tft_init(PIN_ON_LEFT, BLACK, WHITE, GREEN, RED);
+00005e  f44f4078          MOV      r0,#0xf800
+000062  9000              STR      r0,[sp,#0]
+000064  f44f63fc          MOV      r3,#0x7e0
+000068  f64f72ff          MOV      r2,#0xffff
+00006c  2100              MOVS     r1,#0
+00006e  2001              MOVS     r0,#1
+000070  f7fffffe          BL       tft_init
+                  |L5.116|
+;;;137      while(IMU_init() == 0);
+000074  f7fffffe          BL       IMU_init
+000078  2800              CMP      r0,#0
+00007a  d0fb              BEQ      |L5.116|
+;;;138      // IMU_enableGyro(50);
+;;;139      IMU_enableRotation(50);
+00007c  2032              MOVS     r0,#0x32
+00007e  f7fffffe          BL       IMU_enableRotation
+;;;140      // IMU_enableAccel(50);
+;;;141      joystick_init();
+000082  f7fffffe          BL       joystick_init
+;;;142      TIM6->PSC = 83;
+000086  f8dfb24c          LDR      r11,|L5.724|
+00008a  2053              MOVS     r0,#0x53
+00008c  f8cb0028          STR      r0,[r11,#0x28]
+;;;143      TIM6->ARR = 33333;
+000090  f2482035          MOV      r0,#0x8235
+000094  f8cb002c          STR      r0,[r11,#0x2c]
+;;;144      TIM6->CR1 = TIM_CR1_CEN;
+000098  2001              MOVS     r0,#1
+00009a  f8cb0000          STR      r0,[r11,#0]
+;;;145    
+;;;146      TIM13->PSC = 8399;
+00009e  4a8e              LDR      r2,|L5.728|
+0000a0  f24201cf          MOV      r1,#0x20cf
+0000a4  6011              STR      r1,[r2,#0]
+;;;147      TIM13->ARR = 99;
+0000a6  2163              MOVS     r1,#0x63
+0000a8  1d12              ADDS     r2,r2,#4
+0000aa  6011              STR      r1,[r2,#0]
+;;;148      TIM13->CCR1 = 10;
+0000ac  4f8b              LDR      r7,|L5.732|
+0000ae  210a              MOVS     r1,#0xa
+0000b0  6039              STR      r1,[r7,#0]
+;;;149      TIM13->CR1 = TIM_CR1_CEN;
+0000b2  498b              LDR      r1,|L5.736|
+0000b4  6008              STR      r0,[r1,#0]
+;;;150      /* USER CODE END 2 */
+;;;151    
+;;;152      /* Infinite loop */
+;;;153      /* USER CODE BEGIN WHILE */
+;;;154      while (1)
+;;;155      {
+;;;156    #if 0
+;;;157        tft_clear();
 ;;;158        
-;;;159        tft_update_dma();
-;;;160    
-;;;161        static uint16_t btn_state = 0;
-;;;162        static uint32_t btn_clicked = 0;
-;;;163        #define btn_pressed(X) (BUTTONS & X)
-;;;164        #define btn_clicked(X) (BUTTONS & X) && !(btn_state & X)
-;;;165        if (btn_clicked(BTN_R1)) {
-;;;166          cpu_exec(1);
-;;;167          btn_clicked = get_ticks();
-;;;168        }
-;;;169        if (btn_clicked(BTN_D1)) {
-;;;170          nes_init();
-;;;171        }
-;;;172        if (btn_pressed(BTN_L1)) {
-;;;173          cpu_exec(113);
-;;;174        }
-;;;175        btn_state = BUTTONS;
-;;;176    
-;;;177    		if (tick_tock()) {
-;;;178    			static uint32_t last_ticks = 0;
-;;;179    			if (get_ticks() - last_ticks >= 100) {
-;;;180    				gpio_toggle(LED1);
-;;;181    				last_ticks = get_ticks();
-;;;182    			}
-;;;183    
-;;;184          if (((BUTTONS & BTN_R1)) && (get_ticks() - btn_clicked) > 1000) {
-;;;185            cpu_exec(10);
-;;;186          } else if (((BUTTONS & BTN_R1)) && (get_ticks() - btn_clicked) > 200) {
-;;;187            cpu_exec(1);
-;;;188          }
-;;;189    		}
-;;;190    #else
-;;;191        static int GAME_SELECT = 0;
-;;;192        #define NUM_OF_GAMES 3
-;;;193        
-;;;194        tft_clear();
-;;;195        tft_printc(4, 0, "ELEC3300(24) - Anshuman & Aaron");
-;;;196        tft_printc(6, 12, "SELECT");
-;;;197        tft_prints(13, 12, "%s Super Mario Bros]", (GAME_SELECT == 0) ? ("[>") : ("-"));
-;;;198        tft_prints(13, 13, "%s Battle City]"     , (GAME_SELECT == 1) ? ("[>") : ("-"));
-;;;199        tft_prints(13, 14, "%s Mappy]"           , (GAME_SELECT == 2) ? ("[>") : ("-"));
-;;;200        
-;;;201        tft_printc(0, 5, " {/\\} \n{<}  {>}\n {\\/} ");
-;;;202        // tft_printc(0, 5, " /\\ \n/  \\\n\\  /\n \\/ ");
-;;;203        tft_printc(36, 5, " {A} \n{B} {A}\n {B} ");
-;;;204        tft_prints(0,  14, "{SEL}");
-;;;205        tft_prints(36, 14, "{STRT}");
-;;;206    
-;;;207        tft_printc(5, 1, " __    __  ________   ______   \n\
-;;;208    /  \\  /  |/        | /      \\ \n\
-;;;209    [$$]  \\ [$$] |[$$$$$$$$]/ /[$$$$$$]  |\n\
-;;;210    [$$$]  \\[$$] |[$$] |__    [$$] \\__[$$]/ \n\
-;;;211    [$$$$]  [$$] |[$$]    |   [$$]      \\ \n\
-;;;212    [$$] [$$] [$$] |[$$$$$]/     [$$$$$$]  |\n\
-;;;213    [$$] |[$$$$] |[$$] |_____ /  \\__[$$] |\n\
-;;;214    [$$] | [$$$] |[$$]       |[$$]    [$$]/ \n\
-;;;215    [$$]/   [$$]/ [$$$$$$$$]/  [$$$$$$]/  ");
-;;;216    
-;;;217        tft_update();
-;;;218    
-;;;219        static uint32_t last_blink = 0;
-;;;220        if ((get_ticks() - last_blink) > 100) {
-;;;221          gpio_toggle(LED2);
-;;;222          last_blink = get_ticks();
-;;;223        }
-;;;224    
-;;;225        static uint16_t btn_state = 0;
-;;;226        #define btn_pressed(X) (BUTTONS & (X))
-;;;227        #define btn_clicked(X) (BUTTONS & (X)) && !(btn_state & (X))
-;;;228    
-;;;229        if (btn_clicked(BTN_X2|BTN_D1|BTN_D2|BTN_X1)) {
-;;;230          GAME_SELECT++;
-;;;231          GAME_SELECT %= 3;
-000084  f8dfa174          LDR      r10,|L5.508|
-000088  4d5d              LDR      r5,|L5.512|
-00008a  4c5e              LDR      r4,|L5.516|
-00008c  4e5e              LDR      r6,|L5.520|
-00008e  f64008c8          MOV      r8,#0x8c8             ;229
-;;;232        }
-;;;233        if (btn_clicked(BTN_X3|BTN_U1|BTN_U2)) {
-000092  f2441902          MOV      r9,#0x4102
-000096  bf00              NOP                            ;194
-                  |L5.152|
-000098  f7fffffe          BL       tft_clear
-00009c  a25b              ADR      r2,|L5.524|
-00009e  2100              MOVS     r1,#0                 ;195
-0000a0  2004              MOVS     r0,#4                 ;195
-0000a2  f7fffffe          BL       tft_printc
-0000a6  a261              ADR      r2,|L5.556|
-0000a8  210c              MOVS     r1,#0xc               ;196
-0000aa  2006              MOVS     r0,#6                 ;196
-0000ac  f7fffffe          BL       tft_printc
-0000b0  68e0              LDR      r0,[r4,#0xc]          ;197  ; GAME_SELECT
-0000b2  2800              CMP      r0,#0                 ;197
-0000b4  bf0c              ITE      EQ                    ;197
-0000b6  a35f              ADREQ    r3,|L5.564|
-0000b8  a35f              ADRNE    r3,|L5.568|
-0000ba  a260              ADR      r2,|L5.572|
-0000bc  210c              MOVS     r1,#0xc               ;197
-0000be  200d              MOVS     r0,#0xd               ;197
-0000c0  f7fffffe          BL       tft_prints
-0000c4  68e0              LDR      r0,[r4,#0xc]          ;198  ; GAME_SELECT
-0000c6  2801              CMP      r0,#1                 ;198
-0000c8  bf0c              ITE      EQ                    ;198
-0000ca  a35a              ADREQ    r3,|L5.564|
-0000cc  a35a              ADRNE    r3,|L5.568|
-0000ce  a261              ADR      r2,|L5.596|
-0000d0  210d              MOVS     r1,#0xd               ;198
-0000d2  4608              MOV      r0,r1                 ;198
-0000d4  f7fffffe          BL       tft_prints
-0000d8  68e0              LDR      r0,[r4,#0xc]          ;199  ; GAME_SELECT
-0000da  2802              CMP      r0,#2                 ;199
-0000dc  bf0c              ITE      EQ                    ;199
-0000de  a355              ADREQ    r3,|L5.564|
-0000e0  a355              ADRNE    r3,|L5.568|
-0000e2  a260              ADR      r2,|L5.612|
-0000e4  210e              MOVS     r1,#0xe               ;199
-0000e6  200d              MOVS     r0,#0xd               ;199
-0000e8  f7fffffe          BL       tft_prints
-0000ec  a260              ADR      r2,|L5.624|
-0000ee  2105              MOVS     r1,#5                 ;201
-0000f0  2000              MOVS     r0,#0                 ;201
-0000f2  f7fffffe          BL       tft_printc
-0000f6  a264              ADR      r2,|L5.648|
-0000f8  2105              MOVS     r1,#5                 ;203
-0000fa  2024              MOVS     r0,#0x24              ;203
-0000fc  f7fffffe          BL       tft_printc
-000100  a266              ADR      r2,|L5.668|
-000102  210e              MOVS     r1,#0xe               ;204
-000104  2000              MOVS     r0,#0                 ;204
-000106  f7fffffe          BL       tft_prints
-00010a  a266              ADR      r2,|L5.676|
-00010c  210e              MOVS     r1,#0xe               ;205
-00010e  2024              MOVS     r0,#0x24              ;205
-000110  f7fffffe          BL       tft_prints
-000114  4a65              LDR      r2,|L5.684|
-000116  2101              MOVS     r1,#1                 ;207
-000118  2005              MOVS     r0,#5                 ;207
-00011a  f7fffffe          BL       tft_printc
-00011e  f7fffffe          BL       tft_update
-000122  6860              LDR      r0,[r4,#4]            ;220  ; __ticks
-000124  6921              LDR      r1,[r4,#0x10]         ;220  ; last_blink
-000126  1a40              SUBS     r0,r0,r1              ;220
-000128  2864              CMP      r0,#0x64              ;220
-00012a  d905              BLS      |L5.312|
-00012c  6968              LDR      r0,[r5,#0x14]         ;220
-00012e  f4804080          EOR      r0,r0,#0x4000         ;220
-000132  6168              STR      r0,[r5,#0x14]         ;220
-000134  6860              LDR      r0,[r4,#4]            ;222  ; __ticks
-000136  6120              STR      r0,[r4,#0x10]         ;222  ; last_blink
-                  |L5.312|
-000138  6930              LDR      r0,[r6,#0x10]         ;229
-00013a  ea380000          BICS     r0,r8,r0              ;229
-00013e  d00f              BEQ      |L5.352|
-000140  8860              LDRH     r0,[r4,#2]            ;229  ; btn_state
-000142  f0200037          BIC      r0,r0,#0x37           ;229
-000146  f4304077          BICS     r0,r0,#0xf700         ;229
-00014a  d109              BNE      |L5.352|
-00014c  68e0              LDR      r0,[r4,#0xc]          ;230  ; GAME_SELECT
-00014e  1c40              ADDS     r0,r0,#1              ;230
-000150  fb8a2100          SMULL    r2,r1,r10,r0          ;231
-000154  eba171e1          SUB      r1,r1,r1,ASR #31      ;231
-000158  eba10181          SUB      r1,r1,r1,LSL #2       ;231
-00015c  4408              ADD      r0,r0,r1              ;231
-00015e  60e0              STR      r0,[r4,#0xc]          ;231  ; GAME_SELECT
-                  |L5.352|
-000160  6930              LDR      r0,[r6,#0x10]
-000162  ea390000          BICS     r0,r9,r0
-000166  d00b              BEQ      |L5.384|
-000168  8860              LDRH     r0,[r4,#2]  ; btn_state
-00016a  f02000fd          BIC      r0,r0,#0xfd
-00016e  f430403e          BICS     r0,r0,#0xbe00
-000172  d105              BNE      |L5.384|
-;;;234          GAME_SELECT--;
-000174  68e0              LDR      r0,[r4,#0xc]  ; GAME_SELECT
-000176  1e40              SUBS     r0,r0,#1
-000178  60e0              STR      r0,[r4,#0xc]  ; GAME_SELECT
-00017a  bf44              ITT      MI
-00017c  1cc0              ADDMI    r0,r0,#3
-;;;235          if (GAME_SELECT<0) GAME_SELECT += 3;
-00017e  60e0              STRMI    r0,[r4,#0xc]  ; GAME_SELECT
-                  |L5.384|
-;;;236        }
-;;;237        if (btn_clicked(BTN_X4)) {
-000180  6930              LDR      r0,[r6,#0x10]
-000182  f4107f00          TST      r0,#0x200
-000186  bf04              ITT      EQ
-000188  8860              LDRHEQ   r0,[r4,#2]  ; btn_state
-00018a  f4107f00          TSTEQ    r0,#0x200
-00018e  d003              BEQ      |L5.408|
-;;;238          nes_init(rom_select(GAME_SELECT));
-;;;239    
-;;;240          while (1) {
-;;;241            if (TIM6->SR & TIM_SR_UIF) {
-;;;242              TIM6->SR = 0;
-;;;243              nes_frame(0);
-;;;244              gpio_toggle(LED1);
-;;;245              nes_frame(1);
-;;;246              gpio_toggle(LED1);
-;;;247              if (btn_clicked(BTN_X3)) cpu_reset();
-;;;248              gpio_set(LED2);
-;;;249            } else {
-;;;250              gpio_reset(LED2);
-;;;251            }
-;;;252          }
+;;;159        // tft_printc(0, 0, "Hello WorldHello WorldHello WorldHello WorldHello World");
+;;;160        // tft_printi(0, 1, get_ticks());
+;;;161        // tft_printi(0, 2, joystick_conv(joys[0].x));
+;;;162        // tft_printi(0, 3, joystick_conv(joys[0].y));
+;;;163        // tft_printi(0, 4, joystick_conv(joys[1].x));
+;;;164        // tft_printi(0, 5, joystick_conv(joys[1].y));
+;;;165        // tft_printb(0, 6, BUTTONS, 16);
+;;;166        tft_printc(0, 0, "NES");
+;;;167        cpu_debug_print(1);
+;;;168        
+;;;169        tft_update_dma();
+;;;170    
+;;;171        static uint16_t btn_state = 0;
+;;;172        static uint32_t btn_clicked = 0;
+;;;173        #define btn_pressed(X) (BUTTONS & X)
+;;;174        #define btn_clicked(X) (BUTTONS & X) && !(btn_state & X)
+;;;175        if (btn_clicked(BTN_R1)) {
+;;;176          cpu_exec(1);
+;;;177          btn_clicked = get_ticks();
+;;;178        }
+;;;179        if (btn_clicked(BTN_D1)) {
+;;;180          nes_init();
+;;;181        }
+;;;182        if (btn_pressed(BTN_L1)) {
+;;;183          cpu_exec(113);
+;;;184        }
+;;;185        btn_state = BUTTONS;
+;;;186    
+;;;187    		if (tick_tock()) {
+;;;188    			static uint32_t last_ticks = 0;
+;;;189    			if (get_ticks() - last_ticks >= 100) {
+;;;190    				gpio_toggle(LED1);
+;;;191    				last_ticks = get_ticks();
+;;;192    			}
+;;;193    
+;;;194          if (((BUTTONS & BTN_R1)) && (get_ticks() - btn_clicked) > 1000) {
+;;;195            cpu_exec(10);
+;;;196          } else if (((BUTTONS & BTN_R1)) && (get_ticks() - btn_clicked) > 200) {
+;;;197            cpu_exec(1);
+;;;198          }
+;;;199    		}
+;;;200    #else
+;;;201        static int GAME_SELECT = 0;
+;;;202        #define NUM_OF_GAMES 3
+;;;203        
+;;;204        static uint16_t btn_state = 0;
+;;;205        #define btn_pressed(X) (BUTTONS & (X))
+;;;206        #define btn_clicked(X) (BUTTONS & (X)) && !(btn_state & (X))
+;;;207        tft_clear();
+;;;208        tft_printc(4, 0, "ELEC3300(24) - Anshuman & Aaron");
+;;;209        tft_printc(6, 12, "SELECT");
+;;;210        tft_prints(13, 12, "%s Super Mario Bros]", (GAME_SELECT == 0) ? ("[>") : ("-"));
+;;;211        tft_prints(13, 13, "%s Battle City]"     , (GAME_SELECT == 1) ? ("[>") : ("-"));
+;;;212        tft_prints(13, 14, "%s Mappy]"           , (GAME_SELECT == 2) ? ("[>") : ("-"));
+;;;213        
+;;;214        tft_printc(0, 5, " {/\\} \n{<}  {>}\n {\\/} ");
+;;;215        // tft_printc(0, 5, " /\\ \n/  \\\n\\  /\n \\/ ");
+;;;216        tft_printc(36, 5, " {A} \n{B} {A}\n {B} ");
+;;;217        tft_prints(0,  14, "{SEL}");
+;;;218        tft_prints(36, 14, "{STRT}");
+;;;219    
+;;;220    //     tft_printc(5, 1, " __    __  ________   ______   \n\
+;;;221    // /  \\  /  |/        | /      \\ \n\
+;;;222    // [$$]  \\ [$$] |[$$$$$$$$]/ /[$$$$$$]  |\n\
+;;;223    // [$$$]  \\[$$] |[$$] |__    [$$] \\__[$$]/ \n\
+;;;224    // [$$$$]  [$$] |[$$]    |   [$$]      \\ \n\
+;;;225    // [$$] [$$] [$$] |[$$$$$]/     [$$$$$$]  |\n\
+;;;226    // [$$] |[$$$$] |[$$] |_____ /  \\__[$$] |\n\
+;;;227    // [$$] | [$$$] |[$$]       |[$$]    [$$]/ \n\
+;;;228    // [$$]/   [$$]/ [$$$$$$$$]/  [$$$$$$]/  ");
+;;;229    IMU_dataAvailable();
+;;;230        tft_prints(6,10, "%sIMU Control]",(getIMUControl())?"[":"");
+;;;231        // tft_printi(6,11,(int16_t)getAccelY()*10);
+;;;232        if (btn_clicked(BTN_M1)) toggleIMUControl();
+;;;233        // tft_printi(0, 1, get_ticks()%1000);
+;;;234        // tft_printi(5,1,(int16_t)(getQuatI()*1000));
+;;;235        // tft_printi(5,2,(int16_t)(getQuatJ()*1000));
+;;;236        // tft_printi(5,3,(int16_t)(getQuatK()*1000));
+;;;237        // tft_printi(5,4,(int16_t)(getQuatReal()*1000));
+;;;238        tft_printi(10,1,(int16_t)(getRoll()*10));
+0000b6  eeb28a04          VMOV.F32 s16,#10.00000000
+;;;239        tft_printi(10,2,(int16_t)(getPitch()*10));
+;;;240        tft_printi(10,3,(int16_t)(getYaw()*10));
+;;;241        // tft_printi(5,2,(int16_t)(getAccelX()*1000));
+;;;242    
+;;;243        // tft_printi(5,1,getAccelLeftRight());
+;;;244        // static uint8_t asdf = 0;
+;;;245        // tft_printi(5,4,asdf+= getAccelFlick());
+;;;246    
+;;;247        tft_update();
+;;;248        
+;;;249        static uint32_t last_blink = 0;
+;;;250        if ((get_ticks() - last_blink) > 100) {
+;;;251          gpio_toggle(LED2);
+;;;252          last_blink = get_ticks();
 ;;;253        }
-;;;254        btn_state = BUTTONS;
-000190  6930              LDR      r0,[r6,#0x10]
-000192  43c0              MVNS     r0,r0
-000194  8060              STRH     r0,[r4,#2]
-000196  e77f              B        |L5.152|
-                  |L5.408|
-000198  68e0              LDR      r0,[r4,#0xc]          ;238  ; GAME_SELECT
-00019a  f7fffffe          BL       rom_select
-00019e  f7fffffe          BL       nes_init
-0001a2  f8dfa10c          LDR      r10,|L5.688|
-0001a6  f04f0800          MOV      r8,#0                 ;238
-0001aa  f04f4980          MOV      r9,#0x40000000        ;250
-                  |L5.430|
-0001ae  6938              LDR      r0,[r7,#0x10]         ;241
-0001b0  f0100f01          TST      r0,#1                 ;241
-0001b4  bf08              IT       EQ                    ;250
-0001b6  f8ca9000          STREQ    r9,[r10,#0]           ;250
-0001ba  d0f8              BEQ      |L5.430|
-0001bc  f8c78010          STR      r8,[r7,#0x10]         ;242
-0001c0  2000              MOVS     r0,#0                 ;243
-0001c2  f7fffffe          BL       nes_frame
-0001c6  6968              LDR      r0,[r5,#0x14]         ;243
-0001c8  f4805000          EOR      r0,r0,#0x2000         ;243
-0001cc  6168              STR      r0,[r5,#0x14]         ;243
-0001ce  2001              MOVS     r0,#1                 ;245
-0001d0  f7fffffe          BL       nes_frame
-0001d4  6968              LDR      r0,[r5,#0x14]         ;245
-0001d6  f4805000          EOR      r0,r0,#0x2000         ;245
-0001da  6168              STR      r0,[r5,#0x14]         ;245
-0001dc  6930              LDR      r0,[r6,#0x10]         ;247
-0001de  f4107f80          TST      r0,#0x100             ;247
-0001e2  bf04              ITT      EQ                    ;247
-0001e4  8860              LDRHEQ   r0,[r4,#2]            ;247  ; btn_state
-0001e6  f4107f80          TSTEQ    r0,#0x100             ;247
-0001ea  d101              BNE      |L5.496|
-0001ec  f7fffffe          BL       cpu_reset
-                  |L5.496|
-0001f0  f44f4080          MOV      r0,#0x4000            ;248
-0001f4  61a8              STR      r0,[r5,#0x18]         ;248
-0001f6  e7da              B        |L5.430|
-;;;255    
-;;;256    #endif
-;;;257        /* USER CODE END WHILE */
-;;;258    
-;;;259        /* USER CODE BEGIN 3 */
-;;;260      }
-;;;261      /* USER CODE END 3 */
-;;;262    }
-;;;263    
+;;;254    
+;;;255        static uint32_t last_bright = 0;
+;;;256        if ((get_ticks() - last_bright) > 100) {
+;;;257          if (btn_pressed(BTN_X1)) TIM13->CCR1+= 5;
+;;;258          TIM13->CCR1%= 100;
+0000ba  f8dfa228          LDR      r10,|L5.740|
+;;;259          last_bright = get_ticks();
+;;;260        }
+;;;261    
+;;;262    
+;;;263        if (btn_clicked(BTN_X2|BTN_D1|BTN_D2)) {
+0000be  f6400888          MOV      r8,#0x888
+;;;264          GAME_SELECT++;
+;;;265          GAME_SELECT %= 3;
+;;;266        }
+;;;267        if (btn_clicked(BTN_X3|BTN_U1|BTN_U2)) {
+0000c2  f2441902          MOV      r9,#0x4102
+0000c6  4e88              LDR      r6,|L5.744|
+0000c8  4c88              LDR      r4,|L5.748|
+0000ca  4d89              LDR      r5,|L5.752|
+                  |L5.204|
+0000cc  f7fffffe          BL       tft_clear
+0000d0  a288              ADR      r2,|L5.756|
+0000d2  2100              MOVS     r1,#0                 ;208
+0000d4  2004              MOVS     r0,#4                 ;208
+0000d6  f7fffffe          BL       tft_printc
+0000da  a28e              ADR      r2,|L5.788|
+0000dc  210c              MOVS     r1,#0xc               ;209
+0000de  2006              MOVS     r0,#6                 ;209
+0000e0  f7fffffe          BL       tft_printc
+0000e4  68e0              LDR      r0,[r4,#0xc]          ;210  ; GAME_SELECT
+0000e6  2800              CMP      r0,#0                 ;210
+0000e8  bf0c              ITE      EQ                    ;210
+0000ea  a38c              ADREQ    r3,|L5.796|
+0000ec  a38c              ADRNE    r3,|L5.800|
+0000ee  a28d              ADR      r2,|L5.804|
+0000f0  210c              MOVS     r1,#0xc               ;210
+0000f2  200d              MOVS     r0,#0xd               ;210
+0000f4  f7fffffe          BL       tft_prints
+0000f8  68e0              LDR      r0,[r4,#0xc]          ;211  ; GAME_SELECT
+0000fa  2801              CMP      r0,#1                 ;211
+0000fc  bf0c              ITE      EQ                    ;211
+0000fe  a387              ADREQ    r3,|L5.796|
+000100  a387              ADRNE    r3,|L5.800|
+000102  a28e              ADR      r2,|L5.828|
+000104  210d              MOVS     r1,#0xd               ;211
+000106  4608              MOV      r0,r1                 ;211
+000108  f7fffffe          BL       tft_prints
+00010c  68e0              LDR      r0,[r4,#0xc]          ;212  ; GAME_SELECT
+00010e  2802              CMP      r0,#2                 ;212
+000110  bf0c              ITE      EQ                    ;212
+000112  a382              ADREQ    r3,|L5.796|
+000114  a382              ADRNE    r3,|L5.800|
+000116  a28d              ADR      r2,|L5.844|
+000118  210e              MOVS     r1,#0xe               ;212
+00011a  200d              MOVS     r0,#0xd               ;212
+00011c  f7fffffe          BL       tft_prints
+000120  a28d              ADR      r2,|L5.856|
+000122  2105              MOVS     r1,#5                 ;214
+000124  2000              MOVS     r0,#0                 ;214
+000126  f7fffffe          BL       tft_printc
+00012a  a291              ADR      r2,|L5.880|
+00012c  2105              MOVS     r1,#5                 ;216
+00012e  2024              MOVS     r0,#0x24              ;216
+000130  f7fffffe          BL       tft_printc
+000134  a293              ADR      r2,|L5.900|
+000136  210e              MOVS     r1,#0xe               ;217
+000138  2000              MOVS     r0,#0                 ;217
+00013a  f7fffffe          BL       tft_prints
+00013e  a293              ADR      r2,|L5.908|
+000140  210e              MOVS     r1,#0xe               ;218
+000142  2024              MOVS     r0,#0x24              ;218
+000144  f7fffffe          BL       tft_prints
+000148  f7fffffe          BL       IMU_dataAvailable
+00014c  f7fffffe          BL       getIMUControl
+000150  2800              CMP      r0,#0                 ;230
+000152  bf14              ITE      NE                    ;230
+000154  a38f              ADRNE    r3,|L5.916|
+000156  a378              ADREQ    r3,|L5.824|
+000158  a28f              ADR      r2,|L5.920|
+00015a  210a              MOVS     r1,#0xa               ;230
+00015c  2006              MOVS     r0,#6                 ;230
+00015e  f7fffffe          BL       tft_prints
+000162  6928              LDR      r0,[r5,#0x10]         ;232
+000164  f0100f20          TST      r0,#0x20              ;232
+000168  bf02              ITTT     EQ                    ;232
+00016a  78a0              LDRBEQ   r0,[r4,#2]            ;232  ; btn_state
+00016c  f0100f20          TSTEQ    r0,#0x20              ;232
+000170  f7fffffe          BLEQ     toggleIMUControl
+000174  f7fffffe          BL       getRoll
+000178  ee200a08          VMUL.F32 s0,s0,s16             ;238
+00017c  2101              MOVS     r1,#1                 ;238
+00017e  eebd0ac0          VCVT.S32.F32 s0,s0                 ;238
+000182  ee100a10          VMOV     r0,s0                 ;238
+000186  b202              SXTH     r2,r0                 ;238
+000188  200a              MOVS     r0,#0xa               ;238
+00018a  f7fffffe          BL       tft_printi
+00018e  f7fffffe          BL       getPitch
+000192  ee200a08          VMUL.F32 s0,s0,s16             ;239
+000196  2102              MOVS     r1,#2                 ;239
+000198  eebd0ac0          VCVT.S32.F32 s0,s0                 ;239
+00019c  ee100a10          VMOV     r0,s0                 ;239
+0001a0  b202              SXTH     r2,r0                 ;239
+0001a2  200a              MOVS     r0,#0xa               ;239
+0001a4  f7fffffe          BL       tft_printi
+0001a8  f7fffffe          BL       getYaw
+0001ac  ee200a08          VMUL.F32 s0,s0,s16             ;240
+0001b0  2103              MOVS     r1,#3                 ;240
+0001b2  eebd0ac0          VCVT.S32.F32 s0,s0                 ;240
+0001b6  ee100a10          VMOV     r0,s0                 ;240
+0001ba  b202              SXTH     r2,r0                 ;240
+0001bc  200a              MOVS     r0,#0xa               ;240
+0001be  f7fffffe          BL       tft_printi
+0001c2  f7fffffe          BL       tft_update
+0001c6  6860              LDR      r0,[r4,#4]            ;250  ; __ticks
+0001c8  6921              LDR      r1,[r4,#0x10]         ;250  ; last_blink
+0001ca  1a40              SUBS     r0,r0,r1              ;250
+0001cc  2864              CMP      r0,#0x64              ;250
+0001ce  d905              BLS      |L5.476|
+0001d0  6970              LDR      r0,[r6,#0x14]         ;250
+0001d2  f4804080          EOR      r0,r0,#0x4000         ;250
+0001d6  6170              STR      r0,[r6,#0x14]         ;250
+0001d8  6860              LDR      r0,[r4,#4]            ;252  ; __ticks
+0001da  6120              STR      r0,[r4,#0x10]         ;252  ; last_blink
+                  |L5.476|
+0001dc  6861              LDR      r1,[r4,#4]            ;256  ; __ticks
+0001de  6960              LDR      r0,[r4,#0x14]         ;256  ; last_bright
+0001e0  1a08              SUBS     r0,r1,r0              ;256
+0001e2  2864              CMP      r0,#0x64              ;256
+0001e4  d912              BLS      |L5.524|
+0001e6  6928              LDR      r0,[r5,#0x10]         ;257
+0001e8  f0100f40          TST      r0,#0x40              ;257
+0001ec  d102              BNE      |L5.500|
+0001ee  6838              LDR      r0,[r7,#0]            ;257
+0001f0  1d40              ADDS     r0,r0,#5              ;257
+0001f2  6038              STR      r0,[r7,#0]            ;257
+                  |L5.500|
+0001f4  6838              LDR      r0,[r7,#0]            ;258
+0001f6  fbaa2100          UMULL    r2,r1,r10,r0          ;258
+0001fa  094a              LSRS     r2,r1,#5              ;258
+0001fc  f06f0118          MVN      r1,#0x18              ;258
+000200  4351              MULS     r1,r2,r1              ;258
+000202  eb000081          ADD      r0,r0,r1,LSL #2       ;258
+000206  6038              STR      r0,[r7,#0]            ;258
+000208  6860              LDR      r0,[r4,#4]            ;259  ; __ticks
+00020a  6160              STR      r0,[r4,#0x14]         ;259  ; last_bright
+                  |L5.524|
+00020c  6928              LDR      r0,[r5,#0x10]         ;263
+00020e  ea380000          BICS     r0,r8,r0              ;263
+000212  d010              BEQ      |L5.566|
+000214  8860              LDRH     r0,[r4,#2]            ;263  ; btn_state
+000216  f0200077          BIC      r0,r0,#0x77           ;263
+00021a  f4304077          BICS     r0,r0,#0xf700         ;263
+00021e  d10a              BNE      |L5.566|
+000220  68e0              LDR      r0,[r4,#0xc]          ;265  ; GAME_SELECT
+000222  4961              LDR      r1,|L5.936|
+000224  1c40              ADDS     r0,r0,#1              ;265
+000226  fb812100          SMULL    r2,r1,r1,r0           ;265
+00022a  eba171e1          SUB      r1,r1,r1,ASR #31      ;265
+00022e  eba10181          SUB      r1,r1,r1,LSL #2       ;265
+000232  4408              ADD      r0,r0,r1              ;265
+000234  60e0              STR      r0,[r4,#0xc]          ;265  ; GAME_SELECT
+                  |L5.566|
+000236  6928              LDR      r0,[r5,#0x10]
+000238  ea390000          BICS     r0,r9,r0
+00023c  d00b              BEQ      |L5.598|
+00023e  8860              LDRH     r0,[r4,#2]  ; btn_state
+000240  f02000fd          BIC      r0,r0,#0xfd
+000244  f430403e          BICS     r0,r0,#0xbe00
+000248  d105              BNE      |L5.598|
+;;;268          GAME_SELECT--;
+00024a  68e0              LDR      r0,[r4,#0xc]  ; GAME_SELECT
+00024c  1e40              SUBS     r0,r0,#1
+00024e  60e0              STR      r0,[r4,#0xc]  ; GAME_SELECT
+000250  bf44              ITT      MI
+000252  1cc0              ADDMI    r0,r0,#3
+;;;269          if (GAME_SELECT<0) GAME_SELECT += 3;
+000254  60e0              STRMI    r0,[r4,#0xc]  ; GAME_SELECT
+                  |L5.598|
+;;;270        }
+;;;271        if (btn_clicked(BTN_X4)) {
+000256  6928              LDR      r0,[r5,#0x10]
+000258  f4107f00          TST      r0,#0x200
+00025c  bf04              ITT      EQ
+00025e  8860              LDRHEQ   r0,[r4,#2]  ; btn_state
+000260  f4107f00          TSTEQ    r0,#0x200
+000264  d003              BEQ      |L5.622|
+;;;272          nes_init(rom_select(GAME_SELECT));
+;;;273    
+;;;274          while (1) {
+;;;275            if (TIM6->SR & TIM_SR_UIF) {
+;;;276              IMU_dataAvailable();
+;;;277              TIM6->SR = 0;
+;;;278              nes_frame(0);
+;;;279              gpio_toggle(LED1);
+;;;280              nes_frame(1);
+;;;281              gpio_toggle(LED1);
+;;;282              if (btn_clicked(BTN_X3)) cpu_reset();
+;;;283              gpio_set(LED2);
+;;;284            } else {
+;;;285              gpio_reset(LED2);
+;;;286            }
+;;;287          }
+;;;288        }
+;;;289        btn_state = BUTTONS;
+000266  6928              LDR      r0,[r5,#0x10]
+000268  43c0              MVNS     r0,r0
+00026a  8060              STRH     r0,[r4,#2]
+00026c  e72e              B        |L5.204|
+                  |L5.622|
+00026e  68e0              LDR      r0,[r4,#0xc]          ;272  ; GAME_SELECT
+000270  f7fffffe          BL       rom_select
+000274  f7fffffe          BL       nes_init
+000278  f8df9130          LDR      r9,|L5.940|
+00027c  2700              MOVS     r7,#0                 ;272
+00027e  f04f4880          MOV      r8,#0x40000000        ;285
+000282  bf00              NOP                            ;275
+                  |L5.644|
+000284  f8db0010          LDR      r0,[r11,#0x10]        ;275
+000288  f0100f01          TST      r0,#1                 ;275
+00028c  bf08              IT       EQ                    ;285
+00028e  f8c98000          STREQ    r8,[r9,#0]            ;285
+000292  d0f7              BEQ      |L5.644|
+000294  f7fffffe          BL       IMU_dataAvailable
+000298  f8cb7010          STR      r7,[r11,#0x10]        ;277
+00029c  2000              MOVS     r0,#0                 ;278
+00029e  f7fffffe          BL       nes_frame
+0002a2  6970              LDR      r0,[r6,#0x14]         ;278
+0002a4  f4805000          EOR      r0,r0,#0x2000         ;278
+0002a8  6170              STR      r0,[r6,#0x14]         ;278
+0002aa  2001              MOVS     r0,#1                 ;280
+0002ac  f7fffffe          BL       nes_frame
+0002b0  6970              LDR      r0,[r6,#0x14]         ;280
+0002b2  f4805000          EOR      r0,r0,#0x2000         ;280
+0002b6  6170              STR      r0,[r6,#0x14]         ;280
+0002b8  6928              LDR      r0,[r5,#0x10]         ;282
+0002ba  f4107f80          TST      r0,#0x100             ;282
+0002be  bf02              ITTT     EQ                    ;282
+0002c0  8860              LDRHEQ   r0,[r4,#2]            ;282  ; btn_state
+0002c2  f4107f80          TSTEQ    r0,#0x100             ;282
+0002c6  f7fffffe          BLEQ     cpu_reset
+0002ca  f44f4080          MOV      r0,#0x4000            ;283
+0002ce  61b0              STR      r0,[r6,#0x18]         ;283
+0002d0  e7d8              B        |L5.644|
+;;;290    
+;;;291    #endif
+;;;292        /* USER CODE END WHILE */
+;;;293    
+;;;294        /* USER CODE BEGIN 3 */
+;;;295      }
+;;;296      /* USER CODE END 3 */
+;;;297    }
+;;;298    
                           ENDP
 
-                  |L5.504|
+0002d2  0000              DCW      0x0000
+                  |L5.724|
                           DCD      0x40001000
-                  |L5.508|
-                          DCD      0x55555556
-                  |L5.512|
+                  |L5.728|
+                          DCD      0x40001c28
+                  |L5.732|
+                          DCD      0x40001c34
+                  |L5.736|
+                          DCD      0x40001c00
+                  |L5.740|
+                          DCD      0x51eb851f
+                  |L5.744|
                           DCD      0x40020c00
-                  |L5.516|
+                  |L5.748|
                           DCD      ||.data||
-                  |L5.520|
+                  |L5.752|
                           DCD      0x40021000
-                  |L5.524|
-00020c  454c4543          DCB      "ELEC3300(24) - Anshuman & Aaron",0
-000210  33333030
-000214  28323429
-000218  202d2041
-00021c  6e736875
-000220  6d616e20
-000224  26204161
-000228  726f6e00
-                  |L5.556|
-00022c  53454c45          DCB      "SELECT",0
-000230  435400  
-000233  00                DCB      0
-                  |L5.564|
-000234  5b3e00            DCB      "[>",0
-000237  00                DCB      0
-                  |L5.568|
-000238  2d00              DCB      "-",0
-00023a  00                DCB      0
-00023b  00                DCB      0
-                  |L5.572|
-00023c  25732053          DCB      "%s Super Mario Bros]",0
-000240  75706572
-000244  204d6172
-000248  696f2042
-00024c  726f735d
-000250  00      
-000251  00                DCB      0
-000252  00                DCB      0
-000253  00                DCB      0
-                  |L5.596|
-000254  25732042          DCB      "%s Battle City]",0
-000258  6174746c
-00025c  65204369
-000260  74795d00
-                  |L5.612|
-000264  2573204d          DCB      "%s Mappy]",0
-000268  61707079
-00026c  5d00    
-00026e  00                DCB      0
-00026f  00                DCB      0
-                  |L5.624|
-000270  207b2f5c          DCB      " {/\\} \n{<}  {>}\n {\\/} ",0
-000274  7d200a7b
-000278  3c7d2020
-00027c  7b3e7d0a
-000280  207b5c2f
-000284  7d2000  
-000287  00                DCB      0
-                  |L5.648|
-000288  207b417d          DCB      " {A} \n{B} {A}\n {B} ",0
-00028c  200a7b42
-000290  7d207b41
-000294  7d0a207b
-000298  427d2000
-                  |L5.668|
-00029c  7b53454c          DCB      "{SEL}",0
-0002a0  7d00    
-0002a2  00                DCB      0
-0002a3  00                DCB      0
-                  |L5.676|
-0002a4  7b535452          DCB      "{STRT}",0
-0002a8  547d00  
-0002ab  00                DCB      0
-                  |L5.684|
-                          DCD      ||.conststring||
-                  |L5.688|
+                  |L5.756|
+0002f4  454c4543          DCB      "ELEC3300(24) - Anshuman & Aaron",0
+0002f8  33333030
+0002fc  28323429
+000300  202d2041
+000304  6e736875
+000308  6d616e20
+00030c  26204161
+000310  726f6e00
+                  |L5.788|
+000314  53454c45          DCB      "SELECT",0
+000318  435400  
+00031b  00                DCB      0
+                  |L5.796|
+00031c  5b3e00            DCB      "[>",0
+00031f  00                DCB      0
+                  |L5.800|
+000320  2d00              DCB      "-",0
+000322  00                DCB      0
+000323  00                DCB      0
+                  |L5.804|
+000324  25732053          DCB      "%s Super Mario Bros]"
+000328  75706572
+00032c  204d6172
+000330  696f2042
+000334  726f735d
+                  |L5.824|
+000338  00                DCB      0
+000339  00                DCB      0
+00033a  00                DCB      0
+00033b  00                DCB      0
+                  |L5.828|
+00033c  25732042          DCB      "%s Battle City]",0
+000340  6174746c
+000344  65204369
+000348  74795d00
+                  |L5.844|
+00034c  2573204d          DCB      "%s Mappy]",0
+000350  61707079
+000354  5d00    
+000356  00                DCB      0
+000357  00                DCB      0
+                  |L5.856|
+000358  207b2f5c          DCB      " {/\\} \n{<}  {>}\n {\\/} ",0
+00035c  7d200a7b
+000360  3c7d2020
+000364  7b3e7d0a
+000368  207b5c2f
+00036c  7d2000  
+00036f  00                DCB      0
+                  |L5.880|
+000370  207b417d          DCB      " {A} \n{B} {A}\n {B} ",0
+000374  200a7b42
+000378  7d207b41
+00037c  7d0a207b
+000380  427d2000
+                  |L5.900|
+000384  7b53454c          DCB      "{SEL}",0
+000388  7d00    
+00038a  00                DCB      0
+00038b  00                DCB      0
+                  |L5.908|
+00038c  7b535452          DCB      "{STRT}",0
+000390  547d00  
+000393  00                DCB      0
+                  |L5.916|
+000394  5b00              DCB      "[",0
+000396  00                DCB      0
+000397  00                DCB      0
+                  |L5.920|
+000398  2573494d          DCB      "%sIMU Control]",0
+00039c  5520436f
+0003a0  6e74726f
+0003a4  6c5d00  
+0003a7  00                DCB      0
+                  |L5.936|
+                          DCD      0x55555556
+                  |L5.940|
                           DCD      0x40020c18
-
-                          AREA ||.conststring||, DATA, READONLY, MERGE=1, STRINGS, ALIGN=2
-
-000000  205f5f20          DCB      " __    __  ________   ______   \n/  \\  /  |/        | "
-000004  2020205f
-000008  5f20205f
-00000c  5f5f5f5f
-000010  5f5f5f20
-000014  20205f5f
-000018  5f5f5f5f
-00001c  2020200a
-000020  2f20205c
-000024  20202f20
-000028  207c2f20
-00002c  20202020
-000030  2020207c
-000034  20      
-000035  2f202020          DCB      "/      \\ \n[$$$$]  \\ [$$$$] |[$$$$$$$$$$$$$$$$]/ /[$$"
-000039  2020205c
-00003d  200a5b24
-000041  245d2020
-000045  5c205b24
-000049  245d207c
-00004d  5b242424
-000051  24242424
-000055  245d2f20
-000059  2f5b24  
-00005c  24242424          DCB      "$$$$$$$$$$]  |\n[$$$$$$]  \\[$$$$] |[$$$$] |__    [$$$$"
-000060  245d2020
-000064  7c0a5b24
-000068  24245d20
-00006c  205c5b24
-000070  245d207c
-000074  5b24245d
-000078  207c5f5f
-00007c  20202020
-000080  5b2424  
-000083  5d205c5f          DCB      "] \\__[$$$$]/ \n[$$$$$$$$]  [$$$$] |[$$$$]    |   [$$$$"
-000087  5f5b2424
-00008b  5d2f200a
-00008f  5b242424
-000093  245d2020
-000097  5b24245d
-00009b  207c5b24
-00009f  245d2020
-0000a3  20207c20
-0000a7  20205b24
-0000ab  24      
-0000ac  5d202020          DCB      "]      \\ \n[$$$$] [$$$$] [$$$$] |[$$$$$$$$$$]/     [$$"
-0000b0  2020205c
-0000b4  200a5b24
-0000b8  245d205b
-0000bc  24245d20
-0000c0  5b24245d
-0000c4  207c5b24
-0000c8  24242424
-0000cc  5d2f2020
-0000d0  2020205b
-0000d4  24      
-0000d5  24242424          DCB      "$$$$$$$$$$]  |\n[$$$$] |[$$$$$$$$] |[$$$$] |_____ /  \\"
-0000d9  245d2020
-0000dd  7c0a5b24
-0000e1  245d207c
-0000e5  5b242424
-0000e9  245d207c
-0000ed  5b24245d
-0000f1  207c5f5f
-0000f5  5f5f5f20
-0000f9  2f20205c
-0000fd  5f5f5b24          DCB      "__[$$$$] |\n[$$$$] | [$$$$$$] |[$$$$]       |[$$$$]    "
-000101  245d207c
-000105  0a5b2424
-000109  5d207c20
-00010d  5b242424
-000111  5d207c5b
-000115  24245d20
-000119  20202020
-00011d  20207c5b
-000121  24245d20
-000125  202020  
-000128  5b24245d          DCB      "[$$$$]/ \n[$$$$]/   [$$$$]/ [$$$$$$$$$$$$$$$$]/  [$$$$$$"
-00012c  2f200a5b
-000130  24245d2f
-000134  2020205b
-000138  24245d2f
-00013c  205b2424
-000140  24242424
-000144  24245d2f
-000148  20205b24
-00014c  2424    
-00014e  2424245d          DCB      "$$$$$$]/  ",0
-000152  2f202000
 
                           AREA ||.data||, DATA, ALIGN=2
 
@@ -744,6 +781,8 @@
                   GAME_SELECT
                           DCD      0x00000000
                   last_blink
+                          DCD      0x00000000
+                  last_bright
                           DCD      0x00000000
 
 ;*** Start embedded assembler ***
