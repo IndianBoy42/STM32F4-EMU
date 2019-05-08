@@ -69,6 +69,18 @@
 #define BTN_L2    LL_GPIO_PIN_15
 #define BTN_JS1   LL_GPIO_PIN_0
 #define BTN_U1    LL_GPIO_PIN_1
+
+#define BTN_JS1_L 0x0010000 //Emulated
+#define BTN_JS1_R 0x0020000
+#define BTN_JS1_D 0x0040000
+#define BTN_JS1_U 0x0080000
+#define BTN_JS2_L 0x0100000
+#define BTN_JS2_R 0x0200000
+#define BTN_JS2_D 0x0400000
+#define BTN_JS2_U 0x0800000
+#define BTN_IMU_L 0x1000000
+#define BTN_IMU_R 0x2000000
+#define BTN_IMU_J 0x4000000
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);

@@ -1,19 +1,9 @@
 #include "gpio.h"
 #include "adc.h"
 #include "imu.h"
-#define BTN_JS1_L 0x0010000
-#define BTN_JS1_R 0x0020000
-#define BTN_JS1_D 0x0040000
-#define BTN_JS1_U 0x0080000
-#define BTN_JS2_L 0x0100000
-#define BTN_JS2_R 0x0200000
-#define BTN_JS2_D 0x0400000
-#define BTN_JS2_U 0x0800000
-#define BTN_IMU_L 0x1000000
-#define BTN_IMU_R 0x2000000
-#define BTN_IMU_J 0x4000000
-static uint32_t volatile joypad_state = 0;
-static __forceinline uint32_t joypad_update() {
+uint32_t volatile joypad_state = 0;
+// static __forceinline 
+uint32_t joypad_update() {
 	uint32_t state = BUTTONS & 0xFFFF;
 	state |= (joys.x0 > 3072)  << 16;
 	state |= (joys.x0 < 1024)  << 17;
@@ -26,42 +16,18 @@ static __forceinline uint32_t joypad_update() {
 	state |= (getAccelLeft())  << 24;
 	state |= (getAccelRight()) << 25;
 	state |= (getAccelFlick()) << 26;
+	joypad_state = state;
 	return state;
 }
 
-
-#define joypad_A     (BTN_R2|BTN_U2|BTN_JS2_U|BTN_JS2_D|BTN_IMU_J)
-#define joypad_B     (BTN_D2|BTN_L2|BTN_JS1|BTN_JS2|BTN_M1|BTN_M2|BTN_JS2_L|BTN_JS2_R)
-#define joypad_U     (BTN_U1|BTN_JS1_U)
-#define joypad_D     (BTN_D1|BTN_JS1_D)
-#define joypad_L     (BTN_L1|BTN_JS1_L|BTN_IMU_L)
-#define joypad_R     (BTN_R1|BTN_JS1_R|BTN_IMU_R)
-#define joypad_SEL   (BTN_X1)
-#define joypad_START (BTN_X4)
-// static __forceinline uint8_t joypad_A(uint8_t n) {
-// 	return ((joypad_state & (BTN_R2|BTN_U2|BTN_JS2_U|BTN_JS2_D)) != 0);
-// }
-// static __forceinline uint8_t joypad_B(uint8_t n) {
-// 	return ((joypad_state & (BTN_D2|BTN_L2|BTN_JS1|BTN_JS2|BTN_M1|BTN_M2|BTN_JS2_L|BTN_JS2_R)) != 0);
-// }
-// static __forceinline uint8_t joypad_U(uint8_t n) {
-// 	return ((joypad_state & (BTN_U1|BTN_JS1_U))) != 0;
-// }
-// static __forceinline uint8_t joypad_D(uint8_t n) {
-// 	return ((joypad_state & (BTN_D1|BTN_JS1_D))) != 0;
-// }
-// static __forceinline uint8_t joypad_L(uint8_t n) {
-// 	return ((joypad_state & (BTN_L1|BTN_JS1_L))) != 0;
-// }
-// static __forceinline uint8_t joypad_R(uint8_t n) {
-// 	return (((joypad_state & (BTN_R1|BTN_JS1_R))) != 0);
-// }
-// static __forceinline uint8_t joypad_SEL(uint8_t n) {
-// 	return (joypad_state & (BTN_X1)) != 0;
-// }
-// static __forceinline uint8_t joypad_START(uint8_t n) {
-// 	return (joypad_state & (BTN_X4)) != 0;
-// }
+uint32_t joypad_A = (BTN_R2|BTN_U2|BTN_JS2_U|BTN_JS2_D|BTN_IMU_J);
+uint32_t joypad_B = (BTN_D2|BTN_L2|BTN_JS1|BTN_JS2|BTN_M1|BTN_M2|BTN_JS2_L|BTN_JS2_R);
+uint32_t joypad_U = (BTN_U1|BTN_JS1_U);
+uint32_t joypad_D = (BTN_D1|BTN_JS1_D);
+uint32_t joypad_L = (BTN_L1|BTN_JS1_L|BTN_IMU_L);
+uint32_t joypad_R = (BTN_R1|BTN_JS1_R|BTN_IMU_R);
+uint32_t joypad_SEL = (BTN_X1);
+uint32_t joypad_START = (BTN_X4);
 
 typedef void (*JoypadBtnFunc)(void);
 #define JOYPAD_BTN_TABLE(X) \

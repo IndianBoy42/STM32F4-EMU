@@ -376,6 +376,7 @@ __forceinline void cpu_putmemory(uint16_t addr, uint8_t value)
     #ifdef EROM
         EROM[addr - 0x5000] = value;
     #endif
+        // gpio_toggle(LED2);
         break;
 
     case 0x6000:

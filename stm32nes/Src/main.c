@@ -85,7 +85,53 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+enum {
+  ASSIGN_UP=0, ASSIGN_DOWN, ASSIGN_LEFT, ASSIGN_RIGHT, ASSIGN_A, ASSIGN_B, ASSIGN_START, ASSIGN_SEL, ASSIGN_NONE
+};
+uint8_t joypad_assignments[24] = {0};
+uint32_t assignable_buttons[] = {BTN_R1,BTN_D1,BTN_L1,BTN_M1,BTN_JS2,BTN_D2,BTN_R2,BTN_M2,BTN_U2,BTN_L2,BTN_JS1,BTN_U1,BTN_JS1_L,BTN_JS1_R,BTN_JS1_D,BTN_JS1_U,BTN_JS2_L,BTN_JS2_R,BTN_JS2_D,BTN_JS2_U};
+__forceinline char idx_from_mask(uint32_t mask) {
+  return 32 - __clz(mask);
+}
+char joypad_icon(uint32_t i) {
+  const char icons[6] = {'^', 'V', '<', '>', 'A', 'B'};
+  return icons[joypad_assignments[idx_from_mask(i)]];
+}
+void joypad_rotate(uint32_t mask) {
+  joypad_assignments[idx_from_mask(mask)] += 1;
+  joypad_assignments[idx_from_mask(mask)] %= 6;
+}
+uint32_t joypad_assigned(uint8_t i) {
+  uint32_t mask = 0;
+  if (joypad_assignments[idx_from_mask(BTN_R1)]    == i) mask |= BTN_R1;
+  if (joypad_assignments[idx_from_mask(BTN_D1)]    == i) mask |= BTN_D1;
+  if (joypad_assignments[idx_from_mask(BTN_L1)]    == i) mask |= BTN_L1;
+  if (joypad_assignments[idx_from_mask(BTN_M1)]    == i) mask |= BTN_M1;
+  if (joypad_assignments[idx_from_mask(BTN_X1)]    == i) mask |= BTN_X1;
+  if (joypad_assignments[idx_from_mask(BTN_X2)]    == i) mask |= BTN_X2;
+  if (joypad_assignments[idx_from_mask(BTN_X3)]    == i) mask |= BTN_X3;
+  if (joypad_assignments[idx_from_mask(BTN_X4)]    == i) mask |= BTN_X4;
+  if (joypad_assignments[idx_from_mask(BTN_JS2)]   == i) mask |= BTN_JS2;
+  if (joypad_assignments[idx_from_mask(BTN_D2)]    == i) mask |= BTN_D2;
+  if (joypad_assignments[idx_from_mask(BTN_R2)]    == i) mask |= BTN_R2;
+  if (joypad_assignments[idx_from_mask(BTN_M2)]    == i) mask |= BTN_M2;
+  if (joypad_assignments[idx_from_mask(BTN_U2)]    == i) mask |= BTN_U2;
+  if (joypad_assignments[idx_from_mask(BTN_L2)]    == i) mask |= BTN_L2;
+  if (joypad_assignments[idx_from_mask(BTN_JS1)]   == i) mask |= BTN_JS1;
+  if (joypad_assignments[idx_from_mask(BTN_U1)]    == i) mask |= BTN_U1;
+  if (joypad_assignments[idx_from_mask(BTN_JS1_L)] == i) mask |= BTN_JS1_L;
+  if (joypad_assignments[idx_from_mask(BTN_JS1_R)] == i) mask |= BTN_JS1_R;
+  if (joypad_assignments[idx_from_mask(BTN_JS1_D)] == i) mask |= BTN_JS1_D;
+  if (joypad_assignments[idx_from_mask(BTN_JS1_U)] == i) mask |= BTN_JS1_U;
+  if (joypad_assignments[idx_from_mask(BTN_JS2_L)] == i) mask |= BTN_JS2_L;
+  if (joypad_assignments[idx_from_mask(BTN_JS2_R)] == i) mask |= BTN_JS2_R;
+  if (joypad_assignments[idx_from_mask(BTN_JS2_D)] == i) mask |= BTN_JS2_D;
+  if (joypad_assignments[idx_from_mask(BTN_JS2_U)] == i) mask |= BTN_JS2_U;
+  if (joypad_assignments[idx_from_mask(BTN_IMU_L)] == i) mask |= BTN_IMU_L;
+  if (joypad_assignments[idx_from_mask(BTN_IMU_R)] == i) mask |= BTN_IMU_R;
+  if (joypad_assignments[idx_from_mask(BTN_IMU_J)] == i) mask |= BTN_IMU_J;
+  return mask;
+}
 /* USER CODE END 0 */
 
 /**
@@ -139,105 +185,134 @@ int main(void)
   IMU_enableRotation(50);
   // IMU_enableAccel(50);
   joystick_init();
+
+  //Frame timer
   TIM6->PSC = 83;
   TIM6->ARR = 33333;
   TIM6->CR1 = TIM_CR1_CEN;
-
+  //LCD backlight PWM
   TIM13->PSC = 8399;
   TIM13->ARR = 99;
   TIM13->CCR1 = 10;
   TIM13->CR1 = TIM_CR1_CEN;
+
+  joypad_assignments[idx_from_mask(BTN_R1)]    = ASSIGN_RIGHT;
+  joypad_assignments[idx_from_mask(BTN_D1)]    = ASSIGN_DOWN;
+  joypad_assignments[idx_from_mask(BTN_L1)]    = ASSIGN_LEFT;
+  joypad_assignments[idx_from_mask(BTN_M1)]    = ASSIGN_B;
+  joypad_assignments[idx_from_mask(BTN_JS2)]   = ASSIGN_B;
+  joypad_assignments[idx_from_mask(BTN_D2)]    = ASSIGN_B;
+  joypad_assignments[idx_from_mask(BTN_R2)]    = ASSIGN_A;
+  joypad_assignments[idx_from_mask(BTN_M2)]    = ASSIGN_B;
+  joypad_assignments[idx_from_mask(BTN_U2)]    = ASSIGN_A;
+  joypad_assignments[idx_from_mask(BTN_L2)]    = ASSIGN_B;
+  joypad_assignments[idx_from_mask(BTN_JS1)]   = ASSIGN_B;
+  joypad_assignments[idx_from_mask(BTN_U1)]    = ASSIGN_UP;
+  joypad_assignments[idx_from_mask(BTN_JS1_L)] = ASSIGN_LEFT;
+  joypad_assignments[idx_from_mask(BTN_JS1_R)] = ASSIGN_RIGHT;
+  joypad_assignments[idx_from_mask(BTN_JS1_D)] = ASSIGN_DOWN;
+  joypad_assignments[idx_from_mask(BTN_JS1_U)] = ASSIGN_UP;
+  joypad_assignments[idx_from_mask(BTN_JS2_L)] = ASSIGN_B;
+  joypad_assignments[idx_from_mask(BTN_JS2_R)] = ASSIGN_B;
+  joypad_assignments[idx_from_mask(BTN_JS2_D)] = ASSIGN_A;
+  joypad_assignments[idx_from_mask(BTN_JS2_U)] = ASSIGN_A;
+  joypad_assignments[idx_from_mask(BTN_X1)]    = ASSIGN_SEL;
+  joypad_assignments[idx_from_mask(BTN_X2)]    = ASSIGN_NONE;
+  joypad_assignments[idx_from_mask(BTN_X3)]    = ASSIGN_NONE;
+  joypad_assignments[idx_from_mask(BTN_X4)]    = ASSIGN_START;
+  joypad_assignments[idx_from_mask(BTN_IMU_L)] = ASSIGN_LEFT;
+  joypad_assignments[idx_from_mask(BTN_IMU_R)] = ASSIGN_RIGHT;
+  joypad_assignments[idx_from_mask(BTN_IMU_J)] = ASSIGN_A;
+  delay(100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-#if 0
-    tft_clear();
-    
-    // tft_printc(0, 0, "Hello WorldHello WorldHello WorldHello WorldHello World");
-    // tft_printi(0, 1, get_ticks());
-    // tft_printi(0, 2, joystick_conv(joys[0].x));
-    // tft_printi(0, 3, joystick_conv(joys[0].y));
-    // tft_printi(0, 4, joystick_conv(joys[1].x));
-    // tft_printi(0, 5, joystick_conv(joys[1].y));
-    // tft_printb(0, 6, BUTTONS, 16);
-    tft_printc(0, 0, "NES");
-    cpu_debug_print(1);
-    
-    tft_update_dma();
-
-    static uint16_t btn_state = 0;
-    static uint32_t btn_clicked = 0;
-    #define btn_pressed(X) (BUTTONS & X)
-    #define btn_clicked(X) (BUTTONS & X) && !(btn_state & X)
-    if (btn_clicked(BTN_R1)) {
-      cpu_exec(1);
-      btn_clicked = get_ticks();
-    }
-    if (btn_clicked(BTN_D1)) {
-      nes_init();
-    }
-    if (btn_pressed(BTN_L1)) {
-      cpu_exec(113);
-    }
-    btn_state = BUTTONS;
-
-		if (tick_tock()) {
-			static uint32_t last_ticks = 0;
-			if (get_ticks() - last_ticks >= 100) {
-				gpio_toggle(LED1);
-				last_ticks = get_ticks();
-			}
-
-      if (((BUTTONS & BTN_R1)) && (get_ticks() - btn_clicked) > 1000) {
-        cpu_exec(10);
-      } else if (((BUTTONS & BTN_R1)) && (get_ticks() - btn_clicked) > 200) {
-        cpu_exec(1);
-      }
-		}
-#else
     static int GAME_SELECT = 0;
     #define NUM_OF_GAMES 3
-    
-    static uint16_t btn_state = 0;
-    #define btn_pressed(X) (BUTTONS & (X))
-    #define btn_clicked(X) (BUTTONS & (X)) && !(btn_state & (X))
+
+
+    static uint32_t last_joypad_state = 0;
+    joypad_update();
+    #define btn_pressed(X) (joypad_state & (X))
+    #define btn_clicked(X) (joypad_state & (X)) && !(last_joypad_state & (X))
     tft_clear();
     tft_printc(4, 0, "ELEC3300(24) - Anshuman & Aaron");
     tft_printc(6, 12, "SELECT");
     tft_prints(13, 12, "%s Super Mario Bros]", (GAME_SELECT == 0) ? ("[>") : ("-"));
     tft_prints(13, 13, "%s Battle City]"     , (GAME_SELECT == 1) ? ("[>") : ("-"));
     tft_prints(13, 14, "%s Mappy]"           , (GAME_SELECT == 2) ? ("[>") : ("-"));
-    
-    tft_printc(0, 5, " {/\\} \n{<}  {>}\n {\\/} ");
-    // tft_printc(0, 5, " /\\ \n/  \\\n\\  /\n \\/ ");
+   
+  #if 0 
+    // tft_printc(0, 5, " {/\\} \n{<} {>}\n {\\/} ");
+    tft_printc(0, 5, " {^} \n{<}  {>}\n {V} ");
     tft_printc(36, 5, " {A} \n{B} {A}\n {B} ");
+  #else
+    tft_prints(0, 7, " {%c} \n{%c}{%c}{%c}\n {%c} ",
+      joypad_icon(BTN_U1), joypad_icon(BTN_L1), joypad_icon(BTN_M1), joypad_icon(BTN_R1), joypad_icon(BTN_D1));
+    tft_prints(36, 7, " {%c} \n{%c}{%c}{%c}\n {%c} ",
+      joypad_icon(BTN_U2), joypad_icon(BTN_L2), joypad_icon(BTN_M2), joypad_icon(BTN_R2), joypad_icon(BTN_D2));
+    tft_prints(0, 2, " {%c} \n{%c}{%c}{%c}\n {%c} ",
+      joypad_icon(BTN_JS1_U), joypad_icon(BTN_JS1_L), joypad_icon(BTN_JS1), joypad_icon(BTN_JS1_R), joypad_icon(BTN_JS1_D));
+    tft_prints(36, 2, " {%c} \n{%c}{%c}{%c}\n {%c} ",
+      joypad_icon(BTN_JS2_U), joypad_icon(BTN_JS2_L), joypad_icon(BTN_JS2), joypad_icon(BTN_JS2_R), joypad_icon(BTN_JS2_D));
+    
+    if (btn_clicked(BTN_R1))    joypad_rotate(BTN_R1);
+    if (btn_clicked(BTN_D1))    joypad_rotate(BTN_D1);
+    if (btn_clicked(BTN_L1))    joypad_rotate(BTN_L1);
+    if (btn_clicked(BTN_M1))    joypad_rotate(BTN_M1);
+    if (btn_clicked(BTN_JS2))   joypad_rotate(BTN_JS2);
+    if (btn_clicked(BTN_D2))    joypad_rotate(BTN_D2);
+    if (btn_clicked(BTN_R2))    joypad_rotate(BTN_R2);
+    if (btn_clicked(BTN_M2))    joypad_rotate(BTN_M2);
+    if (btn_clicked(BTN_U2))    joypad_rotate(BTN_U2);
+    if (btn_clicked(BTN_L2))    joypad_rotate(BTN_L2);
+    if (btn_clicked(BTN_JS1))   joypad_rotate(BTN_JS1);
+    if (btn_clicked(BTN_U1))    joypad_rotate(BTN_U1);
+    if (btn_clicked(BTN_JS1_L)) joypad_rotate(BTN_JS1_L);
+    if (btn_clicked(BTN_JS1_R)) joypad_rotate(BTN_JS1_R);
+    if (btn_clicked(BTN_JS1_D)) joypad_rotate(BTN_JS1_D);
+    if (btn_clicked(BTN_JS1_U)) joypad_rotate(BTN_JS1_U);
+    if (btn_clicked(BTN_JS2_L)) joypad_rotate(BTN_JS2_L);
+    if (btn_clicked(BTN_JS2_R)) joypad_rotate(BTN_JS2_R);
+    if (btn_clicked(BTN_JS2_D)) joypad_rotate(BTN_JS2_D);
+    if (btn_clicked(BTN_JS2_U)) joypad_rotate(BTN_JS2_U);
+    joypad_A     = joypad_assigned(ASSIGN_A);
+    joypad_B     = joypad_assigned(ASSIGN_B);
+    joypad_U     = joypad_assigned(ASSIGN_UP);
+    joypad_D     = joypad_assigned(ASSIGN_DOWN);
+    joypad_L     = joypad_assigned(ASSIGN_LEFT);
+    joypad_R     = joypad_assigned(ASSIGN_RIGHT);
+    joypad_SEL   = joypad_assigned(ASSIGN_SEL);
+    joypad_START = joypad_assigned(ASSIGN_START);
+
+    // tft_printc(36, 5, " {A} \n{B} {A}\n {B} ");
+  #endif
     tft_prints(0,  14, "{SEL}");
     tft_prints(36, 14, "{STRT}");
+    tft_printc(5, 1, " __    __  ________   ______   \n\
+/  \\  /  |/        | /      \\ \n\
+[$$]  \\ [$$] |[$$$$$$$$]/ /[$$$$$$]  |\n\
+[$$$]  \\[$$] |[$$] |__    [$$] \\__[$$]/ \n\
+[$$$$]  [$$] |[$$]    |   [$$]      \\ \n\
+[$$] [$$] [$$] |[$$$$$]/     [$$$$$$]  |\n\
+[$$] |[$$$$] |[$$] |_____ /  \\__[$$] |\n\
+[$$] | [$$$] |[$$]       |[$$]    [$$]/ \n\
+[$$]/   [$$]/ [$$$$$$$$]/  [$$$$$$]/  ");
 
-//     tft_printc(5, 1, " __    __  ________   ______   \n\
-// /  \\  /  |/        | /      \\ \n\
-// [$$]  \\ [$$] |[$$$$$$$$]/ /[$$$$$$]  |\n\
-// [$$$]  \\[$$] |[$$] |__    [$$] \\__[$$]/ \n\
-// [$$$$]  [$$] |[$$]    |   [$$]      \\ \n\
-// [$$] [$$] [$$] |[$$$$$]/     [$$$$$$]  |\n\
-// [$$] |[$$$$] |[$$] |_____ /  \\__[$$] |\n\
-// [$$] | [$$$] |[$$]       |[$$]    [$$]/ \n\
-// [$$]/   [$$]/ [$$$$$$$$]/  [$$$$$$]/  ");
-IMU_dataAvailable();
-    tft_prints(6,10, "%sIMU Control]",(getIMUControl())?"[":"");
+    tft_prints(0,13, "%sIMU]",(getIMUControl())?"[":"");
+    // IMU_dataAvailable();
     // tft_printi(6,11,(int16_t)getAccelY()*10);
-    if (btn_clicked(BTN_M1)) toggleIMUControl();
     // tft_printi(0, 1, get_ticks()%1000);
     // tft_printi(5,1,(int16_t)(getQuatI()*1000));
     // tft_printi(5,2,(int16_t)(getQuatJ()*1000));
     // tft_printi(5,3,(int16_t)(getQuatK()*1000));
     // tft_printi(5,4,(int16_t)(getQuatReal()*1000));
-    tft_printi(10,1,(int16_t)(getRoll()*10));
-    tft_printi(10,2,(int16_t)(getPitch()*10));
-    tft_printi(10,3,(int16_t)(getYaw()*10));
+    // tft_printi(10,1,(int16_t)(getRoll()*10));
+    // tft_printi(10,2,(int16_t)(getPitch()*10));
+    // tft_printi(10,3,(int16_t)(getYaw()*10));
     // tft_printi(5,2,(int16_t)(getAccelX()*1000));
 
     // tft_printi(5,1,getAccelLeftRight());
@@ -254,37 +329,36 @@ IMU_dataAvailable();
 
     static uint32_t last_bright = 0;
     if ((get_ticks() - last_bright) > 50) {
-      if (btn_pressed(BTN_X1)) TIM13->CCR1+= 3;
+      if (btn_pressed(BTN_X2)) TIM13->CCR1+= 3;
       TIM13->CCR1%= 100;
       last_bright = get_ticks();
     }
 
+    if (btn_clicked(BTN_X1)) 
+      toggleIMUControl();
 
-    if (btn_clicked(BTN_X2|BTN_D1|BTN_D2)) {
+    if (btn_clicked(BTN_X3)) {
       GAME_SELECT++;
       GAME_SELECT %= 3;
-    }
-    if (btn_clicked(BTN_X3|BTN_U1|BTN_U2)) {
-      GAME_SELECT--;
-      if (GAME_SELECT<0) GAME_SELECT += 3;
     }
     if (btn_clicked(BTN_X4)) {
       nes_init(rom_select(GAME_SELECT));
 
       while (1) {
-        static uint32_t last_bright = 0;
-        if ((get_ticks() - last_bright2) > 50) {
-          if (btn_pressed(BTN_X1)) TIM13->CCR1+= 3;
+        if ((get_ticks() - last_bright) > 50) {
+          if (btn_pressed(BTN_X2)) TIM13->CCR1+= 3;
           TIM13->CCR1 %= 100;
-          last_bright2 = get_ticks();
+          last_bright = get_ticks();
         }
         if (TIM6->SR & TIM_SR_UIF) {
           IMU_dataAvailable();
+          joypad_update();
+
           TIM6->SR = 0;
           nes_frame(0);
-          gpio_toggle(LED1);
+          // gpio_toggle(LED1);
           nes_frame(1);
-          gpio_toggle(LED1);
+          // gpio_toggle(LED1);
           if (btn_clicked(BTN_X3)) cpu_reset();
           gpio_set(LED2);
         } else {
@@ -292,9 +366,7 @@ IMU_dataAvailable();
         }
       }
     }
-    btn_state = BUTTONS;
-
-#endif
+    last_joypad_state = joypad_state;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
